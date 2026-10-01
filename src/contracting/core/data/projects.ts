@@ -13,10 +13,13 @@ export const projects: Project[] = [
     shortDescription:
       'A residential development delivered in Jeddah with a focus on efficient execution and quality.',
 
-    mapPosition: {
-      x: 22.3,
-      y: 67.3,
-    },
+    coverImage:
+      'https://atheelco.com/wp-content/uploads/2025/08/6-villa-shot-2-1067x800-1-1024x768.webp',
+
+      mapPosition: {
+        x: 25.5,
+        y: 65.5,
+      },
   },
 
   {
@@ -31,10 +34,13 @@ export const projects: Project[] = [
     shortDescription:
       'A residential development representing FBS Contracting activity in northern Saudi Arabia.',
 
-    mapPosition: {
-      x: 9.9,
-      y: 23.8,
-    },
+    coverImage:
+      'https://atheelco.com/wp-content/uploads/2025/08/A1-copy-1067x800-1-1024x768.webp',
+
+      mapPosition: {
+        x: 18,
+        y: 28,
+      },
   },
 
   {
@@ -49,10 +55,13 @@ export const projects: Project[] = [
     shortDescription:
       'A residential project in Riyadh forming part of the company’s growing housing portfolio.',
 
-    mapPosition: {
-      x: 57.6,
-      y: 46.9,
-    },
+    coverImage:
+      'https://atheelco.com/wp-content/uploads/2023/11/1-1-1024x560.jpg.webp',  
+
+      mapPosition: {
+        x: 59,
+        y: 47,
+      },
   },
 
   {
@@ -67,10 +76,13 @@ export const projects: Project[] = [
     shortDescription:
       'Residential development delivered in Madinah as part of the company’s regional portfolio.',
 
-    mapPosition: {
-      x: 24.1,
-      y: 48.1,
-    },
+    coverImage:
+      'https://atheelco.com/wp-content/uploads/2023/11/2-2-1024x576.jpg.webp',
+
+      mapPosition: {
+        x: 31,
+        y: 48,
+      },
   },
 
   {
@@ -82,9 +94,15 @@ export const projects: Project[] = [
     category: 'Residential',
     status: 'Completed',
 
+    shortDescription:
+      'Residential development delivered in Madinah as part of the company’s regional portfolio.',
+
+    coverImage:
+      'https://atheelco.com/wp-content/uploads/2023/11/1-2-1024x576.jpg.webp',
+
     mapPosition: {
-      x: 59,
-      y: 48.5,
+      x: 61.5,
+      y: 49,
     },
   },
 ]

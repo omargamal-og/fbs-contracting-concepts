@@ -1,4 +1,9 @@
 import {
+  useState,
+  type MouseEvent,
+} from 'react'
+import saudiMapSvg from '../../../core/assets/saudi-arabia.svg?raw'
+import {
   Box,
   Button,
   Chip,
@@ -7,6 +12,7 @@ import {
 
 import { projects } from '../../../core/data/projects'
 import { useProjectMap } from '../../../core/hooks/useProjectMap'
+import { useNavigate } from 'react-router-dom'
 
 const regions = [
   'All',
@@ -16,7 +22,32 @@ const regions = [
   'Tabuk',
 ] as const
 
+const regionToSvgId = {
+  Riyadh: 'SA01',
+  Makkah: 'SA02',
+  Madinah: 'SA03',
+  Tabuk: 'SA07',
+} as const
+
+const svgIdToRegion = {
+  SA01: 'Riyadh',
+  SA02: 'Makkah',
+  SA03: 'Madinah',
+  SA07: 'Tabuk',
+} as const
+
 function ExecutiveProjectMap() {
+  const navigate = useNavigate()
+
+  const [hoveredRegion, setHoveredRegion] =
+  useState<string | null>(null)
+
+  const [regionPointer, setRegionPointer] =
+  useState({
+    x: 0,
+    y: 0,
+  })
+  
   const {
     activeRegion,
     setActiveRegion,
@@ -28,56 +59,125 @@ function ExecutiveProjectMap() {
   const selectedProject =
     activeProject ?? filteredProjects[0] ?? null
 
+  const highlightedRegion =
+  activeRegion !== 'All'
+    ? activeRegion
+    : selectedProject?.region ?? null 
+
+  const handleRegionClick = (
+    event: MouseEvent<HTMLDivElement>,
+  ) => {
+    const target = event.target as SVGElement
+  
+    const region =
+      svgIdToRegion[
+        target.id as keyof typeof svgIdToRegion
+      ]
+  
+    if (!region) return
+  
+    setActiveRegion(region)
+    setActiveProjectId(null)
+  }
+
+  const handleRegionPointerMove = (
+    event: MouseEvent<HTMLDivElement>,
+  ) => {
+    const target = event.target as SVGElement
+  
+    const region =
+      svgIdToRegion[
+        target.id as keyof typeof svgIdToRegion
+      ]
+  
+    if (!region) {
+      setHoveredRegion(null)
+      return
+    }
+  
+    const rect =
+      event.currentTarget.getBoundingClientRect()
+  
+    setHoveredRegion(region)
+  
+    setRegionPointer({
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    })
+  }
+
   return (
     <Box>
       {/* Region Filters */}
       <Box
         sx={{
           display: 'flex',
-          flexWrap: 'wrap',
-          gap: 1.2,
-          mb: 5,
+        
+          gap: {
+            xs: 1,
+            md: 2,
+          },
+        
+          flexWrap: {
+            xs: 'nowrap',
+            md: 'wrap',
+          },
+        
+          overflowX: {
+            xs: 'auto',
+            md: 'visible',
+          },
+        
+          pb: {
+            xs: 1,
+            md: 0,
+          },
+        
+          scrollbarWidth: 'none',
+        
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         }}
-      >
-        {regions.map((region) => {
-          const isActive = activeRegion === region
-
-          return (
-            <Button
-              key={region}
-              size="small"
-              variant={isActive ? 'contained' : 'outlined'}
-              onClick={() => {
-                setActiveRegion(region)
-                setActiveProjectId(null)
-              }}
-              sx={{
-                minWidth: 86,
-                height: 44,
-
-                borderColor: isActive
-                  ? 'primary.main'
-                  : 'rgba(23,23,23,0.25)',
-
-                bgcolor: isActive
-                  ? 'primary.main'
-                  : 'transparent',
-
-                color: isActive
-                  ? '#fff'
-                  : 'text.primary',
-
-                '&:hover': {
-                  bgcolor: isActive
-                    ? 'primary.main'
-                    : 'rgba(23,23,23,0.04)',
-                },
-              }}
-            >
-              {region}
-            </Button>
-          )
-        })}
+      >{regions.map((region) => {
+        const isActive = activeRegion === region
+      
+        return (
+          <Button
+            key={region}
+            onClick={() => {
+              setActiveRegion(region)
+              setActiveProjectId(null)
+            }}
+            sx={{
+              flexShrink: 0,
+              minWidth: 0,
+              px: 2.2,
+              py: 1.2,
+      
+              borderRadius: 0,
+              borderBottom: '2px solid',
+      
+              borderColor: isActive
+                ? 'secondary.main'
+                : 'transparent',
+      
+              color: isActive
+                ? 'text.primary'
+                : 'text.secondary',
+      
+              bgcolor: 'transparent',
+      
+              '&:hover': {
+                bgcolor: 'transparent',
+                color: 'text.primary',
+              },
+            }}
+          >
+            {region}
+          </Button>
+        )
+      })}
       </Box>
 
       <Box
@@ -86,7 +186,7 @@ function ExecutiveProjectMap() {
 
           gridTemplateColumns: {
             xs: '1fr',
-            lg: 'minmax(0, 1.45fr) minmax(320px, 0.65fr)',
+            lg: 'minmax(0, 1.35fr) minmax(360px, 0.65fr)',
           },
 
           gap: {
@@ -109,7 +209,7 @@ function ExecutiveProjectMap() {
 
             p: {
               xs: 2.5,
-              md: 4,
+              md: 5,
             },
 
             display: 'flex',
@@ -122,30 +222,100 @@ function ExecutiveProjectMap() {
               position: 'relative',
 
               width: '100%',
-              maxWidth: 780,
+              maxWidth: 700,
 
               mx: 'auto',
             }}
           >
+            
             <Box
-              component="img"
-              src="/maps/saudi-arabia.svg"
-              alt="Saudi Arabia project locations"
+              onClick={handleRegionClick}
+              onMouseMove={handleRegionPointerMove}
+              onMouseLeave={() => setHoveredRegion(null)}
+              dangerouslySetInnerHTML={{
+                __html: saudiMapSvg,
+              }}
               sx={{
                 width: '100%',
-                height: 'auto',
 
-                display: 'block',
+                '& svg': {
+                  display: 'block',
+                  width: '100%',
+                  height: 'auto',
+                },
 
-                opacity: 0.88,
+                '& path': {
+                  fill: '#9DA896',
+                  stroke: '#F5F2EA',
+                  strokeWidth: 1,
 
-                filter:
-                  'sepia(0.1) saturate(0.72) brightness(0.93)',
+                  transition:
+                    'fill 250ms ease, opacity 250ms ease, stroke 250ms ease',
 
-                userSelect: 'none',
-                pointerEvents: 'none',
+                  opacity:
+                    activeRegion === 'All'
+                      ? 0.86
+                      : 0.28,
+                },
+
+                '& #SA01, & #SA02, & #SA03, & #SA07': {
+                  cursor: 'pointer',
+                },
+
+                '& #SA01:hover, & #SA02:hover, & #SA03:hover, & #SA07:hover': {
+                  fill: '#AA9875',
+                  opacity: 1,
+                },
+
+                ...(highlightedRegion
+                  ? {
+                      [`& #${regionToSvgId[highlightedRegion]}`]: {
+                        fill: '#B29A70',
+                        stroke: '#FFFFFF',
+                        strokeWidth: 2,
+                        opacity: 1,
+                
+                        filter:
+                          'drop-shadow(0 6px 12px rgba(154,123,79,0.18))',
+                      },
+                    }
+                  : {}),
               }}
             />
+
+            {hoveredRegion && (
+              <Box
+                sx={{
+                  position: 'absolute',
+
+                  left: regionPointer.x,
+                  top: regionPointer.y,
+
+                  transform: 'translate(14px, -50%)',
+
+                  px: 1.5,
+                  py: 0.8,
+
+                  bgcolor: '#171717',
+                  color: '#fff',
+
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  letterSpacing: 1,
+
+                  textTransform: 'uppercase',
+
+                  pointerEvents: 'none',
+
+                  zIndex: 20,
+
+                  boxShadow:
+                    '0 8px 24px rgba(0,0,0,0.15)',
+                }}
+              >
+                {hoveredRegion}
+              </Box>
+            )}
 
             {/* Pins */}
             {filteredProjects.map((project) => {
@@ -195,13 +365,13 @@ function ExecutiveProjectMap() {
                           '1px solid rgba(154,123,79,0.55)',
 
                         animation:
-                          'fbsMapPulse 1.8s ease-out infinite',
+                          'fbsMapPulse 2.6s ease-out infinite',
 
                         '@keyframes fbsMapPulse': {
                           '0%': {
                             transform:
                               'translate(-50%, -50%) scale(0.55)',
-                            opacity: 1,
+                            opacity: 0.65,
                           },
 
                           '100%': {
@@ -227,6 +397,7 @@ function ExecutiveProjectMap() {
                     }
 
                     sx={{
+                      flexShrink: 0,
                       position: 'relative',
 
                       width: isActive ? 20 : 16,
@@ -243,6 +414,13 @@ function ExecutiveProjectMap() {
                       bgcolor: isActive
                         ? 'secondary.main'
                         : '#171717',
+
+                      opacity:
+                        activeProject
+                          ? isActive
+                            ? 1
+                            : 0.72
+                          : 1,
 
                       boxShadow:
                         '0 2px 10px rgba(0,0,0,0.18)',
@@ -264,7 +442,7 @@ function ExecutiveProjectMap() {
                     }}
                   />
 
-                  {/* Hover label */}
+                  {/* Project Preview */}
                   <Box
                     className="project-label"
                     sx={{
@@ -274,27 +452,28 @@ function ExecutiveProjectMap() {
                       bottom: '100%',
 
                       transform:
-                        'translate(-50%, -4px)',
+                        'translate(-50%, -5px)',
 
-                      mb: 1.5,
+                      mb: 1.4,
 
-                      minWidth: 150,
+                      width: 220,
 
                       bgcolor: '#171717',
                       color: '#fff',
-
-                      px: 2,
-                      py: 1.2,
 
                       opacity: 0,
 
                       pointerEvents: 'none',
 
+                      overflow: 'hidden',
+
                       transition:
-                        'opacity 160ms ease, transform 160ms ease',
+                        'opacity 180ms ease, transform 180ms ease',
 
                       boxShadow:
-                        '0 12px 30px rgba(0,0,0,0.16)',
+                        '0 18px 45px rgba(0,0,0,0.22)',
+
+                      zIndex: 30,
 
                       '&::after': {
                         content: '""',
@@ -308,36 +487,57 @@ function ExecutiveProjectMap() {
                           'translateX(-50%)',
 
                         borderLeft:
-                          '6px solid transparent',
+                          '7px solid transparent',
+
                         borderRight:
-                          '6px solid transparent',
+                          '7px solid transparent',
+
                         borderTop:
-                          '6px solid #171717',
+                          '7px solid #171717',
                       },
                     }}
                   >
-                    <Typography
-                      sx={{
-                        fontSize: '0.82rem',
-                        fontWeight: 700,
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {project.name}
-                    </Typography>
+                    {project.coverImage && (
+                      <Box
+                        component="img"
+                        src={project.coverImage}
+                        alt={project.name}
+                        sx={{
+                          width: '100%',
+                          height: 115,
 
-                    <Typography
-                      sx={{
-                        mt: 0.3,
+                          display: 'block',
 
-                        fontSize: '0.72rem',
+                          objectFit: 'cover',
+                        }}
+                      />
+                    )}
 
-                        color:
-                          'rgba(255,255,255,0.58)',
-                      }}
-                    >
-                      {project.city}
-                    </Typography>
+                    <Box sx={{ p: 1.7 }}>
+                      <Typography
+                        sx={{
+                          fontSize: '0.85rem',
+                          fontWeight: 700,
+                        }}
+                      >
+                        {project.name}
+                      </Typography>
+
+                      <Typography
+                        sx={{
+                          mt: 0.4,
+
+                          fontSize: '0.72rem',
+
+                          color:
+                            'rgba(255,255,255,0.58)',
+                        }}
+                      >
+                        {project.city}
+                        {' · '}
+                        {project.category}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
               )
@@ -508,14 +708,18 @@ function ExecutiveProjectMap() {
 
               <Button
                 variant="contained"
+                onClick={() => {
+                  if (!selectedProject) return
+
+                  navigate(
+                    `/contracting/concept-a/projects/${selectedProject.slug}`,
+                  )
+                }}
                 sx={{
                   mt: 6,
-
                   alignSelf: 'flex-start',
-
                   bgcolor: '#fff',
                   color: '#171717',
-
                   px: 3,
 
                   '&:hover': {

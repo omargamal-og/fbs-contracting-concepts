@@ -4,6 +4,8 @@ import ConceptsHome from '../pages/ConceptsHome'
 import ConceptA from '../concepts/concept-a/ConceptA'
 import ConceptB from '../concepts/concept-b/ConceptB'
 import ConceptC from '../concepts/concept-c/ConceptC'
+import ConceptAProjectDetails
+  from '../concepts/concept-a/pages/ConceptAProjectDetails'
 
 function ContractingRoutes() {
   return (
@@ -26,6 +28,11 @@ function ContractingRoutes() {
       <Route
         path="concept-c"
         element={<ConceptC />}
+      />
+
+      <Route
+        path="concept-a/projects/:slug"
+        element={<ConceptAProjectDetails />}
       />
     </Routes>
   )
