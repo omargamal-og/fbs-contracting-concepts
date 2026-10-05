@@ -15,7 +15,7 @@ function ExecutiveCTA() {
       sx={{
         position: 'relative',
 
-        bgcolor: '#9A7B4F',
+        bgcolor: '#649ABD',
         color: '#fff',
 
         overflow: 'hidden',
@@ -156,13 +156,13 @@ function ExecutiveCTA() {
               },
             
               bgcolor: '#fff',
-              color: '#171717',
+              color: '#082F4D',
             
               px: 4,
               py: 1.7,
             
               '&:hover': {
-                bgcolor: '#ECECEC',
+                bgcolor: '#DAE4EA',
               },
             }}
           >

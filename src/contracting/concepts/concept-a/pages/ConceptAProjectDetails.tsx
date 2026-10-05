@@ -138,7 +138,7 @@ function ConceptAProjectDetails() {
             display: 'flex',
             alignItems: 'flex-end',
 
-            bgcolor: '#171717',
+            bgcolor: '#082F4D',
             color: '#fff',
 
             overflow: 'hidden',
@@ -639,7 +639,7 @@ function ConceptAProjectDetails() {
                 md: 16,
               },
 
-              bgcolor: '#171717',
+              bgcolor: '#082F4D',
               color: '#fff',
             }}
           >
@@ -647,7 +647,7 @@ function ConceptAProjectDetails() {
               <Typography
                 variant="overline"
                 sx={{
-                  color: '#D0B382',
+                  color: '#649ABD',
 
                   letterSpacing: 2.2,
                 }}

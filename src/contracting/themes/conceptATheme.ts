@@ -5,62 +5,104 @@ export const conceptATheme = createTheme({
     mode: 'light',
 
     primary: {
-      main: '#171717',
+      main: '#082F4D',
+      contrastText: '#FFFFFF',
     },
 
     secondary: {
-      main: '#9A7B4F',
+      main: '#649ABD',
+      contrastText: '#FFFFFF',
     },
 
     background: {
-      default: '#F6F4EF',
+      default: '#EEF4F6',
       paper: '#FFFFFF',
     },
 
     text: {
-      primary: '#171717',
-      secondary: '#66635E',
+      primary: '#082F4D',
+      secondary: '#5F7483',
     },
+
+    divider: 'rgba(8,47,77,0.14)',
   },
 
   typography: {
-    fontFamily: '"Inter", "Arial", sans-serif',
+    fontFamily:
+      '"Arial", "Helvetica Neue", sans-serif',
 
     h1: {
-      fontWeight: 600,
-      letterSpacing: '-0.04em',
+      fontWeight: 500,
+      lineHeight: 0.96,
+      letterSpacing: '-0.05em',
     },
 
     h2: {
-      fontWeight: 600,
-      letterSpacing: '-0.03em',
+      fontWeight: 500,
+      lineHeight: 1,
+      letterSpacing: '-0.045em',
+    },
+
+    h3: {
+      fontWeight: 500,
+      letterSpacing: '-0.035em',
+    },
+
+    body1: {
+      lineHeight: 1.7,
+    },
+
+    body2: {
+      lineHeight: 1.65,
     },
 
     button: {
       textTransform: 'none',
-      fontWeight: 600,
+      fontWeight: 700,
+    },
+
+    overline: {
+      fontWeight: 700,
+      letterSpacing: '0.14em',
     },
   },
 
   shape: {
-    borderRadius: 4,
+    borderRadius: 0,
   },
 
   components: {
-    MuiButton: {
+    MuiCssBaseline: {
       styleOverrides: {
-        root: {
-          paddingInline: '22px',
-          paddingBlock: '11px',
+        body: {
+          backgroundColor: '#EEF4F6',
+          color: '#082F4D',
+        },
+
+        '::selection': {
+          backgroundColor: '#B9DAF2',
+          color: '#082F4D',
         },
       },
     },
 
-    MuiCard: {
+    MuiButton: {
+      defaultProps: {
+        disableElevation: true,
+      },
+
       styleOverrides: {
         root: {
+          borderRadius: 0,
           boxShadow: 'none',
-          border: '1px solid rgba(0,0,0,0.08)',
+        },
+      },
+    },
+
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
         },
       },
     },

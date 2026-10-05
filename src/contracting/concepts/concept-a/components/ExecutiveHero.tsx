@@ -46,7 +46,7 @@ function ExecutiveHero() {
         position: 'relative',
         minHeight: '100vh',
         overflow: 'hidden',
-        bgcolor: '#171717',
+        bgcolor: '#082F4D',
         color: '#fff',
       }}
     >
@@ -136,7 +136,7 @@ function ExecutiveHero() {
           <Typography
             variant="overline"
             sx={{
-              color: '#D0B382',
+              color: '#649ABD',
 
               fontWeight: 700,
 
@@ -218,7 +218,7 @@ function ExecutiveHero() {
               size="large"
               sx={{
                 bgcolor: '#fff',
-                color: '#171717',
+                color: '#082F4D',
 
                 px: 3.5,
                 py: 1.5,
@@ -301,7 +301,7 @@ function ExecutiveHero() {
 
               bgcolor:
                 index === activeSlide
-                  ? '#D0B382'
+                  ? '#649ABD'
                   : 'rgba(255,255,255,0.4)',
 
               cursor: 'pointer',

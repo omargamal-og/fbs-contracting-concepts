@@ -213,7 +213,7 @@ function ExecutiveAbout() {
                     md: 310,
                   },
 
-                  bgcolor: '#171717',
+                  bgcolor: '#082F4D',
                   color: '#fff',
 
                   p: {
@@ -228,7 +228,7 @@ function ExecutiveAbout() {
                 <Typography
                   variant="overline"
                   sx={{
-                    color: '#D0B382',
+                    color: '#649ABD',
                     letterSpacing: 1.8,
                   }}
                 >
@@ -260,7 +260,7 @@ function ExecutiveAbout() {
       <Box
         component="section"
         sx={{
-          bgcolor: '#171717',
+          bgcolor: '#082F4D',
           color: '#fff',
         }}
       >
@@ -318,7 +318,7 @@ function ExecutiveAbout() {
               >
                 <Typography
                   sx={{
-                    color: '#D0B382',
+                    color: '#649ABD',
 
                     fontSize: {
                       xs: '3.5rem',

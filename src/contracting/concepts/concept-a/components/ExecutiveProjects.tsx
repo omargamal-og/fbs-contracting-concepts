@@ -154,7 +154,7 @@ function ExecutiveProjects() {
                   'padding 250ms ease, background-color 250ms ease',
 
                 '&:hover': {
-                  bgcolor: '#F0ECE4',
+                  bgcolor: '#EEF4F6',
                 },
 
                 '&:hover .project-image': {

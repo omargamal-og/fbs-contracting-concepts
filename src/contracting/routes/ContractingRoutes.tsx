@@ -7,6 +7,7 @@ import ConceptC from '../concepts/concept-c/ConceptC'
 import ConceptAProjectDetails
   from '../concepts/concept-a/pages/ConceptAProjectDetails'
 import ConceptBProjectDetails from '../concepts/concept-b/pages/ConceptBProjectDetails'
+import ConceptCProjectDetails from '../concepts/concept-c/pages/ConceptCProjectDetails'
 
 function ContractingRoutes() {
   return (
@@ -40,6 +41,11 @@ function ContractingRoutes() {
         path="concept-c"
         element={<ConceptC />}
       />
+
+    <Route
+      path="concept-c/projects/:slug"
+      element={<ConceptCProjectDetails />}
+    />
     </Routes>
   )
 }

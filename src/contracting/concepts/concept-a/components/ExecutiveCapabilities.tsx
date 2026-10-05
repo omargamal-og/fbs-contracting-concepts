@@ -159,7 +159,7 @@ function ExecutiveCapabilities() {
                   },
 
                   '&:hover': {
-                    bgcolor: '#F0ECE4',
+                    bgcolor: '#EEF4F6',
 
                     px: {
                       xs: 2,

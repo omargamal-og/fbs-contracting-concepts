@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import {
   Box,
-  Button,
   Drawer,
 } from '@mui/material'
 import LanguageSelector from '../../../core/components/LanguageSelector'
@@ -13,26 +12,26 @@ const navItems = [
     href: '#projects',
   },
   {
-    label: 'Footprint',
-    href: '#footprint',
+    label: 'Network',
+    href: '#network',
   },
   {
-    label: 'Studio',
-    href: '#about',
-  },
-  {
-    label: 'Expertise',
+    label: 'Capabilities',
     href: '#capabilities',
+  },
+  {
+    label: 'Company',
+    href: '#company',
   },
 ]
 
-function ArchitecturalHeader() {
+function InfrastructureHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40)
+      setScrolled(window.scrollY > 50)
     }
 
     handleScroll()
@@ -51,7 +50,9 @@ function ArchitecturalHeader() {
     }
   }, [])
 
-  const scrollToSection = (href: string) => {
+  const scrollToSection = (
+    href: string,
+  ) => {
     setMenuOpen(false)
 
     document
@@ -86,18 +87,18 @@ function ArchitecturalHeader() {
 
           color: '#FFFFFF',
 
-          backgroundColor: scrolled
-            ? 'rgba(8, 47, 77, 0.78)'
-            : 'rgba(8, 47, 77, 0.10)',
+          bgcolor: scrolled
+            ? 'rgba(8,47,77,0.88)'
+            : 'rgba(8,47,77,0.08)',
 
           backdropFilter: scrolled
-            ? 'blur(18px)'
+            ? 'blur(22px)'
             : 'blur(8px)',
 
           borderBottom: '1px solid',
 
           borderColor: scrolled
-            ? 'rgba(255,255,255,0.12)'
+            ? 'rgba(185,218,242,0.14)'
             : 'rgba(255,255,255,0.10)',
 
           transition:
@@ -107,12 +108,12 @@ function ArchitecturalHeader() {
         <Box
           sx={{
             width: '100%',
-            maxWidth: 1700,
+            maxWidth: 1740,
             mx: 'auto',
 
             height: {
               xs: 72,
-              md: 88,
+              md: 86,
             },
 
             px: {
@@ -126,7 +127,7 @@ function ArchitecturalHeader() {
 
             gridTemplateColumns: {
               xs: 'minmax(0, 1fr) auto',
-              md: '260px 1fr 260px',
+              md: '270px 1fr 270px',
             },
 
             alignItems: 'center',
@@ -140,30 +141,28 @@ function ArchitecturalHeader() {
             onClick={scrollHome}
             sx={{
               appearance: 'none',
-              WebkitAppearance: 'none',
-              userSelect: 'none',
-              WebkitTapHighlightColor: 'transparent',
-            
-              border: 0,
-              outline: 0,
-              p: 0,
-              m: 0,
-            
-              bgcolor: 'transparent',
-              color: 'inherit',
-            
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1.5,
 
               width: 'fit-content',
-              minWidth: 0,
-            
+
+              border: 0,
+              p: 0,
+
+              bgcolor: 'transparent',
+              color: '#FFFFFF',
+
+              display: 'flex',
+              alignItems: 'center',
+
+              gap: 1.4,
+
               cursor: 'pointer',
+
               textAlign: 'left',
-            
+
               '&:focus-visible': {
-                outline: '2px solid rgba(185,218,242,0.75)',
+                outline:
+                  '2px solid #B9DAF2',
+
                 outlineOffset: 6,
               },
             }}
@@ -172,12 +171,13 @@ function ArchitecturalHeader() {
               sx={{
                 fontSize: {
                   xs: '1.15rem',
-                  md: '1.35rem',
+                  md: '1.3rem',
                 },
 
                 fontWeight: 800,
 
-                letterSpacing: '-0.04em',
+                letterSpacing:
+                  '-0.04em',
               }}
             >
               FBS
@@ -186,35 +186,55 @@ function ArchitecturalHeader() {
             <Box
               sx={{
                 width: '1px',
-                height: 26,
+                height: 28,
 
                 flexShrink: 0,
 
                 bgcolor:
-                  'rgba(255,255,255,0.35)',
+                  'rgba(255,255,255,0.30)',
               }}
             />
 
-            <Box
-              sx={{
-                fontSize: '0.56rem',
-                fontWeight: 700,
+            <Box>
+              <Box
+                sx={{
+                  fontSize: '0.52rem',
+                  fontWeight: 700,
 
-                lineHeight: 1.2,
+                  letterSpacing:
+                    '0.14em',
 
-                letterSpacing: '0.14em',
+                  textTransform:
+                    'uppercase',
+                }}
+              >
+                Contracting
+              </Box>
 
-                textTransform: 'uppercase',
-              }}
-            >
-              Contracting
-              <br />
-              Division
+              <Box
+                sx={{
+                  mt: 0.15,
+
+                  color:
+                    'rgba(255,255,255,0.50)',
+
+                  fontSize: '0.46rem',
+                  fontWeight: 700,
+
+                  letterSpacing:
+                    '0.13em',
+
+                  textTransform:
+                    'uppercase',
+                }}
+              >
+                Saudi Arabia
+              </Box>
             </Box>
           </Box>
 
 
-          {/* Desktop Navigation */}
+          {/* Navigation */}
 
           <Box
             component="nav"
@@ -228,7 +248,7 @@ function ArchitecturalHeader() {
               alignItems: 'center',
 
               gap: {
-                md: 3,
+                md: 3.2,
                 lg: 4.5,
               },
             }}
@@ -236,69 +256,78 @@ function ArchitecturalHeader() {
             {navItems.map((item) => (
               <Box
                 key={item.href}
+
                 component="button"
                 type="button"
+
                 onClick={() =>
                   scrollToSection(item.href)
                 }
+
                 sx={{
                   appearance: 'none',
-                  WebkitAppearance: 'none',
-                  userSelect: 'none',
-                  WebkitTapHighlightColor: 'transparent',
-                
+
                   border: 0,
-                  outline: 0,
                   p: 0,
-                  m: 0,
-                
+
                   bgcolor: 'transparent',
-                  color: 'rgba(255,255,255,0.82)',
-                
+
+                  color:
+                    'rgba(255,255,255,0.72)',
+
                   fontFamily: 'inherit',
-                  fontSize: '0.7rem',
+
+                  fontSize: '0.66rem',
                   fontWeight: 600,
-                
-                  letterSpacing: '0.07em',
-                
+
+                  letterSpacing:
+                    '0.06em',
+
                   cursor: 'pointer',
+
                   position: 'relative',
-                
-                  transition: 'color 180ms ease',
-                
+
+                  transition:
+                    'color 180ms ease',
+
                   '&::after': {
                     content: '""',
+
                     position: 'absolute',
+
                     left: 0,
                     right: 0,
-                    bottom: -10,
-                    height: 2,
-                    borderRadius: '999px',
+                    bottom: -9,
+
+                    height: '1px',
+
                     bgcolor: '#B9DAF2',
+
                     opacity: 0,
-                    transform: 'scaleX(0.7)',
-                    transformOrigin: 'center',
-                    transition: 'opacity 180ms ease, transform 180ms ease',
+
+                    transform:
+                      'scaleX(0.7)',
+
+                    transition:
+                      'opacity 180ms ease, transform 180ms ease',
                   },
-                
+
                   '&:hover': {
                     color: '#FFFFFF',
                   },
-                
+
                   '&:hover::after': {
                     opacity: 1,
-                    transform: 'scaleX(1)',
+
+                    transform:
+                      'scaleX(1)',
                   },
-                
+
                   '&:focus-visible': {
-                    color: '#FFFFFF',
-                    outline: '2px solid rgba(185,218,242,0.75)',
-                    outlineOffset: 8,
-                  },
-                
-                  '&:focus-visible::after': {
-                    opacity: 1,
-                    transform: 'scaleX(1)',
+                    outline:
+                      '2px solid #B9DAF2',
+
+                    outlineOffset: 6,
                   },
                 }}
               >
@@ -308,7 +337,7 @@ function ArchitecturalHeader() {
           </Box>
 
 
-          {/* Right side */}
+          {/* Right */}
 
           <Box
             sx={{
@@ -317,101 +346,148 @@ function ArchitecturalHeader() {
               display: 'flex',
               alignItems: 'center',
 
-              gap: 2,
+              gap: {
+                xs: 2,
+                md: 2.8,
+              },
             }}
           >
 
           <LanguageSelector />
 
-            <Button
+            <Box
+              component="button"
+              type="button"
+
               onClick={() =>
                 scrollToSection('#contact')
               }
+
               sx={{
                 display: {
                   xs: 'none',
                   md: 'inline-flex',
                 },
 
+                appearance: 'none',
+
+                border: 0,
+                p: 0,
+
+                bgcolor: 'transparent',
                 color: '#FFFFFF',
 
-                border: '1px solid',
-                borderColor:
-                  'rgba(255,255,255,0.42)',
+                fontFamily: 'inherit',
 
-                px: 2.4,
-                py: 1,
+                fontSize: '0.66rem',
+                fontWeight: 600,
 
-                fontSize: '0.68rem',
+                letterSpacing:
+                  '0.06em',
 
-                letterSpacing: '0.08em',
+                cursor: 'pointer',
 
                 '&:hover': {
-                  bgcolor: '#FFFFFF',
-                  color: '#082F4D',
+                  color: '#B9DAF2',
+                },
 
-                  borderColor: '#FFFFFF',
+                '&:focus-visible': {
+                  outline:
+                    '2px solid #B9DAF2',
+
+                  outlineOffset: 6,
                 },
               }}
             >
-              Start a project
-            </Button>
+              Contact
+            </Box>
 
 
             <Box
               component="button"
               type="button"
+
               aria-expanded={menuOpen}
-              aria-controls="concept-b-menu"
+
               onClick={() =>
                 setMenuOpen(true)
               }
+
               sx={{
                 appearance: 'none',
-                WebkitAppearance: 'none',
-                userSelect: 'none',
-                WebkitTapHighlightColor: 'transparent',
-              
-                display: {
-                  xs: 'inline-flex',
-                  md: 'none',
-                },
-              
+
                 border: 0,
-                outline: 0,
                 p: 0,
-                m: 0,
-              
+
                 bgcolor: 'transparent',
                 color: '#FFFFFF',
-              
+
+                display: 'inline-flex',
+                alignItems: 'center',
+
+                gap: 1,
+
                 fontFamily: 'inherit',
-              
-                fontSize: '0.72rem',
+
+                fontSize: '0.66rem',
                 fontWeight: 700,
-              
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-              
+
+                letterSpacing:
+                  '0.10em',
+
+                textTransform:
+                  'uppercase',
+
                 cursor: 'pointer',
-              
+
                 '&:focus-visible': {
-                  outline: '2px solid rgba(185,218,242,0.75)',
+                  outline:
+                    '2px solid #B9DAF2',
+
                   outlineOffset: 6,
                 },
               }}
             >
               Menu
+
+              <Box
+                sx={{
+                  width: 18,
+
+                  display: 'grid',
+
+                  gap: '4px',
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '1px',
+
+                    bgcolor: '#FFFFFF',
+                  }}
+                />
+
+                <Box
+                  sx={{
+                    width: '70%',
+                    height: '1px',
+
+                    justifySelf: 'end',
+
+                    bgcolor: '#FFFFFF',
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
         </Box>
       </Box>
 
 
-      {/* Mobile Drawer */}
+      {/* Premium menu */}
 
       <Drawer
-        id="concept-b-menu"
         anchor="right"
         open={menuOpen}
         onClose={() =>
@@ -422,11 +498,11 @@ function ArchitecturalHeader() {
             sx: {
               width: {
                 xs: '100%',
-                sm: 460,
+                sm: 500,
               },
 
-              bgcolor: '#082F4D',
-              color: '#FFFFFF',
+              bgcolor: '#EEF4F6',
+              color: '#082F4D',
 
               backgroundImage: 'none',
             },
@@ -463,12 +539,12 @@ function ArchitecturalHeader() {
               borderBottom: '1px solid',
 
               borderColor:
-                'rgba(255,255,255,0.15)',
+                'rgba(8,47,77,0.14)',
             }}
           >
             <Box
               sx={{
-                fontSize: '1.25rem',
+                fontSize: '1.3rem',
                 fontWeight: 800,
               }}
             >
@@ -478,25 +554,32 @@ function ArchitecturalHeader() {
             <Box
               component="button"
               type="button"
+
               onClick={() =>
                 setMenuOpen(false)
               }
+
               sx={{
+                appearance: 'none',
+
                 border: 0,
                 p: 0,
 
                 bgcolor: 'transparent',
-                color: '#FFFFFF',
-
-                cursor: 'pointer',
+                color: '#082F4D',
 
                 fontFamily: 'inherit',
 
-                fontSize: '0.7rem',
+                fontSize: '0.62rem',
+                fontWeight: 700,
 
-                letterSpacing: '0.1em',
+                letterSpacing:
+                  '0.11em',
 
-                textTransform: 'uppercase',
+                textTransform:
+                  'uppercase',
+
+                cursor: 'pointer',
               }}
             >
               Close
@@ -514,14 +597,19 @@ function ArchitecturalHeader() {
               (item, index) => (
                 <Box
                   key={item.href}
+
                   component="button"
                   type="button"
+
                   onClick={() =>
                     scrollToSection(
                       item.href,
                     )
                   }
+
                   sx={{
+                    appearance: 'none',
+
                     width: '100%',
 
                     border: 0,
@@ -529,32 +617,35 @@ function ArchitecturalHeader() {
                       '1px solid',
 
                     borderColor:
-                      'rgba(255,255,255,0.15)',
+                      'rgba(8,47,77,0.14)',
 
                     bgcolor:
                       'transparent',
 
-                    color: '#FFFFFF',
+                    color: '#082F4D',
 
-                    py: 2.5,
+                    py: 2.7,
 
                     display: 'grid',
 
                     gridTemplateColumns:
-                      '44px 1fr',
+                      '45px 1fr auto',
+
+                    gap: 1.5,
+
+                    alignItems: 'center',
 
                     textAlign: 'left',
 
                     cursor: 'pointer',
-
-                    fontFamily: 'inherit',
                   }}
                 >
                   <Box
                     sx={{
-                      color: '#B9DAF2',
+                      color: '#649ABD',
 
-                      fontSize: '0.65rem',
+                      fontSize: '0.54rem',
+                      fontWeight: 700,
                     }}
                   >
                     {String(
@@ -566,16 +657,24 @@ function ArchitecturalHeader() {
                     sx={{
                       fontSize: {
                         xs: '2rem',
-                        sm: '2.4rem',
+                        sm: '2.5rem',
                       },
 
                       fontWeight: 500,
 
                       letterSpacing:
-                        '-0.04em',
+                        '-0.045em',
                     }}
                   >
                     {item.label}
+                  </Box>
+
+                  <Box
+                    sx={{
+                      color: '#649ABD',
+                    }}
+                  >
+                    ↗
                   </Box>
                 </Box>
               ),
@@ -585,21 +684,75 @@ function ArchitecturalHeader() {
 
           <Box
             sx={{
-              mt: 'auto',
-
-              pt: 5,
-
-              color:
-                'rgba(255,255,255,0.55)',
-
-              fontSize: '0.7rem',
-
-              lineHeight: 1.8,
+              mt: 4,
             }}
           >
-            Faisal Bin Saedan
-            <br />
-            Riyadh — Saudi Arabia
+            <Box
+              component="button"
+              type="button"
+
+              onClick={() =>
+                scrollToSection('#contact')
+              }
+
+              sx={{
+                appearance: 'none',
+
+                width: '100%',
+
+                border: 0,
+
+                px: 2.5,
+                py: 2,
+
+                bgcolor: '#082F4D',
+                color: '#FFFFFF',
+
+                fontFamily: 'inherit',
+
+                fontSize: '0.72rem',
+                fontWeight: 700,
+
+                cursor: 'pointer',
+              }}
+            >
+              Start a Conversation ↗
+            </Box>
+          </Box>
+
+
+          <Box
+            sx={{
+              mt: 'auto',
+
+              pt: 6,
+
+              display: 'flex',
+
+              justifyContent:
+                'space-between',
+
+              gap: 3,
+
+              color:
+                'rgba(8,47,77,0.45)',
+
+              fontSize: '0.56rem',
+              fontWeight: 700,
+
+              letterSpacing:
+                '0.10em',
+
+              textTransform: 'uppercase',
+            }}
+          >
+            <Box>
+              Riyadh
+            </Box>
+
+            <Box>
+              Saudi Arabia
+            </Box>
           </Box>
         </Box>
       </Drawer>
@@ -607,4 +760,4 @@ function ArchitecturalHeader() {
   )
 }
 
-export default ArchitecturalHeader
+export default InfrastructureHeader

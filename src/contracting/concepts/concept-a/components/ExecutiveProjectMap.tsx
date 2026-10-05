@@ -296,7 +296,7 @@ function ExecutiveProjectMap() {
                   px: 1.5,
                   py: 0.8,
 
-                  bgcolor: '#171717',
+                  bgcolor: '#082F4D',
                   color: '#fff',
 
                   fontSize: '0.72rem',
@@ -413,7 +413,7 @@ function ExecutiveProjectMap() {
 
                       bgcolor: isActive
                         ? 'secondary.main'
-                        : '#171717',
+                        : '#082F4D',
 
                       opacity:
                         activeProject
@@ -458,7 +458,7 @@ function ExecutiveProjectMap() {
 
                       width: 220,
 
-                      bgcolor: '#171717',
+                      bgcolor: '#082F4D',
                       color: '#fff',
 
                       opacity: 0,
@@ -493,7 +493,7 @@ function ExecutiveProjectMap() {
                           '7px solid transparent',
 
                         borderTop:
-                          '7px solid #171717',
+                          '7px solid #082F4D',
                       },
                     }}
                   >
@@ -588,7 +588,7 @@ function ExecutiveProjectMap() {
         {/* Project Details */}
         <Box
           sx={{
-            bgcolor: '#171717',
+            bgcolor: '#082F4D',
             color: '#fff',
 
             p: {
@@ -719,7 +719,7 @@ function ExecutiveProjectMap() {
                   mt: 6,
                   alignSelf: 'flex-start',
                   bgcolor: '#fff',
-                  color: '#171717',
+                  color: '#082F4D',
                   px: 3,
 
                   '&:hover': {

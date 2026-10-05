@@ -9,7 +9,7 @@ function ExecutiveFooter() {
     <Box
       component="footer"
       sx={{
-        bgcolor: '#111',
+        bgcolor: '#082F4D',
         color: '#fff',
 
         pt: {

@@ -1,3 +1,4 @@
+import LanguageSelector from '../../../core/components/LanguageSelector'
 import { Box, Button, Container, Drawer, Typography } from "@mui/material";
 
 import { useEffect, useState } from "react";
@@ -82,13 +83,17 @@ function ExecutiveHeader() {
 
           color: "#fff",
 
-          bgcolor: scrolled ? "rgba(18,18,18,0.92)" : "transparent",
+          bgcolor: scrolled
+          ? "rgba(8,47,77,0.94)"
+          : "transparent",
 
           backdropFilter: scrolled ? "blur(18px)" : "none",
 
           borderBottom: "1px solid",
 
-          borderColor: scrolled ? "rgba(255,255,255,0.08)" : "transparent",
+          borderColor: scrolled
+          ? "rgba(185,218,242,0.16)"
+          : "transparent",
 
           transition:
             "background-color 280ms ease, border-color 280ms ease, backdrop-filter 280ms ease",
@@ -184,18 +189,19 @@ function ExecutiveHeader() {
                   sx={{
                     px: 2,
 
-                    color: "rgba(255,255,255,0.76)",
+                    color: "rgba(255,255,255,0.78)",
 
                     "&:hover": {
-                      color: "#fff",
-
-                      bgcolor: "rgba(255,255,255,0.05)",
+                      color: "#B9DAF2",
+                      bgcolor: "rgba(185,218,242,0.06)",
                     },
                   }}
                 >
                   {label}
                 </Button>
               ))}
+              
+              <LanguageSelector />
 
               <Button
                 onClick={() => handleNavigation("#contact")}
@@ -204,14 +210,13 @@ function ExecutiveHeader() {
                   ml: 2,
                   px: 2.5,
 
-                  color: "#fff",
-
-                  borderColor: "rgba(255,255,255,0.38)",
-
+                  color: "#FFFFFF",
+                  borderColor: "rgba(185,218,242,0.42)",
+                  
                   "&:hover": {
-                    borderColor: "#fff",
-
-                    bgcolor: "rgba(255,255,255,0.05)",
+                    color: "#B9DAF2",
+                    borderColor: "#B9DAF2",
+                    bgcolor: "rgba(185,218,242,0.06)",
                   },
                 }}
               >
@@ -232,7 +237,7 @@ function ExecutiveHeader() {
 
                 px: 0,
 
-                color: "#fff",
+                color: "#FFFFFF",
 
                 fontSize: "0.75rem",
 
@@ -240,7 +245,7 @@ function ExecutiveHeader() {
 
                 letterSpacing: 1,
 
-                borderBottom: "1px solid rgba(255,255,255,0.4)",
+                borderBottom: "1px solid rgba(185,218,242,0.45)",
 
                 borderRadius: 0,
               }}
@@ -265,7 +270,7 @@ function ExecutiveHeader() {
         
               maxWidth: "100%",
         
-              bgcolor: "#151515",
+              bgcolor: "#082F4D",
               color: "#fff",
         
               p: {
