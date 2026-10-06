@@ -9,7 +9,7 @@ import EditorialHero from './components/EditorialHero'
 
 import { conceptBTheme } from '../../themes/conceptBTheme'
 import ArchitecturalProjects from './components/ArchitecturalProjects'
-import ArchitecturalFootprint from './components/ArchitecturalFootprint'
+import ArchitecturalProjectNetwork from './components/ArchitecturalProjectNetwork'
 import ArchitecturalStudio from './components/ArchitecturalStudio'
 import ArchitecturalExpertise from './components/ArchitecturalExpertise'
 import ArchitecturalClosing from './components/ArchitecturalClosing'
@@ -31,7 +31,7 @@ function ConceptB() {
         <ArchitecturalHeader />
         <EditorialHero />
         <ArchitecturalProjects />
-        <ArchitecturalFootprint />
+        <ArchitecturalProjectNetwork />
         <ArchitecturalStudio />
         <ArchitecturalExpertise />
         <ArchitecturalClosing />

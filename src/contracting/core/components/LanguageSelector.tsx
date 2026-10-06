@@ -54,29 +54,45 @@ function LanguageSelector({
         aria-expanded={open}
         sx={{
           minWidth: 0,
-
-          px: 1,
-          py: 0.7,
-
+        
+          px: 1.4,
+          py: 0.8,
+        
           color: isDark
-            ? 'rgba(255,255,255,0.82)'
+            ? 'rgba(255,255,255,0.88)'
             : '#082F4D',
-
+        
           fontSize: '0.64rem',
           fontWeight: 700,
-
+        
           letterSpacing: '0.08em',
-
-          borderRadius: 0,
-
+        
+          border: '1px solid',
+          borderColor: isDark
+            ? 'rgba(185,218,242,0.22)'
+            : 'rgba(8,47,77,0.16)',
+        
+          borderRadius: '12px',
+        
+          bgcolor: isDark
+            ? 'rgba(8,47,77,0.08)'
+            : 'rgba(255,255,255,0.22)',
+        
+          backdropFilter: 'blur(14px)',
+          WebkitBackdropFilter: 'blur(14px)',
+        
           '&:hover': {
             color: isDark
               ? '#B9DAF2'
               : '#649ABD',
-
+        
             bgcolor: isDark
-              ? 'rgba(185,218,242,0.06)'
-              : 'rgba(8,47,77,0.04)',
+              ? 'rgba(185,218,242,0.08)'
+              : 'rgba(8,47,77,0.05)',
+        
+            borderColor: isDark
+              ? 'rgba(185,218,242,0.40)'
+              : 'rgba(100,154,189,0.35)',
           },
         }}
       >
@@ -116,22 +132,27 @@ function LanguageSelector({
         slotProps={{
           paper: {
             sx: {
-              mt: 1.5,
-
+              mt: 1.2,
+            
               minWidth: 240,
-
-              bgcolor: '#EEF4F6',
-              color: '#082F4D',
-
-              borderRadius: 0,
-
+            
+              bgcolor: 'transparent',
+            
+              color: '#FFFFFF',
+            
+              backdropFilter: 'blur(22px)',
+              WebkitBackdropFilter: 'blur(22px)',
+            
+              borderRadius: '16px',
+            
               border:
-                '1px solid rgba(8,47,77,0.12)',
-
-              boxShadow:
-                '0 24px 60px rgba(8,47,77,0.18)',
-
+                '1px solid rgba(255,255,255,0.18)',
+            
+              boxShadow: 'none',
+            
               backgroundImage: 'none',
+            
+              overflow: 'hidden',
             },
           },
         }}
@@ -145,38 +166,42 @@ function LanguageSelector({
             }
             sx={{
               minHeight: 58,
-
+            
               px: 2.2,
-
+            
               display: 'grid',
-
+            
               gridTemplateColumns:
                 '42px 1fr auto',
-
+            
               gap: 1.2,
-
+            
               opacity: '1 !important',
-
+            
+              color: '#FFFFFF',
+            
               borderBottom:
-                '1px solid rgba(8,47,77,0.08)',
-
+                '1px solid rgba(185,218,242,0.10)',
+            
               '&:last-of-type': {
                 borderBottom: 0,
               },
-
+            
               '&.Mui-disabled': {
-                color: '#082F4D',
+                color:
+                  'rgba(255,255,255,0.72)',
               },
+            
+              bgcolor: 'transparent',
 
               '&:hover': {
-                bgcolor:
-                  'rgba(100,154,189,0.08)',
+                bgcolor: 'rgba(255,255,255,0.06)',
               },
             }}
           >
             <Box
               sx={{
-                color: '#649ABD',
+                color: '#B9DAF2',
 
                 fontSize: '0.52rem',
                 fontWeight: 700,
@@ -207,8 +232,8 @@ function LanguageSelector({
             <Box
               sx={{
                 color: language.active
-                  ? '#649ABD'
-                  : 'rgba(8,47,77,0.34)',
+                ? '#B9DAF2'
+                : 'rgba(255,255,255,0.34)',
 
                 fontSize: '0.46rem',
                 fontWeight: 700,

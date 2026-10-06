@@ -1,82 +1,54 @@
-import { useEffect, useState } from 'react'
+import { useState } from "react";
 
-import {
-  Box,
-  Button,
-  Drawer,
-} from '@mui/material'
-import LanguageSelector from '../../../core/components/LanguageSelector'
+import { Box, Button, Drawer } from "@mui/material";
+import LanguageSelector from "../../../core/components/LanguageSelector";
 
 const navItems = [
   {
-    label: 'Projects',
-    href: '#projects',
+    label: "Projects",
+    href: "#projects",
   },
   {
-    label: 'Footprint',
-    href: '#footprint',
+    label: "Footprint",
+    href: "#footprint",
   },
   {
-    label: 'Studio',
-    href: '#about',
+    label: "Studio",
+    href: "#about",
   },
   {
-    label: 'Expertise',
-    href: '#capabilities',
+    label: "Expertise",
+    href: "#capabilities",
   },
-]
+];
 
 function ArchitecturalHeader() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40)
-    }
-
-    handleScroll()
-
-    window.addEventListener(
-      'scroll',
-      handleScroll,
-      { passive: true },
-    )
-
-    return () => {
-      window.removeEventListener(
-        'scroll',
-        handleScroll,
-      )
-    }
-  }, [])
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const scrollToSection = (href: string) => {
-    setMenuOpen(false)
+    setMenuOpen(false);
 
-    document
-      .querySelector(href)
-      ?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
-  }
+    document.querySelector(href)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   const scrollHome = () => {
-    setMenuOpen(false)
+    setMenuOpen(false);
 
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
-    })
-  }
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
       <Box
         component="header"
         sx={{
-          position: 'fixed',
+          position: "fixed",
 
           top: 0,
           left: 0,
@@ -84,31 +56,23 @@ function ArchitecturalHeader() {
 
           zIndex: 1200,
 
-          color: '#FFFFFF',
+          color: "#FFFFFF",
 
-          backgroundColor: scrolled
-            ? 'rgba(8, 47, 77, 0.78)'
-            : 'rgba(8, 47, 77, 0.10)',
-
-          backdropFilter: scrolled
-            ? 'blur(18px)'
-            : 'blur(8px)',
+          bgcolor: 'rgba(8,47,77,0.12)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
 
           borderBottom: '1px solid',
+          borderColor: 'rgba(185,218,242,0.10)',
 
-          borderColor: scrolled
-            ? 'rgba(255,255,255,0.12)'
-            : 'rgba(255,255,255,0.10)',
-
-          transition:
-            'background-color 280ms ease, backdrop-filter 280ms ease, border-color 280ms ease',
+          boxShadow: 'none',
         }}
       >
         <Box
           sx={{
-            width: '100%',
+            width: "100%",
             maxWidth: 1700,
-            mx: 'auto',
+            mx: "auto",
 
             height: {
               xs: 72,
@@ -122,14 +86,14 @@ function ArchitecturalHeader() {
               lg: 8,
             },
 
-            display: 'grid',
+            display: "grid",
 
             gridTemplateColumns: {
-              xs: 'minmax(0, 1fr) auto',
-              md: '260px 1fr 260px',
+              xs: "minmax(0, 1fr) auto",
+              md: "260px 1fr 260px",
             },
 
-            alignItems: 'center',
+            alignItems: "center",
           }}
         >
           {/* Brand */}
@@ -139,31 +103,31 @@ function ArchitecturalHeader() {
             type="button"
             onClick={scrollHome}
             sx={{
-              appearance: 'none',
-              WebkitAppearance: 'none',
-              userSelect: 'none',
-              WebkitTapHighlightColor: 'transparent',
-            
+              appearance: "none",
+              WebkitAppearance: "none",
+              userSelect: "none",
+              WebkitTapHighlightColor: "transparent",
+
               border: 0,
               outline: 0,
               p: 0,
               m: 0,
-            
-              bgcolor: 'transparent',
-              color: 'inherit',
-            
-              display: 'flex',
-              alignItems: 'center',
+
+              bgcolor: "transparent",
+              color: "inherit",
+
+              display: "flex",
+              alignItems: "center",
               gap: 1.5,
 
-              width: 'fit-content',
+              width: "fit-content",
               minWidth: 0,
-            
-              cursor: 'pointer',
-              textAlign: 'left',
-            
-              '&:focus-visible': {
-                outline: '2px solid rgba(185,218,242,0.75)',
+
+              cursor: "pointer",
+              textAlign: "left",
+
+              "&:focus-visible": {
+                outline: "2px solid rgba(185,218,242,0.75)",
                 outlineOffset: 6,
               },
             }}
@@ -171,13 +135,13 @@ function ArchitecturalHeader() {
             <Box
               sx={{
                 fontSize: {
-                  xs: '1.15rem',
-                  md: '1.35rem',
+                  xs: "1.15rem",
+                  md: "1.35rem",
                 },
 
                 fontWeight: 800,
 
-                letterSpacing: '-0.04em',
+                letterSpacing: "-0.04em",
               }}
             >
               FBS
@@ -185,26 +149,25 @@ function ArchitecturalHeader() {
 
             <Box
               sx={{
-                width: '1px',
+                width: "1px",
                 height: 26,
 
                 flexShrink: 0,
 
-                bgcolor:
-                  'rgba(255,255,255,0.35)',
+                bgcolor: "rgba(255,255,255,0.35)",
               }}
             />
 
             <Box
               sx={{
-                fontSize: '0.56rem',
+                fontSize: "0.56rem",
                 fontWeight: 700,
 
                 lineHeight: 1.2,
 
-                letterSpacing: '0.14em',
+                letterSpacing: "0.14em",
 
-                textTransform: 'uppercase',
+                textTransform: "uppercase",
               }}
             >
               Contracting
@@ -213,19 +176,18 @@ function ArchitecturalHeader() {
             </Box>
           </Box>
 
-
           {/* Desktop Navigation */}
 
           <Box
             component="nav"
             sx={{
               display: {
-                xs: 'none',
-                md: 'flex',
+                xs: "none",
+                md: "flex",
               },
 
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
 
               gap: {
                 md: 3,
@@ -238,67 +200,65 @@ function ArchitecturalHeader() {
                 key={item.href}
                 component="button"
                 type="button"
-                onClick={() =>
-                  scrollToSection(item.href)
-                }
+                onClick={() => scrollToSection(item.href)}
                 sx={{
-                  appearance: 'none',
-                  WebkitAppearance: 'none',
-                  userSelect: 'none',
-                  WebkitTapHighlightColor: 'transparent',
-                
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  userSelect: "none",
+                  WebkitTapHighlightColor: "transparent",
+
                   border: 0,
                   outline: 0,
                   p: 0,
                   m: 0,
-                
-                  bgcolor: 'transparent',
-                  color: 'rgba(255,255,255,0.82)',
-                
-                  fontFamily: 'inherit',
-                  fontSize: '0.7rem',
+
+                  bgcolor: "transparent",
+                  color: "rgba(255,255,255,0.82)",
+
+                  fontFamily: "inherit",
+                  fontSize: "0.7rem",
                   fontWeight: 600,
-                
-                  letterSpacing: '0.07em',
-                
-                  cursor: 'pointer',
-                  position: 'relative',
-                
-                  transition: 'color 180ms ease',
-                
-                  '&::after': {
+
+                  letterSpacing: "0.07em",
+
+                  cursor: "pointer",
+                  position: "relative",
+
+                  transition: "color 180ms ease",
+
+                  "&::after": {
                     content: '""',
-                    position: 'absolute',
+                    position: "absolute",
                     left: 0,
                     right: 0,
                     bottom: -10,
                     height: 2,
-                    borderRadius: '999px',
-                    bgcolor: '#B9DAF2',
+                    borderRadius: "999px",
+                    bgcolor: "#B9DAF2",
                     opacity: 0,
-                    transform: 'scaleX(0.7)',
-                    transformOrigin: 'center',
-                    transition: 'opacity 180ms ease, transform 180ms ease',
+                    transform: "scaleX(0.7)",
+                    transformOrigin: "center",
+                    transition: "opacity 180ms ease, transform 180ms ease",
                   },
-                
-                  '&:hover': {
-                    color: '#FFFFFF',
+
+                  "&:hover": {
+                    color: "#FFFFFF",
                   },
-                
-                  '&:hover::after': {
+
+                  "&:hover::after": {
                     opacity: 1,
-                    transform: 'scaleX(1)',
+                    transform: "scaleX(1)",
                   },
-                
-                  '&:focus-visible': {
-                    color: '#FFFFFF',
-                    outline: '2px solid rgba(185,218,242,0.75)',
+
+                  "&:focus-visible": {
+                    color: "#FFFFFF",
+                    outline: "2px solid rgba(185,218,242,0.75)",
                     outlineOffset: 8,
                   },
-                
-                  '&:focus-visible::after': {
+
+                  "&:focus-visible::after": {
                     opacity: 1,
-                    transform: 'scaleX(1)',
+                    transform: "scaleX(1)",
                   },
                 }}
               >
@@ -307,96 +267,85 @@ function ArchitecturalHeader() {
             ))}
           </Box>
 
-
           {/* Right side */}
 
           <Box
             sx={{
-              justifySelf: 'end',
+              justifySelf: "end",
 
-              display: 'flex',
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
 
               gap: 2,
             }}
           >
-
-          <LanguageSelector />
+            <LanguageSelector />
 
             <Button
-              onClick={() =>
-                scrollToSection('#contact')
-              }
+              onClick={() => scrollToSection("#contact")}
               sx={{
                 display: {
-                  xs: 'none',
-                  md: 'inline-flex',
+                  xs: "none",
+                  md: "inline-flex",
                 },
 
-                color: '#FFFFFF',
+                color: "#FFFFFF",
 
-                border: '1px solid',
-                borderColor:
-                  'rgba(255,255,255,0.42)',
+                border: "1px solid",
+                borderColor: "rgba(255,255,255,0.42)",
 
                 px: 2.4,
                 py: 1,
 
-                fontSize: '0.68rem',
+                fontSize: "0.68rem",
 
-                letterSpacing: '0.08em',
+                letterSpacing: "0.08em",
 
-                '&:hover': {
-                  bgcolor: '#FFFFFF',
-                  color: '#082F4D',
+                "&:hover": {
+                  bgcolor: "#FFFFFF",
+                  color: "#FFFFFF",
 
-                  borderColor: '#FFFFFF',
+                  borderColor: "#FFFFFF",
                 },
               }}
             >
-              Start a project
+              Build with us
             </Button>
-
 
             <Box
               component="button"
               type="button"
               aria-expanded={menuOpen}
               aria-controls="concept-b-menu"
-              onClick={() =>
-                setMenuOpen(true)
-              }
+              onClick={() => setMenuOpen(true)}
               sx={{
-                appearance: 'none',
-                WebkitAppearance: 'none',
-                userSelect: 'none',
-                WebkitTapHighlightColor: 'transparent',
-              
-                display: {
-                  xs: 'inline-flex',
-                  md: 'none',
-                },
-              
+                appearance: "none",
+                WebkitAppearance: "none",
+                userSelect: "none",
+                WebkitTapHighlightColor: "transparent",
+
+                display: 'inline-flex',
+
                 border: 0,
                 outline: 0,
                 p: 0,
                 m: 0,
-              
-                bgcolor: 'transparent',
-                color: '#FFFFFF',
-              
-                fontFamily: 'inherit',
-              
-                fontSize: '0.72rem',
+
+                bgcolor: "transparent",
+                color: "#FFFFFF",
+
+                fontFamily: "inherit",
+
+                fontSize: "0.72rem",
                 fontWeight: 700,
-              
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-              
-                cursor: 'pointer',
-              
-                '&:focus-visible': {
-                  outline: '2px solid rgba(185,218,242,0.75)',
+
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+
+                cursor: "pointer",
+
+                "&:focus-visible": {
+                  outline: "2px solid rgba(185,218,242,0.75)",
                   outlineOffset: 6,
                 },
               }}
@@ -407,28 +356,46 @@ function ArchitecturalHeader() {
         </Box>
       </Box>
 
-
-      {/* Mobile Drawer */}
+      {/* Drawer */}
 
       <Drawer
         id="concept-b-menu"
         anchor="right"
         open={menuOpen}
-        onClose={() =>
-          setMenuOpen(false)
-        }
+        onClose={() => setMenuOpen(false)}
         slotProps={{
           paper: {
             sx: {
               width: {
                 xs: '100%',
-                sm: 460,
+                sm: 500,
               },
-
-              bgcolor: '#082F4D',
+        
+              bgcolor: 'rgba(8,47,77,0.12)',
               color: '#FFFFFF',
-
+        
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+        
               backgroundImage: 'none',
+        
+              borderLeft:
+                '1px solid rgba(185,218,242,0.14)',
+        
+              boxShadow:
+                '-20px 0 60px rgba(3,20,32,0.14)',
+        
+              borderTopLeftRadius: {
+                xs: 0,
+                sm: '18px',
+              },
+        
+              borderBottomLeftRadius: {
+                xs: 0,
+                sm: '18px',
+              },
+        
+              overflow: 'hidden',
             },
           },
         }}
@@ -449,162 +416,257 @@ function ArchitecturalHeader() {
             flexDirection: 'column',
           }}
         >
+          {/* Top */}
           <Box
             sx={{
               display: 'flex',
-
-              justifyContent:
-                'space-between',
-
+              justifyContent: 'space-between',
               alignItems: 'center',
 
               pb: 3,
 
               borderBottom: '1px solid',
-
-              borderColor:
-                'rgba(255,255,255,0.15)',
+              borderColor: 'rgba(185,218,242,0.14)'
             }}
           >
-            <Box
-              sx={{
-                fontSize: '1.25rem',
-                fontWeight: 800,
-              }}
-            >
-              FBS
+            <Box>
+              <Box
+                sx={{
+                  fontSize: '1.3rem',
+                  fontWeight: 800,
+                  letterSpacing: '-0.04em',
+                }}
+              >
+                FBS
+              </Box>
+
+              <Box
+                sx={{
+                  mt: 0.3,
+
+                  color: '#649ABD',
+
+                  fontSize: '0.48rem',
+                  fontWeight: 700,
+
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Contracting
+              </Box>
             </Box>
 
             <Box
               component="button"
               type="button"
-              onClick={() =>
-                setMenuOpen(false)
-              }
+              onClick={() => setMenuOpen(false)}
               sx={{
+                appearance: 'none',
+
                 border: 0,
                 p: 0,
 
                 bgcolor: 'transparent',
                 color: '#FFFFFF',
 
-                cursor: 'pointer',
-
                 fontFamily: 'inherit',
 
-                fontSize: '0.7rem',
+                fontSize: '0.62rem',
+                fontWeight: 700,
 
-                letterSpacing: '0.1em',
-
+                letterSpacing: '0.11em',
                 textTransform: 'uppercase',
+
+                cursor: 'pointer',
+
+                '&:hover': {
+                  color: '#649ABD',
+                },
               }}
             >
               Close
             </Box>
           </Box>
 
-
+          {/* Navigation */}
           <Box
             component="nav"
             sx={{
               mt: 5,
             }}
           >
-            {navItems.map(
-              (item, index) => (
-                <Box
-                  key={item.href}
-                  component="button"
-                  type="button"
-                  onClick={() =>
-                    scrollToSection(
-                      item.href,
-                    )
-                  }
-                  sx={{
-                    width: '100%',
+            {navItems.map((item, index) => (
+              <Box
+                key={item.href}
+                component="button"
+                type="button"
+                onClick={() =>
+                  scrollToSection(item.href)
+                }
+                sx={{
+                  appearance: 'none',
 
-                    border: 0,
-                    borderBottom:
-                      '1px solid',
+                  width: '100%',
 
-                    borderColor:
-                      'rgba(255,255,255,0.15)',
+                  border: 0,
+                  borderBottom: '1px solid',
+                  borderColor: 'rgba(185,218,242,0.14)',
 
+                  bgcolor: 'transparent',
+                  color: '#FFFFFF',
+
+                  py: 2.7,
+
+                  display: 'grid',
+
+                  gridTemplateColumns:
+                    '45px 1fr auto',
+
+                  gap: 1.5,
+
+                  alignItems: 'center',
+
+                  textAlign: 'left',
+
+                  cursor: 'pointer',
+
+                  transition:
+                    'background-color 180ms ease, padding 180ms ease',
+
+                  '&:hover': {
                     bgcolor:
-                      'transparent',
+                      'rgba(100,154,189,0.07)',
 
-                    color: '#FFFFFF',
+                    px: 1,
+                  },
 
-                    py: 2.5,
+                  '&:focus-visible': {
+                    outline:
+                      '2px solid #649ABD',
 
-                    display: 'grid',
+                    outlineOffset: -2,
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    color: '#B9DAF2',
 
-                    gridTemplateColumns:
-                      '44px 1fr',
-
-                    textAlign: 'left',
-
-                    cursor: 'pointer',
-
-                    fontFamily: 'inherit',
+                    fontSize: '0.54rem',
+                    fontWeight: 700,
                   }}
                 >
-                  <Box
-                    sx={{
-                      color: '#B9DAF2',
-
-                      fontSize: '0.65rem',
-                    }}
-                  >
-                    {String(
-                      index + 1,
-                    ).padStart(2, '0')}
-                  </Box>
-
-                  <Box
-                    sx={{
-                      fontSize: {
-                        xs: '2rem',
-                        sm: '2.4rem',
-                      },
-
-                      fontWeight: 500,
-
-                      letterSpacing:
-                        '-0.04em',
-                    }}
-                  >
-                    {item.label}
-                  </Box>
+                  {String(index + 1).padStart(2, '0')}
                 </Box>
-              ),
-            )}
+
+                <Box
+                  sx={{
+                    fontSize: {
+                      xs: '2rem',
+                      sm: '2.5rem',
+                    },
+
+                    fontWeight: 500,
+
+                    letterSpacing: '-0.045em',
+                  }}
+                >
+                  {item.label}
+                </Box>
+
+                <Box
+                  sx={{
+                    color: '#B9DAF2',
+
+                    fontSize: '0.9rem',
+                  }}
+                >
+                  ↗
+                </Box>
+              </Box>
+            ))}
           </Box>
 
+          {/* Contact CTA */}
+          <Box
+            sx={{
+              mt: 4,
+            }}
+          >
+            <Box
+              component="button"
+              type="button"
+              onClick={() =>
+                scrollToSection('#contact')
+              }
+              sx={{
+                bgcolor: 'transparent !important',
+                color: '#FFFFFF',
+              
+                minHeight: 44,
+                minWidth: 92,
+              
+                px: 2,
+                py: 1,
+              
+                border: '1px solid rgba(255,255,255,0.22)',
+                borderRadius: '12px',
+              
+                boxShadow: 'none',
+              
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+              
+                '&:hover': {
+                  bgcolor: 'transparent !important',
+                  color: '#B9DAF2',
+                  borderColor: 'rgba(185,218,242,0.45)',
+                  boxShadow: 'none',
+                  cursor: 'pointer',
+                },
+              }}
+            >
+              Build with us ↗
+            </Box>
+          </Box>
 
+          {/* Bottom */}
           <Box
             sx={{
               mt: 'auto',
 
-              pt: 5,
+              pt: 6,
 
-              color:
-                'rgba(255,255,255,0.55)',
+              display: 'flex',
 
-              fontSize: '0.7rem',
+              justifyContent:
+                'space-between',
 
-              lineHeight: 1.8,
+              gap: 3,
+
+              color: 'rgba(255,255,255,0.45)',
+
+              fontSize: '0.56rem',
+              fontWeight: 700,
+
+              letterSpacing: '0.10em',
+              textTransform: 'uppercase',
             }}
           >
-            Faisal Bin Saedan
-            <br />
-            Riyadh — Saudi Arabia
+            <Box>
+              Riyadh
+            </Box>
+
+            <Box>
+              Saudi Arabia
+            </Box>
           </Box>
         </Box>
       </Drawer>
     </>
-  )
+  );
 }
 
-export default ArchitecturalHeader
+export default ArchitecturalHeader;
