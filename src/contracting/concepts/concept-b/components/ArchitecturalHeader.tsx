@@ -9,8 +9,8 @@ const navItems = [
     href: "#projects",
   },
   {
-    label: "Footprint",
-    href: "#footprint",
+    label: 'Footprint',
+    href: '#network',
   },
   {
     label: "Studio",
@@ -291,8 +291,12 @@ function ArchitecturalHeader() {
 
                 color: "#FFFFFF",
 
+                bgcolor: "transparent",
+
                 border: "1px solid",
                 borderColor: "rgba(255,255,255,0.42)",
+
+                borderRadius: "12px",
 
                 px: 2.4,
                 py: 1,
@@ -301,11 +305,15 @@ function ArchitecturalHeader() {
 
                 letterSpacing: "0.08em",
 
-                "&:hover": {
-                  bgcolor: "#FFFFFF",
-                  color: "#FFFFFF",
+                transition:
+                  "color 180ms ease, border-color 180ms ease, background-color 180ms ease",
 
-                  borderColor: "#FFFFFF",
+                "&:hover": {
+                  bgcolor: "transparent",
+
+                  color: "#B9DAF2",
+
+                  borderColor: "#B9DAF2",
                 },
               }}
             >
