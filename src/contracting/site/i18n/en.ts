@@ -1,0 +1,61 @@
+import type { SiteDictionary } from './types'
+
+export const en: SiteDictionary = {
+  navigation: {
+    home: 'Home',
+
+    aboutUs: 'About Us',
+    whoWeAre: 'Who We Are',
+    ceoMessage: 'CEO Message',
+    ourTeam: 'Our Team',
+    whyFbsContracting: 'Why FBS Contracting?',
+    visionMission: 'Vision & Mission',
+    saudiVision2030: 'Saudi Vision 2030',
+    coreValues: 'Our Values',
+
+    ourProjects: 'Our Projects',
+    residential: 'Residential',
+    commercial: 'Commercial',
+
+    sustainability: 'Sustainability',
+    environmentalResponsibility:
+      'Environmental Responsibility',
+    socialResponsibility:
+      'Social Responsibility',
+    economicResponsibility:
+      'Economic Responsibility',
+    continuousImprovement:
+      'Continuous Improvement',
+
+    businessContinuity:
+      'Business Continuity',
+    riskAssessmentManagement:
+      'Risk Assessment and Management',
+    businessImpactAnalysis:
+      'Business Impact Analysis',
+    planDevelopment:
+      'Plan Development',
+    recoveryRestoration:
+      'Recovery and Restoration',
+    leadershipAccountability:
+      'Leadership and Accountability',
+
+    careersTraining:
+      'Careers & Training',
+    careers: 'Careers',
+    training: 'Training',
+
+    supplierRegistration:
+      'Supplier Registration',
+
+    contact: 'Contact',
+
+    menu: 'Menu',
+    close: 'Close',
+  },
+
+  language: {
+    english: 'English',
+    arabic: 'العربية',
+  },
+}
