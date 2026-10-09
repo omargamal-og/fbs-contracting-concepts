@@ -1,6 +1,9 @@
 export type SiteLanguage = 'en' | 'ar'
 
 export type NavigationDictionary = {
+  logo_t1: string
+  logo_t2: string
+
   home: string
 
   aboutUs: string
@@ -40,11 +43,45 @@ export type NavigationDictionary = {
   close: string
 }
 
+export type ProjectCategoriesDictionary = {
+  eyebrow: string
+  titleLine1: string
+  titleLine2: string
+  description: string
+
+  residential: {
+    title: string
+    description: string
+  }
+
+  commercial: {
+    title: string
+    description: string
+  }
+}
+
+export type HomeDictionary = {
+  hero: {
+    eyebrow: string
+    titleLine1: string
+    titleLine2: string
+    description: string
+    primaryCta: string
+    secondaryCta: string
+    location: string
+  }
+
+  projectCategories: ProjectCategoriesDictionary
+}
+
 export type SiteDictionary = {
   navigation: NavigationDictionary
+
+  home: HomeDictionary
 
   language: {
     english: string
     arabic: string
   }
 }
+

@@ -1,4 +1,7 @@
-import { useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react'
 
 import { Box, Button, Collapse, Drawer } from "@mui/material";
 
@@ -14,6 +17,34 @@ import { useLanguage } from "../../i18n/useLanguage";
 
 function ContractingNavbar() {
   const t = useTranslation();
+
+  const [isScrolled, setIsScrolled] =
+  useState(false)
+
+useEffect(() => {
+  const handleScroll = () => {
+      setIsScrolled(
+        window.scrollY > 40,
+      )
+    }
+
+    handleScroll()
+
+    window.addEventListener(
+      'scroll',
+      handleScroll,
+      {
+        passive: true,
+      },
+    )
+
+    return () => {
+      window.removeEventListener(
+        'scroll',
+        handleScroll,
+      )
+    }
+  }, [])
 
   const { language, setLanguage } = useLanguage();
 
@@ -40,22 +71,54 @@ function ContractingNavbar() {
             setActiveDropdown(null);
           }
         }}
+        // sx={{
+        //   position: "sticky",
+
+        //   top: 0,
+
+        //   zIndex: 1200,
+
+        //   bgcolor: "rgba(255,255,255,0.92)",
+
+        //   backdropFilter: "blur(18px)",
+
+        //   WebkitBackdropFilter: "blur(18px)",
+
+        //   borderBottom: "1px solid",
+
+        //   borderColor: "rgba(8,47,77,0.10)",
+        // }}
         sx={{
-          position: "sticky",
-
+          position: 'sticky',
+        
           top: 0,
-
+        
           zIndex: 1200,
+        
+          bgcolor: isScrolled
+            ? 'rgba(8,47,77,0.88)'
+            : 'rgba(255,255,255,0)',
+        
+          backdropFilter: isScrolled
+            ? 'blur(18px)'
+            : 'none',
+        
+          WebkitBackdropFilter: isScrolled
+            ? 'blur(18px)'
+            : 'none',
+        
+          borderBottom: '1px solid',
 
-          bgcolor: "rgba(255,255,255,0.92)",
-
-          backdropFilter: "blur(18px)",
-
-          WebkitBackdropFilter: "blur(18px)",
-
-          borderBottom: "1px solid",
-
-          borderColor: "rgba(8,47,77,0.10)",
+          borderColor: isScrolled
+            ? 'rgba(255,255,255,0.10)'
+            : 'transparent',
+        
+          boxShadow: isScrolled
+            ? '0 10px 40px rgba(8,47,77,0.10)'
+            : 'none',
+        
+            transition:
+            'background-color 260ms ease, color 260ms ease, border-color 260ms ease, box-shadow 260ms ease, backdrop-filter 260ms ease',
         }}
       >
         <Box
@@ -106,7 +169,9 @@ function ContractingNavbar() {
 
               gap: 1.25,
 
-              color: "#082F4D",
+              color: isScrolled
+                ? '#FFFFFF'
+                : '#082F4D',
 
               textDecoration: "none",
 
@@ -129,7 +194,7 @@ function ContractingNavbar() {
                 letterSpacing: "-0.04em",
               }}
             >
-              FBS
+              {t.navigation.logo_t1}
             </Box>
 
             <Box
@@ -138,7 +203,9 @@ function ContractingNavbar() {
 
                 height: 28,
 
-                bgcolor: "rgba(8,47,77,0.20)",
+                bgcolor: isScrolled
+                ? 'rgba(255,255,255,0.28)'
+                : 'rgba(8,47,77,0.20)',
               }}
             />
 
@@ -155,7 +222,7 @@ function ContractingNavbar() {
                 textTransform: "uppercase",
               }}
             >
-              Contracting
+              {t.navigation.logo_t2}
             </Box>
           </Box>
 
@@ -199,9 +266,14 @@ function ContractingNavbar() {
 
                       minWidth: 0,
 
-                      color: "#082F4D",
+                      color: isScrolled
+                      ? '#FFFFFF'
+                      : '#082F4D',
 
-                      fontSize: "0.67rem",
+                      fontSize: {
+                        lg: '0.74rem',
+                        xl: '0.78rem',
+                      },
 
                       fontWeight: 600,
 
@@ -209,10 +281,12 @@ function ContractingNavbar() {
 
                       borderRadius: 0,
 
-                      "&:hover": {
-                        bgcolor: "transparent",
+                      '&:hover': {
+                        bgcolor: 'transparent',
 
-                        color: "#649ABD",
+                        color: isScrolled
+                          ? '#B9DAF2'
+                          : '#649ABD',
                       },
                     }}
                   >
@@ -262,9 +336,18 @@ function ContractingNavbar() {
 
                       minWidth: 0,
 
-                      color: isOpen ? "#649ABD" : "#082F4D",
+                      color: isOpen
+                      ? isScrolled
+                        ? '#B9DAF2'
+                        : '#649ABD'
+                      : isScrolled
+                        ? '#FFFFFF'
+                        : '#082F4D',
 
-                      fontSize: "0.67rem",
+                      fontSize: {
+                        lg: '0.74rem',
+                        xl: '0.78rem',
+                      },
 
                       fontWeight: 600,
 
@@ -272,10 +355,12 @@ function ContractingNavbar() {
 
                       borderRadius: 0,
 
-                      "&:hover": {
-                        bgcolor: "transparent",
+                      '&:hover': {
+                        bgcolor: 'transparent',
 
-                        color: "#649ABD",
+                        color: isScrolled
+                          ? '#B9DAF2'
+                          : '#649ABD',
                       },
                     }}
                   >
@@ -464,7 +549,9 @@ function ContractingNavbar() {
 
                 border: "1px solid",
 
-                borderColor: "rgba(8,47,77,0.14)",
+                borderColor: isScrolled
+                ? 'rgba(255,255,255,0.22)'
+                : 'rgba(8,47,77,0.14)',
 
                 borderRadius: "999px",
               }}
@@ -481,7 +568,14 @@ function ContractingNavbar() {
 
                   bgcolor: "transparent",
 
-                  color: language === "en" ? "#082F4D" : "rgba(8,47,77,0.38)",
+                  color:
+                  language === 'en'
+                    ? isScrolled
+                      ? '#FFFFFF'
+                      : '#082F4D'
+                    : isScrolled
+                      ? 'rgba(255,255,255,0.48)'
+                      : 'rgba(8,47,77,0.38)',
 
                   fontFamily: "inherit",
 
@@ -503,7 +597,9 @@ function ContractingNavbar() {
 
                   height: 14,
 
-                  bgcolor: "rgba(8,47,77,0.14)",
+                  bgcolor: isScrolled
+                  ? 'rgba(255,255,255,0.18)'
+                  : 'rgba(8,47,77,0.14)',
                 }}
               />
 
@@ -520,7 +616,14 @@ function ContractingNavbar() {
 
                   bgcolor: "transparent",
 
-                  color: language === "ar" ? "#649ABD" : "rgba(8,47,77,0.38)",
+                  color:
+                  language === 'ar'
+                    ? isScrolled
+                      ? '#B9DAF2'
+                      : '#649ABD'
+                    : isScrolled
+                      ? 'rgba(255,255,255,0.48)'
+                      : 'rgba(8,47,77,0.38)',
 
                   fontFamily: "inherit",
 
@@ -550,11 +653,15 @@ function ContractingNavbar() {
 
                 border: "1px solid",
 
-                borderColor: "rgba(8,47,77,0.14)",
+                borderColor: isScrolled
+                ? 'rgba(255,255,255,0.22)'
+                : 'rgba(8,47,77,0.14)',
 
                 bgcolor: "transparent",
 
-                color: "#082F4D",
+                color: isScrolled
+                ? '#FFFFFF'
+                : '#082F4D',
 
                 borderRadius: "999px",
 
@@ -595,7 +702,9 @@ function ContractingNavbar() {
                   sx={{
                     height: "1px",
 
-                    bgcolor: "#082F4D",
+                    bgcolor: isScrolled
+                    ? '#FFFFFF'
+                    : '#082F4D',
                   }}
                 />
 
@@ -607,7 +716,9 @@ function ContractingNavbar() {
 
                     justifySelf: "end",
 
-                    bgcolor: "#082F4D",
+                    bgcolor: isScrolled
+                    ? '#FFFFFF'
+                    : '#082F4D',
                   }}
                 />
               </Box>
@@ -935,30 +1046,92 @@ function ContractingNavbar() {
 
           {/* Drawer language */}
 
+          {/* Drawer language */}
+
           <Box
             sx={{
-              mt: "auto",
-
+              mt: 'auto',
               pt: 5,
 
-              display: "flex",
-
-              justifyContent: "space-between",
-
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
 
               gap: 3,
 
-              color: "rgba(8,47,77,0.48)",
-
-              fontSize: "0.65rem",
-
-              fontWeight: 700,
+              borderTop: '1px solid',
+              borderColor: 'rgba(8,47,77,0.10)',
             }}
           >
-            <Box>{t.language.english}</Box>
+            <Box
+              component="button"
+              type="button"
 
-            <Box dir="rtl">{t.language.arabic}</Box>
+              aria-pressed={language === 'en'}
+
+              onClick={() =>
+                setLanguage('en')
+              }
+
+              sx={{
+                border: 0,
+
+                bgcolor: 'transparent',
+
+                color:
+                  language === 'en'
+                    ? '#082F4D'
+                    : 'rgba(8,47,77,0.42)',
+
+                p: 0,
+
+                fontFamily: 'inherit',
+
+                fontSize: '0.72rem',
+
+                fontWeight: 700,
+
+                cursor: 'pointer',
+              }}
+            >
+              {t.language.english}
+            </Box>
+
+            <Box
+              component="button"
+              type="button"
+
+              dir="rtl"
+
+              aria-pressed={language === 'ar'}
+
+              onClick={() =>
+                setLanguage('ar')
+              }
+
+              sx={{
+                border: 0,
+
+                bgcolor: 'transparent',
+
+                color:
+                  language === 'ar'
+                    ? '#649ABD'
+                    : 'rgba(8,47,77,0.42)',
+
+                p: 0,
+
+                fontFamily: 'inherit',
+
+                fontSize: '0.78rem',
+
+                fontWeight: 700,
+
+                cursor: 'pointer',
+              }}
+            >
+              {t.language.arabic}
+            </Box>
           </Box>
         </Box>
       </Drawer>
