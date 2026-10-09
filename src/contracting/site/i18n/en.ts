@@ -2,6 +2,9 @@ import type { SiteDictionary } from './types'
 
 export const en: SiteDictionary = {
   navigation: {
+    logo_t1: 'FBS',
+    logo_t2: 'Contracting',
+    
     home: 'Home',
 
     aboutUs: 'About Us',
@@ -52,6 +55,47 @@ export const en: SiteDictionary = {
 
     menu: 'Menu',
     close: 'Close',
+  },
+
+  home: {
+    hero: {
+      eyebrow: 'FBS Contracting',
+    
+      titleLine1: 'Building with',
+      titleLine2: 'purpose.',
+    
+      description:
+        'Delivering residential and commercial developments across Saudi Arabia through quality, reliability and a commitment to long-term value.',
+    
+      primaryCta: 'Explore Projects',
+      secondaryCta: 'Discover FBS',
+    
+      location: 'Kingdom of Saudi Arabia',
+    },
+
+    projectCategories: {
+      eyebrow: 'Our Projects',
+  
+      titleLine1: 'Built across two',
+      titleLine2: 'core sectors.',
+  
+      description:
+        'Explore FBS Contracting projects across residential and commercial developments throughout Saudi Arabia.',
+  
+      residential: {
+        title: 'Residential',
+  
+        description:
+          'Integrated residential developments designed around quality, comfort and long-term value.',
+      },
+  
+      commercial: {
+        title: 'Commercial',
+  
+        description:
+          'Commercial environments delivered with efficiency, precision and a clear understanding of business needs.',
+      },
+    },
   },
 
   language: {
