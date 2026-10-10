@@ -1,8 +1,14 @@
 import { Box } from '@mui/material'
 
-import { siteTokens } from '../theme/tokens'
 import HomeHero from '../components/home/HomeHero'
 import ProjectCategories from '../components/home/ProjectCategories'
+import CompanyIntroduction from '../components/home/CompanyIntroduction'
+import CapabilitiesOverview from '../components/home/CapabilitiesOverview'
+import ProjectMap from '../components/home/ProjectMap'
+import SaudiVisionSection from '../components/home/SaudiVisionSection'
+import OurValuesSection from '../components/home/OurValuesSection'
+import SustainabilitySection from '../components/home/SustainabilitySection'
+import ContactCta from '../components/home/ContactCta'
 
 function HomePage() {
   return (
@@ -13,35 +19,11 @@ function HomePage() {
 
       {/* Company Introduction */}
 
-      <Box
-        component="section"
-        id="company-introduction"
-        sx={{
-          minHeight: 500,
-          bgcolor: 'background.paper',
-          display: 'grid',
-          placeItems: 'center',
-          px: siteTokens.layout.pagePadding,
-        }}
-      >
-        Company Introduction
-      </Box>
+      <CompanyIntroduction />
 
       {/* Capabilities */}
 
-      <Box
-        component="section"
-        id="capabilities"
-        sx={{
-          minHeight: 500,
-          bgcolor: 'background.default',
-          display: 'grid',
-          placeItems: 'center',
-          px: siteTokens.layout.pagePadding,
-        }}
-      >
-        Capabilities Overview
-      </Box>
+      <CapabilitiesOverview />
 
       {/* Project Categories */}
 
@@ -49,85 +31,25 @@ function HomePage() {
 
       {/* Interactive Map */}
 
-      <Box
-        component="section"
-        id="project-map"
-        sx={{
-          minHeight: 700,
-          bgcolor: 'primary.main',
-          color: 'common.white',
-          display: 'grid',
-          placeItems: 'center',
-          px: siteTokens.layout.pagePadding,
-        }}
-      >
-        Interactive Saudi Map
-      </Box>
+      <ProjectMap/>
 
       {/* Saudi Vision 2030 */}
 
-      <Box
-        component="section"
-        id="saudi-vision-2030"
-        sx={{
-          minHeight: 600,
-          bgcolor: 'background.default',
-          display: 'grid',
-          placeItems: 'center',
-          px: siteTokens.layout.pagePadding,
-        }}
-      >
-        Saudi Vision 2030
-      </Box>
+      <SaudiVisionSection />
 
       {/* Our Values */}
 
-      <Box
-        component="section"
-        id="our-values"
-        sx={{
-          minHeight: 600,
-          bgcolor: 'background.paper',
-          display: 'grid',
-          placeItems: 'center',
-          px: siteTokens.layout.pagePadding,
-        }}
-      >
-        Our Values
-      </Box>
+      <OurValuesSection />
 
       {/* Sustainability */}
 
-      <Box
-        component="section"
-        id="sustainability"
-        sx={{
-          minHeight: 600,
-          bgcolor: 'background.default',
-          display: 'grid',
-          placeItems: 'center',
-          px: siteTokens.layout.pagePadding,
-        }}
-      >
-        Sustainability
-      </Box>
+      <SustainabilitySection />
 
       {/* Contact CTA */}
 
-      <Box
-        component="section"
-        id="contact"
-        sx={{
-          minHeight: 420,
-          bgcolor: 'primary.main',
-          color: 'common.white',
-          display: 'grid',
-          placeItems: 'center',
-          px: siteTokens.layout.pagePadding,
-        }}
-      >
-        Contact CTA
-      </Box>
+      <ContactCta />
+
+
     </Box>
   )
 }

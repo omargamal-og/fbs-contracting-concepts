@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom'
 import ContractingNavbar from '../components/navigation/ContractingNavbar'
 
 import { useLanguage } from '../i18n/useLanguage'
+import ContractingFooter from '../components/navigation/ContractingFooter'
 
 function ContractingLayout() {
   const {
@@ -23,6 +24,8 @@ function ContractingLayout() {
       <ContractingNavbar />
 
       <Outlet />
+
+      <ContractingFooter />
     </Box>
   )
 }
