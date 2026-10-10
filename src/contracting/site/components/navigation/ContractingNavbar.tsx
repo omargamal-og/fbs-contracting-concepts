@@ -794,7 +794,7 @@ useEffect(() => {
                   letterSpacing: "-0.04em",
                 }}
               >
-                FBS
+                {t.navigation.logo_t1}
               </Box>
 
               <Box
@@ -812,7 +812,7 @@ useEffect(() => {
                   textTransform: "uppercase",
                 }}
               >
-                Contracting
+                {t.navigation.logo_t2}
               </Box>
             </Box>
 
