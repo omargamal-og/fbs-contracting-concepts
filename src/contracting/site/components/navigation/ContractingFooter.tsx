@@ -182,7 +182,7 @@ function ContractingFooter() {
                     '-0.045em',
                 }}
               >
-                FBS
+                {t.navigation.logo_t1}
               </Typography>
 
               <Box
@@ -209,7 +209,7 @@ function ContractingFooter() {
                     'uppercase',
                 }}
               >
-                Contracting
+                {t.navigation.logo_t2}
               </Typography>
             </Box>
 

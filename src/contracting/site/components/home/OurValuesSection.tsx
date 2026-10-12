@@ -11,27 +11,12 @@ import {
 function OurValuesSection() {
   const t = useTranslation()
 
-  const values = [
-    {
-      number: '01',
-      ...t.home.values.items.integrity,
-    },
-
-    {
-      number: '02',
-      ...t.home.values.items.quality,
-    },
-
-    {
-      number: '03',
-      ...t.home.values.items.collaboration,
-    },
-
-    {
-      number: '04',
-      ...t.home.values.items.responsibility,
-    },
-  ]
+  const values = t.innerPages.about.coreValues.values.map(
+    (title, index) => ({
+      number: String(index + 1).padStart(2, '0'),
+      title,
+    }),
+  )
 
   return (
     <Box
@@ -174,8 +159,8 @@ function OurValuesSection() {
                   key={value.number}
                   sx={{
                     minHeight: {
-                      xs: 240,
-                      md: 280,
+                      xs: 180,
+                      md: 210,
                     },
 
                     p: {
@@ -232,23 +217,6 @@ function OurValuesSection() {
                     }}
                   >
                     {value.title}
-                  </Typography>
-
-                  <Typography
-                    sx={{
-                      mt: 1.5,
-
-                      maxWidth: 330,
-
-                      color:
-                        'rgba(8,47,77,0.56)',
-
-                      fontSize: '0.88rem',
-
-                      lineHeight: 1.75,
-                    }}
-                  >
-                    {value.description}
                   </Typography>
                 </Box>
               ),

@@ -6,6 +6,26 @@ import HomePage from './pages/HomePage'
 
 import LanguageProvider from './i18n/LanguageProvider'
 import ContractingThemeProvider from './theme/ContractingThemeProvider'
+import WhoWeArePage from './pages/about/WhoWeArePage'
+import ChairmanSpeechPage from './pages/about/ChairmanSpeechPage'
+import CeoSpeechPage from './pages/about/CeoSpeechPage'
+import WhyFbsPage from './pages/about/WhyFbsPage'
+import VisionMissionPage from './pages/about/VisionMissionPage'
+import CoreValuesPage from './pages/about/CoreValuesPage'
+import OurTeamPage from './pages/about/OurTeamPage'
+import SaudiVision2030Page from './pages/about/SaudiVision2030Page'
+import ResidentialProjectsPage from './components/projects/ResidentialProjectsPage'
+import ProjectDetailsPage from './components/projects/ProjectDetailsPage'
+import CommercialProjectsPage from './components/projects/CommercialProjectsPage'
+import EnvironmentalResponsibilityPage from './pages/sustainability/EnvironmentalResponsibilityPage'
+import SocialResponsibilityPage from './pages/sustainability/SocialResponsibilityPage'
+import EconomicResponsibilityPage from './pages/sustainability/EconomicResponsibilityPage'
+import ContinuousImprovementPage from './pages/sustainability/ContinuousImprovementPage'
+import RiskAssessmentPage from './pages/businessContinuity/RiskAssessmentPage'
+import BusinessImpactAnalysisPage from './pages/businessContinuity/BusinessImpactAnalysisPage'
+import PlanDevelopmentPage from './pages/businessContinuity/PlanDevelopmentPage'
+import RecoveryRestorationPage from './pages/businessContinuity/RecoveryRestorationPage'
+import LeadershipAccountabilityPage from './pages/businessContinuity/LeadershipAccountabilityPage'
 
 
 function ContractingSiteRoutes() {
@@ -29,72 +49,42 @@ function ContractingSiteRoutes() {
 
         <Route
           path="about/who-we-are"
-          element={
-            <PagePlaceholder
-              eyebrow="About Us"
-              title="Who We Are"
-            />
-          }
+          element={<WhoWeArePage />}
+        />
+
+        <Route
+          path="about/chairman-speech"
+          element={<ChairmanSpeechPage />}
         />
 
         <Route
           path="about/ceo-message"
-          element={
-            <PagePlaceholder
-              eyebrow="About Us"
-              title="CEO Message"
-            />
-          }
-        />
-
-        <Route
-          path="about/our-team"
-          element={
-            <PagePlaceholder
-              eyebrow="About Us"
-              title="Our Team"
-            />
-          }
+          element={<CeoSpeechPage />}
         />
 
         <Route
           path="about/why-fbs-contracting"
-          element={
-            <PagePlaceholder
-              eyebrow="About Us"
-              title="Why FBS Contracting?"
-            />
-          }
+          element={<WhyFbsPage />}
+        />
+
+        <Route
+          path="about/our-team"
+          element={<OurTeamPage />}
         />
 
         <Route
           path="about/vision-mission"
-          element={
-            <PagePlaceholder
-              eyebrow="About Us"
-              title="Vision & Mission"
-            />
-          }
+          element={<VisionMissionPage />}
         />
 
         <Route
           path="about/saudi-vision-2030"
-          element={
-            <PagePlaceholder
-              eyebrow="About Us"
-              title="Saudi Vision 2030"
-            />
-          }
+          element={<SaudiVision2030Page />}
         />
 
         <Route
           path="about/core-values"
-          element={
-            <PagePlaceholder
-              eyebrow="About Us"
-              title="Core Values"
-            />
-          }
+          element={<CoreValuesPage />}
         />
 
         {/* Projects */}
@@ -107,32 +97,17 @@ function ContractingSiteRoutes() {
 
         <Route
           path="projects/residential"
-          element={
-            <PagePlaceholder
-              eyebrow="Our Projects"
-              title="Residential Projects"
-            />
-          }
+          element={<ResidentialProjectsPage />}
         />
 
         <Route
           path="projects/commercial"
-          element={
-            <PagePlaceholder
-              eyebrow="Our Projects"
-              title="Commercial Projects"
-            />
-          }
+          element={<CommercialProjectsPage />}
         />
 
         <Route
           path="projects/:slug"
-          element={
-            <PagePlaceholder
-              eyebrow="Our Projects"
-              title="Project Details"
-            />
-          }
+          element={<ProjectDetailsPage />}
         />
 
         {/* Sustainability */}
@@ -145,42 +120,22 @@ function ContractingSiteRoutes() {
 
         <Route
           path="sustainability/environmental-responsibility"
-          element={
-            <PagePlaceholder
-              eyebrow="Sustainability"
-              title="Environmental Responsibility"
-            />
-          }
+          element={<EnvironmentalResponsibilityPage />}
         />
 
         <Route
           path="sustainability/social-responsibility"
-          element={
-            <PagePlaceholder
-              eyebrow="Sustainability"
-              title="Social Responsibility"
-            />
-          }
+          element={<SocialResponsibilityPage />}
         />
 
         <Route
           path="sustainability/economic-responsibility"
-          element={
-            <PagePlaceholder
-              eyebrow="Sustainability"
-              title="Economic Responsibility"
-            />
-          }
+          element={<EconomicResponsibilityPage />}
         />
 
         <Route
           path="sustainability/continuous-improvement"
-          element={
-            <PagePlaceholder
-              eyebrow="Sustainability"
-              title="Continuous Improvement"
-            />
-          }
+          element={<ContinuousImprovementPage />}
         />
 
         {/* Business Continuity */}
@@ -193,52 +148,27 @@ function ContractingSiteRoutes() {
 
         <Route
           path="business-continuity/risk-assessment-management"
-          element={
-            <PagePlaceholder
-              eyebrow="Business Continuity"
-              title="Risk Assessment and Management"
-            />
-          }
+          element={<RiskAssessmentPage />}
         />
 
         <Route
           path="business-continuity/business-impact-analysis"
-          element={
-            <PagePlaceholder
-              eyebrow="Business Continuity"
-              title="Business Impact Analysis"
-            />
-          }
+          element={<BusinessImpactAnalysisPage />}
         />
 
         <Route
           path="business-continuity/plan-development"
-          element={
-            <PagePlaceholder
-              eyebrow="Business Continuity"
-              title="Plan Development"
-            />
-          }
+          element={<PlanDevelopmentPage />}
         />
 
         <Route
           path="business-continuity/recovery-restoration"
-          element={
-            <PagePlaceholder
-              eyebrow="Business Continuity"
-              title="Recovery and Restoration"
-            />
-          }
+          element={<RecoveryRestorationPage />}
         />
 
         <Route
           path="business-continuity/leadership-accountability"
-          element={
-            <PagePlaceholder
-              eyebrow="Business Continuity"
-              title="Leadership and Accountability"
-            />
-          }
+          element={<LeadershipAccountabilityPage />}
         />
 
         {/* Careers */}

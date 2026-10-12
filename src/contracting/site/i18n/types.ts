@@ -60,6 +60,13 @@ export type ProjectCategoriesDictionary = {
   }
 }
 
+export type ProjectRegionId =
+  | 'riyadh'
+  | 'jeddah'
+  | 'madinah'
+  | 'taif'
+  | 'tabuk'
+
 export type HomeDictionary = {
   hero: {
     eyebrow: string
@@ -85,28 +92,7 @@ export type HomeDictionary = {
     titleLine1: string
     titleLine2: string
     description: string
-  
-    items: {
-      construction: {
-        title: string
-        description: string
-      }
-  
-      management: {
-        title: string
-        description: string
-      }
-  
-      quality: {
-        title: string
-        description: string
-      }
-  
-      coordination: {
-        title: string
-        description: string
-      }
-    }
+    items: string[]
   }
 
   projectCategories: ProjectCategoriesDictionary
@@ -118,25 +104,14 @@ export type HomeDictionary = {
     description: string
     viewProject: string
   
-    projects: {
-      riyadh: {
-        title: string
-        type: string
-        location: string
-      }
-  
-      jeddah: {
-        title: string
-        type: string
-        location: string
-      }
-  
-      dammam: {
-        title: string
-        type: string
-        location: string
-      }
-    }
+    projects: Record<
+  ProjectRegionId,
+  {
+    title: string
+    type: string
+    location: string
+  }
+  >
   }
 
   vision2030: {
@@ -232,10 +207,214 @@ export type FooterDictionary = {
   copyright: string
 }
 
+export type ManagementMemberId =
+  | 'nawaf'
+  | 'wael'
+  | 'ahmed'
+  | 'mashael'
+  | 'nasser'
+  | 'khaled'
+
+export type BusinessContinuityPageContent = {
+  eyebrow: string
+  title: string
+  introduction: string
+
+  focusTitle: string
+
+  focusAreas: {
+    title: string
+    description: string
+  }[]
+
+  closing: string
+}
+
+export type InnerPagesDictionary = {
+  about: {
+    whoWeAre: {
+      eyebrow: string
+      title: string
+      introduction: string
+      uniqueness: string
+      values: string
+      safety: string
+      expertise: string
+      closing: string
+    },
+
+    chairmanSpeech: {
+      eyebrow: string
+      title: string
+      body: string[]
+      name: string
+      role: string
+    },
+
+    ceoSpeech: {
+      eyebrow: string
+      title: string
+      body: string[]
+      name: string
+      role: string
+    },
+
+    ourTeam: {
+      eyebrow: string
+      title: string
+      leadershipTitle: string
+      managementTitle: string
+    
+      members: {
+        id: ManagementMemberId
+        name: string
+        role: string
+      }[]
+    }
+
+    whyFbs: {
+      eyebrow: string
+      title: string
+      features: {
+        title: string
+        description: string
+      }[]
+    },
+
+    visionMission: {
+      eyebrow: string
+      title: string
+    
+      vision: {
+        title: string
+        description: string
+      }
+    
+      mission: {
+        title: string
+        description: string
+      }
+    
+      objectives: {
+        title: string
+        items: string[]
+      }
+    },
+
+    saudiVision2030: {
+      eyebrow: string
+      title: string
+      statement: string
+      description: string
+      commitmentsTitle: string
+      commitments: string[]
+    }
+
+    coreValues: {
+      eyebrow: string
+      title: string
+      values: string[]
+    },
+  },
+  sustainability: {
+    environmental: {
+      eyebrow: string
+      title: string
+      introduction: string
+      commitmentsTitle: string
+  
+      commitments: {
+        title: string
+        description: string
+      }[]
+  
+      closing: string
+    },
+
+    social: {
+      eyebrow: string
+      title: string
+      introduction: string
+      commitmentsTitle: string
+    
+      commitments: {
+        title: string
+        description: string
+      }[]
+    
+      closing: string
+    },
+
+    economic: {
+      eyebrow: string
+      title: string
+      introduction: string
+      commitmentsTitle: string
+    
+      commitments: {
+        title: string
+        description: string
+      }[]
+    
+      closing: string
+    },
+
+    continuousImprovement: {
+      eyebrow: string
+      title: string
+      introduction: string
+    
+      systemsTitle: string
+      systems: {
+        title: string
+        description: string
+      }[]
+    
+      approachTitle: string
+      steps: {
+        title: string
+        description: string
+      }[]
+    
+      closing: string
+    },
+  },
+
+  businessContinuity: {
+    riskAssessment: BusinessContinuityPageContent
+    businessImpactAnalysis: BusinessContinuityPageContent
+    planDevelopment: BusinessContinuityPageContent
+    recoveryRestoration: BusinessContinuityPageContent
+    leadershipAccountability: BusinessContinuityPageContent
+  }
+}
+
+export type ProjectDetailsDictionary = {
+  eyebrow: string
+  informationTitle: string
+
+  locationLabel: string
+  categoryLabel: string
+  constructionPeriodLabel: string
+  unitsLabel: string
+
+  apartmentsLabel: string
+  villasLabel: string
+
+  backToProjects: string
+
+  notFoundTitle: string
+  notFoundDescription: string
+}
+
 export type SiteDictionary = {
   navigation: NavigationDictionary
 
   home: HomeDictionary
+
+  innerPages: InnerPagesDictionary
+
+  projectDetails: ProjectDetailsDictionary
 
   footer: FooterDictionary
 

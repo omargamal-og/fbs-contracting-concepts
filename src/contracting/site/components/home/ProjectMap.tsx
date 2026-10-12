@@ -1,3 +1,9 @@
+import { useLanguage } from '../../i18n/useLanguage'
+
+import {
+  getFeaturedProjectByRegion,
+} from '../../data/projects'
+
 import {
   useState,
 } from 'react'
@@ -21,51 +27,57 @@ import {
   useTranslation,
 } from '../../i18n/useTranslation'
 
-type ProjectId =
-  | 'riyadh'
-  | 'jeddah'
-  | 'dammam'
+import type { ProjectRegionId } from '../../i18n/types'
+
+type ProjectId = ProjectRegionId
 
 const projectPositions: Record<
   ProjectId,
   {
     x: string
     y: string
-    slug: string
   }
 > = {
   riyadh: {
     x: '56%',
-    y: '45%',
-    slug: 'riyadh-residential-development',
+    y: '49%',
   },
 
   jeddah: {
-    x: '25%',
-    y: '48%',
-    slug: 'jeddah-commercial-development',
+    x: '31%',
+    y: '55%',
   },
 
-  dammam: {
-    x: '72%',
-    y: '34%',
-    slug: 'eastern-province-development',
+  madinah: {
+    x: '38%',
+    y: '41%',
+  },
+
+  taif: {
+    x: '34%',
+    y: '62%',
+  },
+
+  tabuk: {
+    x: '32%',
+    y: '30%',
   },
 }
 
 function ProjectMap() {
   const t = useTranslation()
 
+  const { language } = useLanguage()
+
   const [selectedProject, setSelectedProject] =
-    useState<ProjectId>('riyadh')
+  useState<ProjectId>('riyadh')
 
   const project =
-    t.home.projectMap.projects[
-      selectedProject
-    ]
+  getFeaturedProjectByRegion(selectedProject)
 
-  const projectConfig =
-    projectPositions[selectedProject]
+  if (!project) {
+    return null
+  }
 
   return (
     <Box
@@ -313,9 +325,7 @@ function ProjectMap() {
                   }
 
                   aria-label={
-                    t.home.projectMap.projects[
-                      id
-                    ].title
+                    getFeaturedProjectByRegion(id)?.name[language] ?? id
                   }
 
                   sx={{
@@ -451,7 +461,7 @@ function ProjectMap() {
                     'uppercase',
                 }}
               >
-                {project.type}
+                {t.home.projectCategories[project.category].title}
               </Typography>
 
               <Typography
@@ -475,7 +485,7 @@ function ProjectMap() {
                   letterSpacing: '-0.045em',
                 }}
               >
-                {project.title}
+                {project.name[language]}
               </Typography>
 
               <Typography
@@ -490,7 +500,7 @@ function ProjectMap() {
                   fontWeight: 600,
                 }}
               >
-                {project.location}
+                {project.location[language]}
               </Typography>
             </Box>
 
@@ -498,7 +508,7 @@ function ProjectMap() {
               component={RouterLink}
 
               to={contractingPath(
-                `projects/${projectConfig.slug}`,
+                `projects/${project.slug}`,
               )}
 
               sx={{
