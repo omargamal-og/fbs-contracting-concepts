@@ -11,27 +11,12 @@ import {
 function CapabilitiesOverview() {
   const t = useTranslation()
 
-  const capabilities = [
-    {
-      number: '01',
-      ...t.home.capabilities.items.construction,
-    },
-
-    {
-      number: '02',
-      ...t.home.capabilities.items.management,
-    },
-
-    {
-      number: '03',
-      ...t.home.capabilities.items.quality,
-    },
-
-    {
-      number: '04',
-      ...t.home.capabilities.items.coordination,
-    },
-  ]
+  const capabilities = t.home.capabilities.items.map(
+    (title, index) => ({
+      number: String(index + 1).padStart(2, '0'),
+      title,
+    }),
+  )
 
   return (
     <Box
@@ -165,8 +150,8 @@ function CapabilitiesOverview() {
                     display: 'grid',
 
                     gridTemplateColumns: {
-                      xs: '48px 1fr',
-                      md: '70px 0.8fr 1.2fr',
+                      xs: '48px minmax(0, 1fr)',
+                      md: '70px minmax(0, 1fr)',
                     },
 
                     gap: {
@@ -218,24 +203,6 @@ function CapabilitiesOverview() {
                     }}
                   >
                     {capability.title}
-                  </Typography>
-
-                  <Typography
-                    sx={{
-                      gridColumn: {
-                        xs: '2',
-                        md: 'auto',
-                      },
-
-                      color:
-                        'rgba(8,47,77,0.56)',
-
-                      fontSize: '0.9rem',
-
-                      lineHeight: 1.75,
-                    }}
-                  >
-                    {capability.description}
                   </Typography>
                 </Box>
               ),
