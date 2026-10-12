@@ -682,6 +682,8 @@ export const en: SiteDictionary = {
           'Continuous improvement supports our commitment to quality, workplace safety, environmental responsibility and long-term organizational performance.',
       },
     },
+
+
     businessContinuity: {
       riskAssessment: {
         eyebrow: 'Business Continuity',
@@ -903,7 +905,182 @@ export const en: SiteDictionary = {
           'Through clear organizational commitments, responsible resource management, stakeholder engagement, and continual improvement, we aim to strengthen business continuity and resilience.',
       },
     },
+
+    careers: {
+      eyebrow: 'Careers & Training',
+    
+      title: 'Careers',
+    
+      introduction:
+        'At FBS Contracting, we recognize the importance of talented people in delivering quality construction services. We value professionalism, collaboration, and continuous development as we work toward building a stronger future.',
+    
+      opportunitiesTitle: 'Career Opportunities',
+    
+      noVacanciesTitle: 'Explore Opportunities With Us',
+    
+      noVacanciesDescription:
+        'Current job openings will be displayed here when announced. You can also prepare a general application using the form below.',
+    
+      formTitle: 'Career Application',
+    
+      formDescription:
+        'Tell us about yourself and share your professional experience.',
+    
+      nameLabel: 'Full Name',
+      emailLabel: 'Email Address',
+      subjectLabel: 'Subject',
+      messageLabel: 'Your Message',
+      cvLabel: 'Attach Your CV / Resume',
+    
+      submitLabel: 'Review Application',
+    
+      demoNotice:
+        'Demo form only. Applications are not submitted or stored at this stage.',
+
+      cvHint: 'PDF, DOC or DOCX — Maximum 5 MB',
+      invalidCvType: 'Please select a PDF, DOC or DOCX file.',
+      invalidCvSize: 'The file must not exceed 5 MB.',
+      reviewTitle: 'Review Your Application',
+      closeLabel: 'Close',
+      notAttachedLabel: 'Not attached',
+    },
+    training: {
+      eyebrow: 'Careers & Training',
+    
+      title: 'Training',
+    
+      leadTitle: 'Investing in People and Skills',
+    
+      introduction:
+        'At FBS Contracting, developing people is an important part of our commitment to quality and continuous improvement. We recognize the value of competent, well-trained, and engaged employees, while supporting local skills development in line with Saudi Vision 2030.',
+    
+      visualEyebrow: 'PEOPLE & DEVELOPMENT',
+    
+      visualTitle: 'Building Skills for a Stronger Future',
+    
+      prioritiesTitle: 'Our People Development Priorities',
+    
+      priorities: [
+        {
+          title: 'Local Skills Development',
+    
+          description:
+            'As part of our commitment to Saudi Vision 2030, we support local employment and skills development to contribute to the Kingdom’s long-term progress.',
+        },
+    
+        {
+          title: 'Employee Competence',
+    
+          description:
+            'Our Quality Management Policy emphasizes the importance of competent, well-trained, and engaged employees in maintaining and improving our operations.',
+        },
+    
+        {
+          title: 'Safety Participation',
+    
+          description:
+            'Our Occupational Health and Safety Policy emphasizes worker consultation and participation in planning, evaluating, and improving workplace safety.',
+        },
+      ],
+    
+      closing:
+        'We believe that developing people, supporting competence, and encouraging active participation contribute to a stronger organization.',
+    },
+
+    supplierRegistration: {
+      eyebrow: 'Business Partnerships',
+    
+      title: 'Supplier Registration',
+    
+      introduction:
+        'At FBS Contracting, we recognize the importance of strong and collaborative relationships with suppliers and business partners. We welcome opportunities to connect with companies offering products and services relevant to the construction industry.',
+    
+      formTitle: 'Supplier Information',
+    
+      formDescription:
+        'Share your company information and area of specialization using the form below.',
+    
+      companyNameLabel: 'Company Name',
+      contactNameLabel: 'Contact Person',
+      emailLabel: 'Business Email',
+      phoneLabel: 'Phone Number',
+      categoryLabel: 'Business Category',
+      categoryPlaceholder: 'Select a Category',
+      notesLabel: 'Company Overview',
+      profileLabel: 'Attach Company Profile',
+      profileHint: 'PDF, DOC or DOCX — Maximum 5 MB',
+    
+      categories: [
+        {
+          value: 'materials',
+          label: 'Construction Materials',
+        },
+        {
+          value: 'subcontracting',
+          label: 'Subcontracting',
+        },
+        {
+          value: 'equipment',
+          label: 'Equipment & Machinery',
+        },
+        {
+          value: 'services',
+          label: 'Professional Services',
+        },
+        {
+          value: 'other',
+          label: 'Other',
+        },
+      ],
+    
+      submitLabel: 'Review Registration',
+      reviewTitle: 'Review Supplier Information',
+      closeLabel: 'Close',
+      notAttachedLabel: 'Not attached',
+    
+      invalidPhone: 'Please enter a valid phone number.',
+      invalidFileType: 'Please select a PDF, DOC or DOCX file.',
+      invalidFileSize: 'The file must not exceed 5 MB.',
+    
+      demoNotice:
+        'Demo form only. Supplier information is not submitted or stored at this stage.',
+    },
+
+    contact: {
+      eyebrow: 'Get in Touch',
+    
+      title: 'Contact Us',
+    
+      introduction:
+        'Have a question about our construction services or potential business opportunities? Get in touch with FBS Contracting. We welcome inquiries from clients, partners, and other interested parties.',
+    
+      detailsTitle: 'Contact Information',
+    
+      phoneLabel: 'Phone Number',
+      emailLabel: 'Email Address',
+      addressLabel: 'Our Location',
+      address: 'Al-Taawun District, Riyadh, Saudi Arabia',
+    
+      formTitle: 'Send Us a Message',
+    
+      formDescription:
+        'Share your inquiry using the form below.',
+    
+      nameLabel: 'Full Name',
+      subjectLabel: 'Subject',
+      messageLabel: 'Your Message',
+    
+      reviewButton: 'Review Message',
+      reviewTitle: 'Review Your Message',
+      closeLabel: 'Close',
+      notProvidedLabel: 'Not provided',
+      requiredError: 'Please complete all required fields.',
+    
+      demoNotice:
+        'This is a demonstration form. Messages are not submitted or stored at this stage.',
+    },
   },
+
 
   projectDetails: {
     eyebrow: 'Our Projects',

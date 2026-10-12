@@ -387,6 +387,112 @@ export type InnerPagesDictionary = {
     recoveryRestoration: BusinessContinuityPageContent
     leadershipAccountability: BusinessContinuityPageContent
   }
+
+  careers: {
+    eyebrow: string
+    title: string
+    introduction: string
+  
+    opportunitiesTitle: string
+    noVacanciesTitle: string
+    noVacanciesDescription: string
+  
+    formTitle: string
+    formDescription: string
+  
+    nameLabel: string
+    emailLabel: string
+    subjectLabel: string
+    messageLabel: string
+    cvLabel: string
+  
+    submitLabel: string
+    demoNotice: string
+
+    cvHint: string
+    invalidCvType: string
+    invalidCvSize: string
+    reviewTitle: string
+    closeLabel: string
+    notAttachedLabel: string
+  },
+
+  training: {
+    eyebrow: string
+    title: string
+    leadTitle: string
+    introduction: string
+  
+    visualEyebrow: string
+    visualTitle: string
+  
+    prioritiesTitle: string
+  
+    priorities: {
+      title: string
+      description: string
+    }[]
+  
+    closing: string
+  },
+  supplierRegistration: {
+    eyebrow: string
+    title: string
+    introduction: string
+  
+    formTitle: string
+    formDescription: string
+  
+    companyNameLabel: string
+    contactNameLabel: string
+    emailLabel: string
+    phoneLabel: string
+    categoryLabel: string
+    categoryPlaceholder: string
+    notesLabel: string
+    profileLabel: string
+    profileHint: string
+  
+    categories: {
+      value: string
+      label: string
+    }[]
+  
+    submitLabel: string
+    reviewTitle: string
+    closeLabel: string
+    notAttachedLabel: string
+    invalidPhone: string
+    invalidFileType: string
+    invalidFileSize: string
+    demoNotice: string
+  },
+
+  contact: {
+    eyebrow: string
+    title: string
+    introduction: string
+  
+    detailsTitle: string
+    phoneLabel: string
+    emailLabel: string
+    addressLabel: string
+    address: string
+  
+    formTitle: string
+    formDescription: string
+  
+    nameLabel: string
+    subjectLabel: string
+    messageLabel: string
+  
+    reviewButton: string
+    reviewTitle: string
+    closeLabel: string
+    notProvidedLabel: string
+    requiredError: string
+    demoNotice: string
+  }
 }
 
 export type ProjectDetailsDictionary = {
