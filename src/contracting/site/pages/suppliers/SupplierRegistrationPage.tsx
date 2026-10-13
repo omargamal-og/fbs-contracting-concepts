@@ -21,6 +21,7 @@ import {
 import InnerPageHero from '../../components/inner/InnerPageHero'
 import { useTranslation } from '../../i18n/useTranslation'
 import { useLanguage } from '../../i18n/useLanguage'
+import { isValidSupplierPhone } from '../../utils/validateSupplierPhone'
 
 function SupplierRegistrationPage() {
   const t = useTranslation()
@@ -43,6 +44,17 @@ function SupplierRegistrationPage() {
 
   const [phoneError, setPhoneError] = useState(false)
   const [reviewOpen, setReviewOpen] = useState(false)
+
+  const [fieldErrors, setFieldErrors] = useState({
+    companyName: false,
+    contactName: false,
+    email: false,
+    category: false,
+  })
+
+  const updateFieldError = (field: keyof typeof fieldErrors, invalid: boolean) => {
+    setFieldErrors((current) => ({ ...current, [field]: current[field] && invalid }))
+  }
 
   const handleFileChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -82,20 +94,24 @@ function SupplierRegistrationPage() {
   ) => {
     event.preventDefault()
 
-    const phoneDigits = phone.replace(/\D/g, '')
-
-    if (
-      phoneDigits.length < 8 ||
-      phoneDigits.length > 15
-    ) {
-      setPhoneError(true)
-      return
+    const nextErrors = {
+      companyName: !companyName.trim(),
+      contactName: !contactName.trim(),
+      email: !email.trim() || !event.currentTarget.querySelector<HTMLInputElement>('input[type="email"]')?.validity.valid,
+      category: !content.categories.some((item) => item.value === category),
     }
+    setFieldErrors(nextErrors)
 
-    if (fileError) return
+    const invalidPhone = !isValidSupplierPhone(phone)
+    setPhoneError(invalidPhone)
 
-    setPhoneError(false)
+    if (Object.values(nextErrors).some(Boolean) || invalidPhone || fileError) return
     setReviewOpen(true)
+  }
+
+  const updatePhoneError = (value: string) => {
+    const invalid = !isValidSupplierPhone(value)
+    setPhoneError((current) => current && invalid)
   }
 
   const fieldSx = {
@@ -230,9 +246,13 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.companyNameLabel}
               value={companyName}
-              onChange={(event) =>
+              onChange={(event) => {
                 setCompanyName(event.target.value)
-              }
+                updateFieldError('companyName', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, companyName: true }))}
+              error={fieldErrors.companyName}
+              helperText={fieldErrors.companyName ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={fieldSx}
@@ -241,9 +261,13 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.contactNameLabel}
               value={contactName}
-              onChange={(event) =>
+              onChange={(event) => {
                 setContactName(event.target.value)
-              }
+                updateFieldError('contactName', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, contactName: true }))}
+              error={fieldErrors.contactName}
+              helperText={fieldErrors.contactName ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={fieldSx}
@@ -254,8 +278,16 @@ function SupplierRegistrationPage() {
               type="email"
               slotProps={{ htmlInput: { dir: 'ltr' } }}
               value={email}
-              onChange={(event) =>
+              onChange={(event) => {
                 setEmail(event.target.value)
+                updateFieldError('email', !event.target.value.trim() || !event.target.validity.valid)
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, email: true }))}
+              error={fieldErrors.email}
+              helperText={
+                fieldErrors.email
+                  ? email.trim() ? t.validation.invalidEmail : t.validation.requiredField
+                  : undefined
               }
               required
               fullWidth
@@ -269,12 +301,13 @@ function SupplierRegistrationPage() {
               value={phone}
               onChange={(event) => {
                 setPhone(event.target.value)
-                setPhoneError(false)
+                updatePhoneError(event.target.value)
               }}
+              onInvalid={() => setPhoneError(true)}
               error={phoneError}
               helperText={
                 phoneError
-                  ? content.invalidPhone
+                  ? phone.trim() ? content.invalidPhone : t.validation.requiredField
                   : undefined
               }
               required
@@ -287,9 +320,13 @@ function SupplierRegistrationPage() {
               slotProps={{ select: { MenuProps: { dir: direction, lang: language } } }}
               label={content.categoryLabel}
               value={category}
-              onChange={(event) =>
+              onChange={(event) => {
                 setCategory(event.target.value)
-              }
+                updateFieldError('category', !content.categories.some((item) => item.value === event.target.value))
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, category: true }))}
+              error={fieldErrors.category}
+              helperText={fieldErrors.category ? t.validation.invalidCategory : undefined}
               required
               fullWidth
               sx={{

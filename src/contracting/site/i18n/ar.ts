@@ -1036,7 +1036,7 @@ export const ar: SiteDictionary = {
       closeLabel: 'إغلاق',
       notAttachedLabel: 'لم يتم إرفاق ملف',
     
-      invalidPhone: 'يرجى إدخال رقم هاتف صحيح.',
+      invalidPhone: 'أدخل من 8 إلى 15 رقمًا. يُسمح بالمسافات والشرطات والأقواس وعلامة + واحدة في البداية.',
       invalidFileType: 'يرجى اختيار ملف PDF أو DOC أو DOCX.',
       invalidFileSize: 'يجب ألا يتجاوز حجم الملف 5 ميجابايت.',
     
@@ -1098,6 +1098,12 @@ export const ar: SiteDictionary = {
   
     notFoundDescription:
       'لم نتمكن من العثور على المشروع المطلوب.',
+  },
+
+  validation: {
+    requiredField: 'هذا الحقل مطلوب.',
+    invalidEmail: 'يرجى إدخال بريد إلكتروني صحيح.',
+    invalidCategory: 'يرجى اختيار مجال النشاط.',
   },
 
   notFound: {

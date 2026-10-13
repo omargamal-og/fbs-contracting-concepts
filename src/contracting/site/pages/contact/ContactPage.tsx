@@ -34,12 +34,31 @@ function ContactPage() {
   const [message, setMessage] = useState('')
 
   const [reviewOpen, setReviewOpen] = useState(false)
+
+  const [fieldErrors, setFieldErrors] = useState({
+    name: false,
+    email: false,
+    subject: false,
+    message: false,
+  })
+
+  const updateFieldError = (field: keyof typeof fieldErrors, invalid: boolean) => {
+    setFieldErrors((current) => ({ ...current, [field]: current[field] && invalid }))
+  }
   const [formError, setFormError] = useState(false)
 
   const handleSubmit = (
     event: FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault()
+
+    const nextErrors = {
+      name: !name.trim(),
+      email: !email.trim() || !event.currentTarget.querySelector<HTMLInputElement>('input[type="email"]')?.validity.valid,
+      subject: !subject.trim(),
+      message: !message.trim(),
+    }
+    setFieldErrors(nextErrors)
 
     if (
       !name.trim() ||
@@ -50,6 +69,8 @@ function ContactPage() {
       setFormError(true)
       return
     }
+
+    if (nextErrors.email) return
 
     setFormError(false)
     setReviewOpen(true)
@@ -313,8 +334,12 @@ function ContactPage() {
                   value={name}
                   onChange={(event) => {
                     setName(event.target.value)
+                    updateFieldError('name', !event.target.value.trim())
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, name: true }))}
+                  error={fieldErrors.name}
+                  helperText={fieldErrors.name ? t.validation.requiredField : undefined}
                   autoComplete="name"
                   required
                   fullWidth
@@ -328,8 +353,16 @@ function ContactPage() {
                   value={email}
                   onChange={(event) => {
                     setEmail(event.target.value)
+                    updateFieldError('email', !event.target.value.trim() || !event.target.validity.valid)
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, email: true }))}
+                  error={fieldErrors.email}
+                  helperText={
+                    fieldErrors.email
+                      ? email.trim() ? t.validation.invalidEmail : t.validation.requiredField
+                      : undefined
+                  }
                   autoComplete="email"
                   required
                   fullWidth
@@ -354,8 +387,12 @@ function ContactPage() {
                   value={subject}
                   onChange={(event) => {
                     setSubject(event.target.value)
+                    updateFieldError('subject', !event.target.value.trim())
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, subject: true }))}
+                  error={fieldErrors.subject}
+                  helperText={fieldErrors.subject ? t.validation.requiredField : undefined}
                   required
                   fullWidth
                   sx={fieldSx}
@@ -366,8 +403,12 @@ function ContactPage() {
                   value={message}
                   onChange={(event) => {
                     setMessage(event.target.value)
+                    updateFieldError('message', !event.target.value.trim())
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, message: true }))}
+                  error={fieldErrors.message}
+                  helperText={fieldErrors.message ? t.validation.requiredField : undefined}
                   multiline
                   rows={6}
                   required

@@ -522,6 +522,12 @@ export type SiteDictionary = {
 
   projectDetails: ProjectDetailsDictionary
 
+  validation: {
+    requiredField: string
+    invalidEmail: string
+    invalidCategory: string
+  }
+
   notFound: {
     title: string
     description: string

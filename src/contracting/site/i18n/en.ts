@@ -1038,7 +1038,7 @@ export const en: SiteDictionary = {
       closeLabel: 'Close',
       notAttachedLabel: 'Not attached',
     
-      invalidPhone: 'Please enter a valid phone number.',
+      invalidPhone: 'Enter 8–15 digits. Use only spaces, hyphens, parentheses and an optional leading +.',
       invalidFileType: 'Please select a PDF, DOC or DOCX file.',
       invalidFileSize: 'The file must not exceed 5 MB.',
     
@@ -1101,6 +1101,12 @@ export const en: SiteDictionary = {
   
     notFoundDescription:
       'The requested project could not be found.',
+  },
+
+  validation: {
+    requiredField: 'This field is required.',
+    invalidEmail: 'Please enter a valid email address.',
+    invalidCategory: 'Please select a business category.',
   },
 
   notFound: {

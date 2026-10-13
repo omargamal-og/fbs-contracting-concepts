@@ -40,6 +40,17 @@ function CareersPage() {
 
   const [reviewOpen, setReviewOpen] = useState(false)
 
+  const [fieldErrors, setFieldErrors] = useState({
+    name: false,
+    email: false,
+    subject: false,
+    message: false,
+  })
+
+  const updateFieldError = (field: keyof typeof fieldErrors, invalid: boolean) => {
+    setFieldErrors((current) => ({ ...current, [field]: current[field] && invalid }))
+  }
+
   const handleFileChange = (
     event: ChangeEvent<HTMLInputElement>,
   ) => {
@@ -86,7 +97,15 @@ function CareersPage() {
   ) => {
     event.preventDefault()
 
-    if (fileError) return
+    const nextErrors = {
+      name: !name.trim(),
+      email: !email.trim() || !event.currentTarget.querySelector<HTMLInputElement>('input[type="email"]')?.validity.valid,
+      subject: !subject.trim(),
+      message: !message.trim(),
+    }
+    setFieldErrors(nextErrors)
+
+    if (Object.values(nextErrors).some(Boolean) || fileError) return
 
     setReviewOpen(true)
   }
@@ -267,9 +286,13 @@ function CareersPage() {
             <TextField
               label={content.nameLabel}
               value={name}
-              onChange={(event) =>
+              onChange={(event) => {
                 setName(event.target.value)
-              }
+                updateFieldError('name', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, name: true }))}
+              error={fieldErrors.name}
+              helperText={fieldErrors.name ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={inputStyles}
@@ -280,8 +303,16 @@ function CareersPage() {
               type="email"
               slotProps={{ htmlInput: { dir: 'ltr' } }}
               value={email}
-              onChange={(event) =>
+              onChange={(event) => {
                 setEmail(event.target.value)
+                updateFieldError('email', !event.target.value.trim() || !event.target.validity.valid)
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, email: true }))}
+              error={fieldErrors.email}
+              helperText={
+                fieldErrors.email
+                  ? email.trim() ? t.validation.invalidEmail : t.validation.requiredField
+                  : undefined
               }
               required
               fullWidth
@@ -291,9 +322,13 @@ function CareersPage() {
             <TextField
               label={content.subjectLabel}
               value={subject}
-              onChange={(event) =>
+              onChange={(event) => {
                 setSubject(event.target.value)
-              }
+                updateFieldError('subject', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, subject: true }))}
+              error={fieldErrors.subject}
+              helperText={fieldErrors.subject ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={{
@@ -305,9 +340,13 @@ function CareersPage() {
             <TextField
               label={content.messageLabel}
               value={message}
-              onChange={(event) =>
+              onChange={(event) => {
                 setMessage(event.target.value)
-              }
+                updateFieldError('message', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, message: true }))}
+              error={fieldErrors.message}
+              helperText={fieldErrors.message ? t.validation.requiredField : undefined}
               multiline
               rows={6}
               required
