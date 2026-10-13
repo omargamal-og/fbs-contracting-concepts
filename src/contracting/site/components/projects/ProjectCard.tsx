@@ -77,6 +77,8 @@ function ProjectCard({ project }: ProjectCardProps) {
         {project.image ? (
           <Box
             component="img"
+            loading="lazy"
+            decoding="async"
             src={project.image}
             alt={project.name[language]}
             sx={{

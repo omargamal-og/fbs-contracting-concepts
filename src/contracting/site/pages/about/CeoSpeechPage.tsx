@@ -91,6 +91,8 @@ function CeoSpeechPage() {
                 <Box
                   component="img"
                   src={ceoImage}
+                  width={777}
+                  height={717}
                   alt={content.name}
                   sx={{
                     width: '100%',

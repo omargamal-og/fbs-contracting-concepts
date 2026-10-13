@@ -126,6 +126,8 @@ function OurTeamPage() {
             >
               <Box
                 component="img"
+                loading="lazy"
+                decoding="async"
                 src={managementImages[ceo.id]}
                 alt={ceo.name}
                 sx={{
@@ -272,6 +274,8 @@ function OurTeamPage() {
                   >
                     <Box
                       component="img"
+                      loading="lazy"
+                      decoding="async"
                       src={managementImages[member.id]}
                       alt={member.name}
                       sx={{

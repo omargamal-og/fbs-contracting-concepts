@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { contractingPath } from './config/site'
@@ -7,31 +8,99 @@ import NotFoundPage from './pages/NotFoundPage'
 
 import LanguageProvider from './i18n/LanguageProvider'
 import ContractingThemeProvider from './theme/ContractingThemeProvider'
-import WhoWeArePage from './pages/about/WhoWeArePage'
-import ChairmanSpeechPage from './pages/about/ChairmanSpeechPage'
-import CeoSpeechPage from './pages/about/CeoSpeechPage'
-import WhyFbsPage from './pages/about/WhyFbsPage'
-import VisionMissionPage from './pages/about/VisionMissionPage'
-import CoreValuesPage from './pages/about/CoreValuesPage'
-import OurTeamPage from './pages/about/OurTeamPage'
-import SaudiVision2030Page from './pages/about/SaudiVision2030Page'
-import ResidentialProjectsPage from './components/projects/ResidentialProjectsPage'
-import ProjectDetailsPage from './components/projects/ProjectDetailsPage'
-import CommercialProjectsPage from './components/projects/CommercialProjectsPage'
-import EnvironmentalResponsibilityPage from './pages/sustainability/EnvironmentalResponsibilityPage'
-import SocialResponsibilityPage from './pages/sustainability/SocialResponsibilityPage'
-import EconomicResponsibilityPage from './pages/sustainability/EconomicResponsibilityPage'
-import ContinuousImprovementPage from './pages/sustainability/ContinuousImprovementPage'
-import RiskAssessmentPage from './pages/businessContinuity/RiskAssessmentPage'
-import BusinessImpactAnalysisPage from './pages/businessContinuity/BusinessImpactAnalysisPage'
-import PlanDevelopmentPage from './pages/businessContinuity/PlanDevelopmentPage'
-import RecoveryRestorationPage from './pages/businessContinuity/RecoveryRestorationPage'
-import LeadershipAccountabilityPage from './pages/businessContinuity/LeadershipAccountabilityPage'
-import CareersPage from './pages/careers/CareersPage'
-import TrainingPage from './pages/careers/TrainingPage'
-import SupplierRegistrationPage from './pages/suppliers/SupplierRegistrationPage'
-import ContactPage from './pages/contact/ContactPage'
 
+
+const WhoWeArePage = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.WhoWeArePage })),
+)
+
+const ChairmanSpeechPage = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.ChairmanSpeechPage })),
+)
+
+const CeoSpeechPage = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.CeoSpeechPage })),
+)
+
+const WhyFbsPage = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.WhyFbsPage })),
+)
+
+const VisionMissionPage = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.VisionMissionPage })),
+)
+
+const CoreValuesPage = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.CoreValuesPage })),
+)
+
+const OurTeamPage = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.OurTeamPage })),
+)
+
+const SaudiVision2030Page = lazy(() =>
+  import('./pages/about/routePages').then((pages) => ({ default: pages.SaudiVision2030Page })),
+)
+
+const ResidentialProjectsPage = lazy(() =>
+  import('./components/projects/routePages').then((pages) => ({ default: pages.ResidentialProjectsPage })),
+)
+
+const ProjectDetailsPage = lazy(() =>
+  import('./components/projects/routePages').then((pages) => ({ default: pages.ProjectDetailsPage })),
+)
+
+const CommercialProjectsPage = lazy(() =>
+  import('./components/projects/routePages').then((pages) => ({ default: pages.CommercialProjectsPage })),
+)
+
+const EnvironmentalResponsibilityPage = lazy(() =>
+  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.EnvironmentalResponsibilityPage })),
+)
+
+const SocialResponsibilityPage = lazy(() =>
+  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.SocialResponsibilityPage })),
+)
+
+const EconomicResponsibilityPage = lazy(() =>
+  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.EconomicResponsibilityPage })),
+)
+
+const ContinuousImprovementPage = lazy(() =>
+  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.ContinuousImprovementPage })),
+)
+
+const RiskAssessmentPage = lazy(() =>
+  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.RiskAssessmentPage })),
+)
+
+const BusinessImpactAnalysisPage = lazy(() =>
+  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.BusinessImpactAnalysisPage })),
+)
+
+const PlanDevelopmentPage = lazy(() =>
+  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.PlanDevelopmentPage })),
+)
+
+const RecoveryRestorationPage = lazy(() =>
+  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.RecoveryRestorationPage })),
+)
+
+const LeadershipAccountabilityPage = lazy(() =>
+  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.LeadershipAccountabilityPage })),
+)
+
+const CareersPage = lazy(() =>
+  import('./pages/careers/routePages').then((pages) => ({ default: pages.CareersPage })),
+)
+
+const TrainingPage = lazy(() =>
+  import('./pages/careers/routePages').then((pages) => ({ default: pages.TrainingPage })),
+)
+
+const SupplierRegistrationPage = lazy(() => import('./pages/suppliers/SupplierRegistrationPage'))
+
+const ContactPage = lazy(() => import('./pages/contact/ContactPage'))
 
 function ContractingSiteRoutes() {
   return (

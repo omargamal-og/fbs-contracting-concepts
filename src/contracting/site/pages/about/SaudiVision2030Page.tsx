@@ -94,6 +94,8 @@ function SaudiVision2030Page() {
               <Box
                 component="img"
                 src={vision2030Logo}
+                width={334}
+                height={228}
                 alt={content.title}
                 sx={{
                   width: {

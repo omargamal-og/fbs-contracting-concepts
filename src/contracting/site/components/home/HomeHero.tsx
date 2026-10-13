@@ -378,6 +378,10 @@ function HomeHero() {
               component="img"
 
               src={heroProjectsImage}
+              loading="eager"
+              fetchPriority="high"
+              width={1600}
+              height={904}
 
               alt={t.home.hero.imageAlt}
 

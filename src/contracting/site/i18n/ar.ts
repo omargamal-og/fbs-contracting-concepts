@@ -1,6 +1,8 @@
 import type { SiteDictionary } from './types'
 
 export const ar: SiteDictionary = {
+  loadingPage: "جارٍ تحميل الصفحة…",
+
   navigation: {
     logo_t1: 'FBS',
     logo_t2: 'للمقاولات',

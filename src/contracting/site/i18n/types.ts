@@ -518,6 +518,8 @@ export type ProjectDetailsDictionary = {
 }
 
 export type SiteDictionary = {
+  loadingPage: string
+
   navigation: NavigationDictionary
 
   home: HomeDictionary
