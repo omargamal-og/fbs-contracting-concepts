@@ -1,8 +1,9 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 
-import PagePlaceholder from './components/system/PagePlaceholder'
+import { contractingPath } from './config/site'
 import ContractingLayout from './layouts/ContractingLayout'
 import HomePage from './pages/HomePage'
+import NotFoundPage from './pages/NotFoundPage'
 
 import LanguageProvider from './i18n/LanguageProvider'
 import ContractingThemeProvider from './theme/ContractingThemeProvider'
@@ -47,7 +48,7 @@ function ContractingSiteRoutes() {
         <Route
           path="about"
           element={
-            <PagePlaceholder title="About FBS Contracting" />
+            <Navigate to={contractingPath('about/who-we-are')} replace />
           }
         />
 
@@ -95,7 +96,7 @@ function ContractingSiteRoutes() {
         <Route
           path="projects"
           element={
-            <PagePlaceholder title="Our Projects" />
+            <Navigate to={contractingPath('projects/residential')} replace />
           }
         />
 
@@ -118,7 +119,10 @@ function ContractingSiteRoutes() {
         <Route
           path="sustainability"
           element={
-            <PagePlaceholder title="Sustainability" />
+            <Navigate
+              to={contractingPath('sustainability/environmental-responsibility')}
+              replace
+            />
           }
         />
 
@@ -146,7 +150,10 @@ function ContractingSiteRoutes() {
         <Route
           path="business-continuity"
           element={
-            <PagePlaceholder title="Business Continuity" />
+            <Navigate
+              to={contractingPath('business-continuity/risk-assessment-management')}
+              replace
+            />
           }
         />
 
@@ -197,6 +204,7 @@ function ContractingSiteRoutes() {
           path="contact"
           element={<ContactPage />}
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
     </ContractingThemeProvider>

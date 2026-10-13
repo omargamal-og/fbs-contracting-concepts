@@ -522,6 +522,12 @@ export type SiteDictionary = {
 
   projectDetails: ProjectDetailsDictionary
 
+  notFound: {
+    title: string
+    description: string
+    backToHome: string
+  }
+
   footer: FooterDictionary
 
   language: {

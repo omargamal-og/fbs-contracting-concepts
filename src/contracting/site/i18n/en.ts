@@ -1103,6 +1103,12 @@ export const en: SiteDictionary = {
       'The requested project could not be found.',
   },
 
+  notFound: {
+    title: 'Page Not Found',
+    description: 'The page you are looking for could not be found.',
+    backToHome: 'Back to Home',
+  },
+
   footer: {
     description:
       'Delivering residential and commercial developments across Saudi Arabia with quality, reliability and long-term value.',
