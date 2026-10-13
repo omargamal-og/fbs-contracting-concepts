@@ -26,6 +26,10 @@ import BusinessImpactAnalysisPage from './pages/businessContinuity/BusinessImpac
 import PlanDevelopmentPage from './pages/businessContinuity/PlanDevelopmentPage'
 import RecoveryRestorationPage from './pages/businessContinuity/RecoveryRestorationPage'
 import LeadershipAccountabilityPage from './pages/businessContinuity/LeadershipAccountabilityPage'
+import CareersPage from './pages/careers/CareersPage'
+import TrainingPage from './pages/careers/TrainingPage'
+import SupplierRegistrationPage from './pages/suppliers/SupplierRegistrationPage'
+import ContactPage from './pages/contact/ContactPage'
 
 
 function ContractingSiteRoutes() {
@@ -174,32 +178,24 @@ function ContractingSiteRoutes() {
         {/* Careers */}
         <Route
           path="careers"
-          element={
-            <PagePlaceholder title="Careers" />
-          }
+          element={<CareersPage />}
         />
 
         <Route
           path="training"
-          element={
-            <PagePlaceholder title="Training" />
-          }
+          element={<TrainingPage />}
         />
 
         {/* Suppliers */}
         <Route
           path="suppliers"
-          element={
-            <PagePlaceholder title="Supplier Registration" />
-          }
+          element={<SupplierRegistrationPage />}
         />
 
         {/* Contact */}
         <Route
           path="contact"
-          element={
-            <PagePlaceholder title="Contact Us" />
-          }
+          element={<ContactPage />}
         />
       </Route>
     </Routes>
