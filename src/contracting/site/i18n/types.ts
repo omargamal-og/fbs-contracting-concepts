@@ -39,6 +39,8 @@ export type NavigationDictionary = {
   supplierRegistration: string
   contact: string
 
+  mainNavigationLabel: string
+  openMenuLabel: string
   menu: string
   close: string
 }
@@ -76,6 +78,7 @@ export type HomeDictionary = {
     primaryCta: string
     secondaryCta: string
     location: string
+    imageAlt: string
   }
 
   companyIntroduction: {
@@ -103,6 +106,7 @@ export type HomeDictionary = {
     titleLine2: string
     description: string
     viewProject: string
+    countryLabel: string
   
     projects: Record<
   ProjectRegionId,

@@ -377,7 +377,7 @@ function HomeHero() {
 
               src={heroProjectsImage}
 
-              alt="FBS Contracting projects"
+              alt={t.home.hero.imageAlt}
 
               sx={{
                 width: '100%',

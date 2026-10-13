@@ -53,12 +53,15 @@ export const ar: SiteDictionary = {
 
     contact: 'تواصل معنا',
 
+    mainNavigationLabel: 'التنقل الرئيسي',
+    openMenuLabel: 'فتح القائمة',
     menu: 'القائمة',
     close: 'إغلاق',
   },
 
   home: {
     hero: {
+      imageAlt: 'مشاريع FBS للمقاولات',
       eyebrow: 'FBS للمقاولات',
     
       titleLine1: 'نبني برؤية',
@@ -131,6 +134,7 @@ export const ar: SiteDictionary = {
     },
 
     projectMap: {
+      countryLabel: 'المملكة العربية السعودية',
       eyebrow: 'نطاق مشاريعنا',
     
       titleLine1: 'نبني في مختلف',

@@ -423,7 +423,7 @@ function ContractingFooter() {
                 cursor: 'pointer',
               }}
             >
-              English
+              {t.language.english}
             </Box>
 
             <Box
@@ -472,7 +472,7 @@ function ContractingFooter() {
                 cursor: 'pointer',
               }}
             >
-              العربية
+              {t.language.arabic}
             </Box>
           </Box>
         </Box>

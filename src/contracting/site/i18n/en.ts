@@ -53,12 +53,15 @@ export const en: SiteDictionary = {
 
     contact: 'Contact',
 
+    mainNavigationLabel: 'Main navigation',
+    openMenuLabel: 'Open menu',
     menu: 'Menu',
     close: 'Close',
   },
 
   home: {
     hero: {
+      imageAlt: 'FBS Contracting projects',
       eyebrow: 'FBS Contracting',
     
       titleLine1: 'Building with',
@@ -131,6 +134,7 @@ export const en: SiteDictionary = {
     },
 
     projectMap: {
+      countryLabel: 'Saudi Arabia',
       eyebrow: 'Project Footprint',
     
       titleLine1: 'Building across',

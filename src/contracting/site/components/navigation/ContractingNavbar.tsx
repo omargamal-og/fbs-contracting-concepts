@@ -237,7 +237,7 @@ useEffect(() => {
 
           <Box
             component="nav"
-            aria-label="Main navigation"
+            aria-label={t.navigation.mainNavigationLabel}
             sx={{
               display: {
                 xs: "none",
@@ -643,7 +643,7 @@ useEffect(() => {
                   borderRadius: "999px",
                 }}
               >
-                العربية
+                {t.language.arabic}
               </Box>
             </Box>
 
@@ -652,7 +652,7 @@ useEffect(() => {
             <Box
               component="button"
               type="button"
-              aria-label="Open menu"
+              aria-label={t.navigation.openMenuLabel}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen(true)}
               sx={{
@@ -861,6 +861,7 @@ useEffect(() => {
 
           <Box
             component="nav"
+            aria-label={t.navigation.mainNavigationLabel}
             sx={{
               mt: 4,
             }}

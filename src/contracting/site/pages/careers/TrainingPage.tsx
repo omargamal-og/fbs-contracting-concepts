@@ -207,6 +207,7 @@ function TrainingPage() {
 
               <Typography
                 sx={{
+                  textTransform: 'uppercase',
                   position: 'relative',
                   zIndex: 1,
 
@@ -217,7 +218,7 @@ function TrainingPage() {
                   letterSpacing: '0.08em',
                 }}
               >
-                FBS CONTRACTING
+                {t.home.hero.eyebrow}
               </Typography>
             </Box>
           </Box>

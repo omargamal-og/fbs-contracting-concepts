@@ -5,6 +5,8 @@ import {
 } from '../../data/projects'
 
 import {
+  useEffect,
+  useRef,
   useState,
 } from 'react'
 
@@ -31,37 +33,13 @@ import type { ProjectRegionId } from '../../i18n/types'
 
 type ProjectId = ProjectRegionId
 
-const projectPositions: Record<
-  ProjectId,
-  {
-    x: string
-    y: string
-  }
-> = {
-  riyadh: {
-    x: '56%',
-    y: '49%',
-  },
-
-  jeddah: {
-    x: '31%',
-    y: '55%',
-  },
-
-  madinah: {
-    x: '38%',
-    y: '41%',
-  },
-
-  taif: {
-    x: '34%',
-    y: '62%',
-  },
-
-  tabuk: {
-    x: '32%',
-    y: '30%',
-  },
+// Illustrative anchors in the existing 800 × 620 viewBox, not geographic coordinates.
+const projectPositions: Record<ProjectId, { x: number; y: number }> = {
+  riyadh: { x: 457, y: 303 },
+  jeddah: { x: 219, y: 347 },
+  madinah: { x: 286, y: 244 },
+  taif: { x: 248, y: 399 },
+  tabuk: { x: 229, y: 162 },
 }
 
 function ProjectMap() {
@@ -71,6 +49,37 @@ function ProjectMap() {
 
   const [selectedProject, setSelectedProject] =
   useState<ProjectId>('riyadh')
+
+  const mapRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const [mapTransform, setMapTransform] = useState<
+    Pick<DOMMatrix, 'a' | 'b' | 'c' | 'd' | 'e' | 'f'> | null
+  >(null)
+
+  useEffect(() => {
+    const map = mapRef.current
+    const svg = svgRef.current
+    if (!map || !svg) return
+
+    // Include the SVG's meet/letterboxing transform while keeping native buttons
+    // and their tap targets at a readable CSS size outside the scaled drawing.
+    const observer = new ResizeObserver(() => {
+      const matrix = svg.getScreenCTM()
+      if (!matrix) return
+      const bounds = map.getBoundingClientRect()
+      setMapTransform({
+        a: matrix.a,
+        b: matrix.b,
+        c: matrix.c,
+        d: matrix.d,
+        e: matrix.e - bounds.left,
+        f: matrix.f - bounds.top,
+      })
+    })
+    observer.observe(svg)
+    observer.observe(map)
+    return () => observer.disconnect()
+  }, [])
 
   const project =
   getFeaturedProjectByRegion(selectedProject)
@@ -235,6 +244,7 @@ function ProjectMap() {
           {/* Map */}
 
           <Box
+            ref={mapRef}
             sx={{
               position: 'relative',
 
@@ -253,6 +263,8 @@ function ProjectMap() {
 
             <Box
               component="svg"
+              ref={svgRef}
+              aria-hidden="true"
               viewBox="0 0 800 620"
               preserveAspectRatio="xMidYMid meet"
               sx={{
@@ -301,7 +313,7 @@ function ProjectMap() {
 
             {/* Pins */}
 
-            {(
+            {mapTransform && (
               Object.keys(
                 projectPositions,
               ) as ProjectId[]
@@ -325,65 +337,66 @@ function ProjectMap() {
                   }
 
                   aria-label={
-                    getFeaturedProjectByRegion(id)?.name[language] ?? id
+                    getFeaturedProjectByRegion(id)?.name[language] ??
+                    t.home.projectMap.projects[id].title
                   }
+
+                  aria-pressed={isSelected}
 
                   sx={{
                     position: 'absolute',
 
-                    left: position.x,
-                    top: position.y,
+                    left: mapTransform.a * position.x +
+                      mapTransform.c * position.y + mapTransform.e,
+                    top: mapTransform.b * position.x +
+                      mapTransform.d * position.y + mapTransform.f,
 
                     transform:
                       'translate(-50%, -50%)',
 
-                    width: isSelected
-                      ? 28
-                      : 20,
-
-                    height: isSelected
-                      ? 28
-                      : 20,
-
+                    width: { xs: 32, sm: 44 },
+                    height: { xs: 32, sm: 44 },
                     p: 0,
-
+                    border: 0,
                     borderRadius: '50%',
-
-                    border: '5px solid',
-
-                    borderColor:
-                      '#FFFFFF',
-
-                    bgcolor: isSelected
-                      ? '#082F4D'
-                      : '#649ABD',
-
-                    boxShadow:
-                      '0 8px 22px rgba(8,47,77,0.22)',
-
+                    bgcolor: 'transparent',
                     cursor: 'pointer',
-
-                    transition:
-                      'width 180ms ease, height 180ms ease, background-color 180ms ease',
-
-                    '&::after': {
-                      content: '""',
-
-                      position: 'absolute',
-
-                      inset: -10,
-
-                      borderRadius: '50%',
-
-                      border: '1px solid',
-
-                      borderColor:
-                        isSelected
-                          ? 'rgba(8,47,77,0.25)'
-                          : 'transparent',
+                    '&:focus-visible': {
+                      outline: '2px solid #082F4D',
+                      outlineOffset: 3,
                     },
                   }}
-                />
+                >
+                  <Box
+                    component="span"
+                    sx={{
+                      position: 'absolute',
+                      left: '50%',
+                      top: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      pointerEvents: 'none',
+                      width: isSelected ? 28 : 20,
+                      height: isSelected ? 28 : 20,
+                      boxSizing: 'border-box',
+                      borderRadius: '50%',
+                      border: '5px solid #FFFFFF',
+                      bgcolor: isSelected ? '#082F4D' : '#649ABD',
+                      boxShadow: '0 8px 22px rgba(8,47,77,0.22)',
+                      transition:
+                        'width 180ms ease, height 180ms ease, background-color 180ms ease',
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        inset: -10,
+                        borderRadius: '50%',
+                        border: '1px solid',
+                        borderColor: isSelected
+                          ? 'rgba(8,47,77,0.25)'
+                          : 'transparent',
+                      },
+                    }}
+                  />
+                </Box>
               )
             })}
 
@@ -393,7 +406,7 @@ function ProjectMap() {
               sx={{
                 position: 'absolute',
 
-                left: {
+                insetInlineStart: {
                   xs: 20,
                   md: 30,
                 },
@@ -415,7 +428,7 @@ function ProjectMap() {
                 textTransform: 'uppercase',
               }}
             >
-              Saudi Arabia
+              {t.home.projectMap.countryLabel}
             </Box>
           </Box>
 
@@ -446,7 +459,7 @@ function ProjectMap() {
                 'rgba(8,47,77,0.08)',
             }}
           >
-            <Box>
+            <Box aria-live="polite">
               <Typography
                 sx={{
                   color: '#649ABD',

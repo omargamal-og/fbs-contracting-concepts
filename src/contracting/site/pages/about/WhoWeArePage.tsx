@@ -81,7 +81,7 @@ function WhoWeArePage() {
                   textTransform: 'uppercase',
                 }}
               >
-                FBS Contracting
+                {t.home.hero.eyebrow}
               </Typography>
 
               <Typography
@@ -107,7 +107,8 @@ function WhoWeArePage() {
                   letterSpacing: '-0.05em',
                 }}
               >
-                A Vision That Shapes Reality
+                {t.home.companyIntroduction.titleLine1}{' '}
+                {t.home.companyIntroduction.titleLine2}
               </Typography>
             </Box>
 

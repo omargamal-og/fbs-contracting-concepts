@@ -206,7 +206,7 @@ function ProjectDetailsPage() {
                     fontWeight: 600,
                   }}
                 >
-                  FBS Contracting
+                  {t.home.hero.eyebrow}
                 </Typography>
               )}
             </Box>

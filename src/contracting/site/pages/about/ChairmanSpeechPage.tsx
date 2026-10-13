@@ -82,7 +82,7 @@ function ChairmanSpeechPage() {
                   textTransform: 'uppercase',
                 }}
               >
-                FBS Contracting
+                {t.home.hero.eyebrow}
               </Typography>
 
               <Typography

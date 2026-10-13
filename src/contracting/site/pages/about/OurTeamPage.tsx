@@ -155,6 +155,7 @@ function OurTeamPage() {
             >
               <Typography
                 sx={{
+                  textTransform: 'uppercase',
                   color: '#649ABD',
                   fontWeight: 700,
                   fontSize: '0.8rem',
@@ -162,7 +163,7 @@ function OurTeamPage() {
                   mb: 2,
                 }}
               >
-                FBS CONTRACTING
+                {t.home.hero.eyebrow}
               </Typography>
 
               <Typography

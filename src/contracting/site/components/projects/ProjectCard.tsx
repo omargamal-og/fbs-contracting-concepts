@@ -137,6 +137,7 @@ function ProjectCard({ project }: ProjectCardProps) {
 
             <Typography
               sx={{
+                textTransform: 'uppercase',
                 color: '#649ABD',
 
                 fontSize: '0.72rem',
@@ -145,7 +146,7 @@ function ProjectCard({ project }: ProjectCardProps) {
                 letterSpacing: '0.12em',
               }}
             >
-              CONTRACTING
+              {t.navigation.logo_t2}
             </Typography>
           </Box>
         )}

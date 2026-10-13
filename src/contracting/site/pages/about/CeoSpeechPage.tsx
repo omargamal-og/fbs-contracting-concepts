@@ -159,7 +159,7 @@ function CeoSpeechPage() {
                   textTransform: 'uppercase',
                 }}
               >
-                FBS Contracting
+                {t.home.hero.eyebrow}
               </Typography>
 
               {content.body.map((paragraph, index) => (
