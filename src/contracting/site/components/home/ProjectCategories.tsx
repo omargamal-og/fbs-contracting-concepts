@@ -15,9 +15,11 @@ import {
 import {
   useTranslation,
 } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function ProjectCategories() {
   const t = useTranslation()
+  const { direction } = useLanguage()
 
   const categories = [
     {
@@ -253,7 +255,7 @@ function ProjectCategories() {
 
                   '&:hover .project-arrow': {
                     transform:
-                      'translate(4px, -4px)',
+                      direction === 'rtl' ? 'translate(-4px, -4px)' : 'translate(4px, -4px)',
                   },
                 }}
               >
@@ -329,7 +331,7 @@ function ProjectCategories() {
                         'transform 200ms ease',
                     }}
                   >
-                    ↗
+                    {direction === 'rtl' ? '↖' : '↗'}
                   </Box>
                 </Box>
 

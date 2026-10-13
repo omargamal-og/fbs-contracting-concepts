@@ -3,7 +3,7 @@ import {
   useState,
 } from 'react'
 
-import { Box, Button, Collapse, Drawer } from "@mui/material";
+import { Box, Button, Collapse, Drawer, type SlideProps } from "@mui/material";
 
 import { Link as RouterLink } from "react-router-dom";
 
@@ -14,6 +14,13 @@ import { useTranslation } from "../../i18n/useTranslation";
 import { contractingPath } from "../../config/site";
 
 import { useLanguage } from "../../i18n/useLanguage";
+
+// Drawer uses Slide by default, while its slot type exposes only TransitionProps.
+declare module '@mui/material/Drawer' {
+  interface DrawerTransitionSlotPropsOverrides {
+    direction?: SlideProps['direction']
+  }
+}
 
 function ContractingNavbar() {
   const t = useTranslation();
@@ -46,7 +53,7 @@ useEffect(() => {
     }
   }, [])
 
-  const { language, setLanguage } = useLanguage();
+  const { language, direction, setLanguage } = useLanguage();
 
   const [activeDropdown, setActiveDropdown] = useState<NavigationKey | null>(
     null
@@ -369,7 +376,7 @@ useEffect(() => {
                     <Box
                       component="span"
                       sx={{
-                        ml: 0.65,
+                        marginInlineStart: 0.65,
 
                         fontSize: "0.55rem",
 
@@ -505,7 +512,7 @@ useEffect(() => {
                             fontSize: "0.75rem",
                           }}
                         >
-                          ↗
+                          {direction === 'rtl' ? '↖' : '↗'}
                         </Box>
                       </Box>
                     ))}
@@ -730,11 +737,17 @@ useEffect(() => {
       {/* Mobile Drawer */}
 
       <Drawer
-        anchor="right"
+        anchor={direction === 'rtl' ? 'left' : 'right'}
+        dir={direction}
+        lang={language}
         open={mobileOpen}
         onClose={closeMobileMenu}
         slotProps={{
+          // Without a CSS RTL plugin, keep Slide aligned with the physical anchor.
+          transition: { direction: direction === 'rtl' ? 'right' : 'left' },
           paper: {
+            dir: direction,
+            lang: language,
             sx: {
               width: {
                 xs: "100%",
@@ -911,7 +924,7 @@ useEffect(() => {
                         color: "#649ABD",
                       }}
                     >
-                      ↗
+                      {direction === 'rtl' ? '↖' : '↗'}
                     </Box>
                   </Box>
                 );
@@ -958,7 +971,7 @@ useEffect(() => {
 
                       alignItems: "center",
 
-                      textAlign: "left",
+                      textAlign: "start",
 
                       fontFamily: "inherit",
 
@@ -1005,7 +1018,7 @@ useEffect(() => {
                       sx={{
                         pb: 1.5,
 
-                        pl: 5.2,
+                        paddingInlineStart: 5.2,
                       }}
                     >
                       {item.children?.map((child) => (

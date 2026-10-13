@@ -20,9 +20,11 @@ import {
 
 import InnerPageHero from '../../components/inner/InnerPageHero'
 import { useTranslation } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function SupplierRegistrationPage() {
   const t = useTranslation()
+  const { direction, language } = useLanguage()
 
   const content = t.innerPages.supplierRegistration
 
@@ -120,10 +122,12 @@ function SupplierRegistrationPage() {
     {
       label: content.emailLabel,
       value: email,
+      direction: 'ltr',
     },
     {
       label: content.phoneLabel,
       value: phone,
+      direction: 'ltr',
     },
     {
       label: content.categoryLabel,
@@ -248,6 +252,7 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.emailLabel}
               type="email"
+              slotProps={{ htmlInput: { dir: 'ltr' } }}
               value={email}
               onChange={(event) =>
                 setEmail(event.target.value)
@@ -260,6 +265,7 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.phoneLabel}
               type="tel"
+              slotProps={{ htmlInput: { dir: 'ltr' } }}
               value={phone}
               onChange={(event) => {
                 setPhone(event.target.value)
@@ -278,6 +284,7 @@ function SupplierRegistrationPage() {
 
             <TextField
               select
+              slotProps={{ select: { MenuProps: { dir: direction, lang: language } } }}
               label={content.categoryLabel}
               value={category}
               onChange={(event) =>
@@ -441,6 +448,8 @@ function SupplierRegistrationPage() {
       {/* Review Dialog */}
 
       <Dialog
+        dir={direction}
+        lang={language}
         open={reviewOpen}
         onClose={() => setReviewOpen(false)}
         fullWidth
@@ -473,8 +482,10 @@ function SupplierRegistrationPage() {
               </Typography>
 
               <Typography
+                dir={field.direction}
                 sx={{
                   color: '#082F4D',
+                  textAlign: direction === 'rtl' ? 'right' : 'left',
                   overflowWrap: 'anywhere',
                   whiteSpace: 'pre-wrap',
                 }}

@@ -16,9 +16,11 @@ import {
 import {
   useTranslation,
 } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function SaudiVisionSection() {
   const t = useTranslation()
+  const { direction } = useLanguage()
 
   return (
     <Box
@@ -260,9 +262,9 @@ function SaudiVisionSection() {
                 borderRadius: 0,
 
                 '&::after': {
-                  content: '"→"',
+                  content: direction === 'rtl' ? '"←"' : '"→"',
 
-                  ml: 1.2,
+                  marginInlineStart: 1.2,
 
                   color: '#649ABD',
 
@@ -278,7 +280,7 @@ function SaudiVisionSection() {
 
                 '&:hover::after': {
                   transform:
-                    'translateX(4px)',
+                    direction === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)',
                 },
               }}
             >

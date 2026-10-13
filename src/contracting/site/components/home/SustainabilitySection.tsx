@@ -16,9 +16,11 @@ import {
 import {
   useTranslation,
 } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function SustainabilitySection() {
   const t = useTranslation()
+  const { direction } = useLanguage()
 
   const items = [
     {
@@ -175,9 +177,9 @@ function SustainabilitySection() {
                 borderRadius: 0,
 
                 '&::after': {
-                  content: '"→"',
+                  content: direction === 'rtl' ? '"←"' : '"→"',
 
-                  ml: 1.2,
+                  marginInlineStart: 1.2,
 
                   color: '#649ABD',
 
@@ -193,7 +195,7 @@ function SustainabilitySection() {
 
                 '&:hover::after': {
                   transform:
-                    'translateX(4px)',
+                    direction === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)',
                 },
               }}
             >
