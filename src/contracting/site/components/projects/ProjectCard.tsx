@@ -138,7 +138,7 @@ function ProjectCard({ project }: ProjectCardProps) {
             <Typography
               sx={{
                 textTransform: 'uppercase',
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.72rem',
                 fontWeight: 700,
@@ -169,7 +169,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       >
         <Typography
           sx={{
-            color: '#649ABD',
+            color: 'text.secondary',
 
             fontSize: '0.72rem',
             fontWeight: 700,
@@ -201,7 +201,7 @@ function ProjectCard({ project }: ProjectCardProps) {
           sx={{
             mt: 1.5,
 
-            color: 'rgba(8,47,77,0.60)',
+            color: 'rgba(8,47,77,0.72)',
 
             fontSize: '0.92rem',
           }}
@@ -214,7 +214,7 @@ function ProjectCard({ project }: ProjectCardProps) {
             sx={{
               mt: 2,
 
-              color: '#649ABD',
+              color: 'text.secondary',
 
               fontSize: '0.85rem',
 

@@ -156,7 +156,7 @@ function OurTeamPage() {
               <Typography
                 sx={{
                   textTransform: 'uppercase',
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontWeight: 700,
                   fontSize: '0.8rem',
                   letterSpacing: '0.1em',
@@ -184,7 +184,7 @@ function OurTeamPage() {
               <Typography
                 sx={{
                   mt: 2,
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '1.1rem',
                   fontWeight: 600,
                 }}
@@ -310,7 +310,7 @@ function OurTeamPage() {
                       sx={{
                         mt: 1,
 
-                        color: '#649ABD',
+                        color: 'text.secondary',
 
                         fontSize: '0.9rem',
 

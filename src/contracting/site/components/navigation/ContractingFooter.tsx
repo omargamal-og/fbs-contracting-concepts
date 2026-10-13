@@ -220,7 +220,7 @@ function ContractingFooter() {
                 maxWidth: 470,
 
                 color:
-                  'rgba(8,47,77,0.56)',
+                  'rgba(8,47,77,0.72)',
 
                 fontSize: '0.92rem',
 
@@ -260,7 +260,7 @@ function ContractingFooter() {
                     sx={{
                       mb: 2.5,
 
-                      color: '#649ABD',
+                      color: 'text.secondary',
 
                       fontSize:
                         '0.62rem',
@@ -318,7 +318,7 @@ function ContractingFooter() {
 
                             '&:hover': {
                               color:
-                                '#649ABD',
+                                'text.secondary',
                             },
                           }}
                         >
@@ -370,7 +370,7 @@ function ContractingFooter() {
           <Typography
             sx={{
               color:
-                'rgba(8,47,77,0.42)',
+                'rgba(8,47,77,0.72)',
 
               fontSize: '0.68rem',
             }}
@@ -410,7 +410,7 @@ function ContractingFooter() {
                 color:
                   language === 'en'
                     ? '#082F4D'
-                    : 'rgba(8,47,77,0.36)',
+                    : 'rgba(8,47,77,0.72)',
 
                 fontFamily:
                   'inherit',
@@ -458,8 +458,8 @@ function ContractingFooter() {
 
                 color:
                   language === 'ar'
-                    ? '#649ABD'
-                    : 'rgba(8,47,77,0.36)',
+                    ? 'text.secondary'
+                    : 'rgba(8,47,77,0.72)',
 
                 fontFamily:
                   'inherit',

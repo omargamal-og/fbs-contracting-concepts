@@ -273,7 +273,7 @@ function SaudiVision2030Page() {
                   >
                     <Typography
                       sx={{
-                        color: '#649ABD',
+                        color: 'text.secondary',
 
                         fontSize: '0.85rem',
 

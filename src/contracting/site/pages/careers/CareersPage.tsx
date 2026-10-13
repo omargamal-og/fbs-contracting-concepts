@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import type {
   ChangeEvent,
@@ -15,6 +15,7 @@ import {
   DialogTitle,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 
 import InnerPageHero from '../../components/inner/InnerPageHero'
@@ -23,6 +24,8 @@ import { useLanguage } from '../../i18n/useLanguage'
 
 function CareersPage() {
   const t = useTranslation()
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const { direction, language } = useLanguage()
 
   const content = t.innerPages.careers
@@ -379,27 +382,34 @@ function CareersPage() {
               </Typography>
 
               <Button
-                component="label"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                aria-invalid={Boolean(fileError)}
+                aria-describedby={
+                  'careers-file-hint' +
+                  (fileError ? ' careers-file-error' : cvFile ? ' careers-file-name' : '')
+                }
                 variant="outlined"
                 sx={{
                   color: '#082F4D',
-                  borderColor: '#649ABD',
+                  borderColor: 'text.secondary',
                   borderRadius: '10px',
                   textTransform: 'none',
                 }}
               >
                 {content.cvLabel}
-
-                <input
-                  hidden
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleFileChange}
-                />
               </Button>
 
+              <input
+                ref={fileInputRef}
+                hidden
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleFileChange}
+              />
+
               {cvFile && (
-                <Typography
+                <Typography id="careers-file-name" role="status"
                   sx={{
                     mt: 2,
                     color: '#082F4D',
@@ -410,10 +420,10 @@ function CareersPage() {
                 </Typography>
               )}
 
-              <Typography
+              <Typography id="careers-file-hint"
                 sx={{
                   mt: 2,
-                  color: '#647B8B',
+                  color: 'text.secondary',
                   fontSize: '0.85rem',
                 }}
               >
@@ -422,6 +432,7 @@ function CareersPage() {
 
               {fileError && (
                 <Typography
+                  id="careers-file-error"
                   role="alert"
                   sx={{
                     mt: 2,
@@ -465,7 +476,7 @@ function CareersPage() {
             <Typography
               sx={{
                 gridColumn: '1 / -1',
-                color: '#647B8B',
+                color: 'text.secondary',
                 fontSize: '0.85rem',
                 lineHeight: 1.8,
               }}
@@ -479,6 +490,9 @@ function CareersPage() {
       {/* Application Review */}
 
       <Dialog
+        data-contracting-portal
+        transitionDuration={reduceMotion ? 0 : undefined}
+        aria-describedby="careers-review-notice"
         dir={direction}
         lang={language}
         open={reviewOpen}
@@ -503,7 +517,7 @@ function CareersPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   mb: 0.5,
@@ -526,9 +540,9 @@ function CareersPage() {
             </Box>
           ))}
 
-          <Typography
+          <Typography id="careers-review-notice"
             sx={{
-              color: '#647B8B',
+              color: 'text.secondary',
               fontSize: '0.85rem',
               lineHeight: 1.8,
             }}

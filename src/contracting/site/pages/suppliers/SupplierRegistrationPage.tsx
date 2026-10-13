@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import type {
   ChangeEvent,
@@ -16,6 +16,7 @@ import {
   MenuItem,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 
 import InnerPageHero from '../../components/inner/InnerPageHero'
@@ -25,6 +26,8 @@ import { isValidSupplierPhone } from '../../utils/validateSupplierPhone'
 
 function SupplierRegistrationPage() {
   const t = useTranslation()
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const { direction, language } = useLanguage()
 
   const content = t.innerPages.supplierRegistration
@@ -317,7 +320,7 @@ function SupplierRegistrationPage() {
 
             <TextField
               select
-              slotProps={{ select: { MenuProps: { dir: direction, lang: language } } }}
+              slotProps={{ select: { MenuProps: { dir: direction, lang: language, ...{ 'data-contracting-portal': '' }, transitionDuration: reduceMotion ? 0 : undefined } } }}
               label={content.categoryLabel}
               value={category}
               onChange={(event) => {
@@ -385,27 +388,34 @@ function SupplierRegistrationPage() {
               </Typography>
 
               <Button
-                component="label"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                aria-invalid={Boolean(fileError)}
+                aria-describedby={
+                  'suppliers-file-hint' +
+                  (fileError ? ' suppliers-file-error' : profileFile ? ' suppliers-file-name' : '')
+                }
                 variant="outlined"
                 sx={{
                   color: '#082F4D',
-                  borderColor: '#649ABD',
+                  borderColor: 'text.secondary',
                   borderRadius: '10px',
                   textTransform: 'none',
                 }}
               >
                 {content.profileLabel}
-
-                <input
-                  hidden
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleFileChange}
-                />
               </Button>
 
+              <input
+                ref={fileInputRef}
+                hidden
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleFileChange}
+              />
+
               {profileFile && (
-                <Typography
+                <Typography id="suppliers-file-name" role="status"
                   sx={{
                     mt: 2,
                     color: '#082F4D',
@@ -416,10 +426,10 @@ function SupplierRegistrationPage() {
                 </Typography>
               )}
 
-              <Typography
+              <Typography id="suppliers-file-hint"
                 sx={{
                   mt: 2,
-                  color: '#647B8B',
+                  color: 'text.secondary',
                   fontSize: '0.85rem',
                 }}
               >
@@ -428,6 +438,7 @@ function SupplierRegistrationPage() {
 
               {fileError && (
                 <Typography
+                  id="suppliers-file-error"
                   role="alert"
                   sx={{
                     mt: 2,
@@ -471,7 +482,7 @@ function SupplierRegistrationPage() {
             <Typography
               sx={{
                 gridColumn: '1 / -1',
-                color: '#647B8B',
+                color: 'text.secondary',
                 fontSize: '0.85rem',
                 lineHeight: 1.8,
               }}
@@ -485,6 +496,9 @@ function SupplierRegistrationPage() {
       {/* Review Dialog */}
 
       <Dialog
+        data-contracting-portal
+        transitionDuration={reduceMotion ? 0 : undefined}
+        aria-describedby="suppliers-review-notice"
         dir={direction}
         lang={language}
         open={reviewOpen}
@@ -509,7 +523,7 @@ function SupplierRegistrationPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   mb: 0.5,
@@ -532,9 +546,9 @@ function SupplierRegistrationPage() {
             </Box>
           ))}
 
-          <Typography
+          <Typography id="suppliers-review-notice"
             sx={{
-              color: '#647B8B',
+              color: 'text.secondary',
               fontSize: '0.85rem',
             }}
           >

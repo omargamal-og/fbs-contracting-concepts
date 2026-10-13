@@ -13,6 +13,7 @@ import {
   Link,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 
 import InnerPageHero from '../../components/inner/InnerPageHero'
@@ -24,6 +25,7 @@ const CONTACT_EMAIL = 'info.cont@fbs.com.sa'
 
 function ContactPage() {
   const t = useTranslation()
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   const { direction, language } = useLanguage()
   const content = t.innerPages.contact
 
@@ -241,7 +243,7 @@ function ContactPage() {
                 >
                   <Typography
                     sx={{
-                      color: '#649ABD',
+                      color: 'text.secondary',
                       fontSize: '0.85rem',
                       fontWeight: 700,
                       mb: 1.5,
@@ -463,7 +465,7 @@ function ContactPage() {
                 <Typography
                   sx={{
                     gridColumn: '1 / -1',
-                    color: '#647B8B',
+                    color: 'text.secondary',
                     fontSize: '0.85rem',
                     lineHeight: 1.8,
                   }}
@@ -479,6 +481,9 @@ function ContactPage() {
       {/* Review Dialog */}
 
       <Dialog
+        data-contracting-portal
+        transitionDuration={reduceMotion ? 0 : undefined}
+        aria-describedby="contact-review-notice"
         dir={direction}
         lang={language}
         open={reviewOpen}
@@ -505,7 +510,7 @@ function ContactPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   mb: 0.5,
@@ -528,9 +533,9 @@ function ContactPage() {
             </Box>
           ))}
 
-          <Typography
+          <Typography id="contact-review-notice"
             sx={{
-              color: '#647B8B',
+              color: 'text.secondary',
               fontSize: '0.85rem',
               lineHeight: 1.8,
             }}

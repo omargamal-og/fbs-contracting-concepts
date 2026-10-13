@@ -144,7 +144,7 @@ function ProjectMap() {
               sx={{
                 mb: 1.5,
 
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.7rem',
 
@@ -185,7 +185,7 @@ function ProjectMap() {
                 sx={{
                   display: 'block',
 
-                  color: '#649ABD',
+                  color: '#4F7F9C',
                 }}
               >
                 {t.home.projectMap.titleLine2}
@@ -201,7 +201,7 @@ function ProjectMap() {
 
               maxWidth: 520,
 
-              color: 'rgba(8,47,77,0.58)',
+              color: 'rgba(8,47,77,0.72)',
 
               fontSize: '0.96rem',
 
@@ -342,6 +342,7 @@ function ProjectMap() {
                   }
 
                   aria-pressed={isSelected}
+                  aria-controls="contracting-project-preview"
 
                   sx={{
                     position: 'absolute',
@@ -417,7 +418,7 @@ function ProjectMap() {
                 },
 
                 color:
-                  'rgba(8,47,77,0.38)',
+                  'rgba(8,47,77,0.72)',
 
                 fontSize: '0.6rem',
 
@@ -459,10 +460,10 @@ function ProjectMap() {
                 'rgba(8,47,77,0.08)',
             }}
           >
-            <Box aria-live="polite">
+            <Box id="contracting-project-preview" aria-live="polite" aria-atomic="true">
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: '0.62rem',
 
@@ -506,7 +507,7 @@ function ProjectMap() {
                   mt: 2,
 
                   color:
-                    'rgba(8,47,77,0.50)',
+                    'rgba(8,47,77,0.72)',
 
                   fontSize: '0.86rem',
 
@@ -541,6 +542,7 @@ function ProjectMap() {
                 color: '#FFFFFF',
 
                 borderRadius: '999px',
+                transition: 'box-shadow 180ms ease',
 
                 fontSize: '0.74rem',
 
@@ -548,6 +550,7 @@ function ProjectMap() {
 
                 '&:hover': {
                   bgcolor: '#649ABD',
+                  color: '#082F4D',
                 },
               }}
             >

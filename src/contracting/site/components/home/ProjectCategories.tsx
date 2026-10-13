@@ -105,7 +105,7 @@ function ProjectCategories() {
               sx={{
                 mb: 1.5,
 
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.7rem',
 
@@ -161,7 +161,7 @@ function ProjectCategories() {
 
               maxWidth: 520,
 
-              color: 'rgba(8,47,77,0.60)',
+              color: 'rgba(8,47,77,0.72)',
 
               fontSize: {
                 xs: '0.94rem',
@@ -297,7 +297,7 @@ function ProjectCategories() {
                     sx={{
                       color: isBlue
                         ? '#B9DAF2'
-                        : '#649ABD',
+                        : 'text.secondary',
 
                       fontSize: '0.68rem',
 
@@ -372,7 +372,7 @@ function ProjectCategories() {
 
                       color: isBlue
                         ? 'rgba(255,255,255,0.66)'
-                        : 'rgba(8,47,77,0.58)',
+                        : 'rgba(8,47,77,0.72)',
 
                       fontSize: '0.9rem',
 

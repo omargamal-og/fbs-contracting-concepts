@@ -1,5 +1,6 @@
 import {
   CssBaseline,
+  GlobalStyles,
   ThemeProvider,
 } from '@mui/material'
 
@@ -11,6 +12,7 @@ import {
   contractingTheme,
   contractingRtlTheme,
 } from './contractingTheme'
+import { accessibilityStyles } from './accessibilityStyles'
 import { useLanguage } from '../i18n/useLanguage'
 
 type ContractingThemeProviderProps = {
@@ -26,6 +28,7 @@ function ContractingThemeProvider({
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <GlobalStyles styles={accessibilityStyles} />
 
       {children}
     </ThemeProvider>

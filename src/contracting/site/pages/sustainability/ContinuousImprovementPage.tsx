@@ -148,7 +148,7 @@ function ContinuousImprovementPage() {
               >
                 <Typography
                   sx={{
-                    color: '#649ABD',
+                    color: 'text.secondary',
                     fontWeight: 700,
                     fontSize: '0.8rem',
                   }}
@@ -272,7 +272,7 @@ function ContinuousImprovementPage() {
               >
                 <Typography
                   sx={{
-                    color: '#649ABD',
+                    color: 'text.secondary',
                     fontWeight: 700,
                     fontSize: '0.85rem',
                   }}

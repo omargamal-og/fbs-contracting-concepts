@@ -1,11 +1,12 @@
 import {
   useEffect,
+  useRef,
   useState,
 } from 'react'
 
-import { Box, Button, Collapse, Drawer, type SlideProps } from "@mui/material";
+import { Box, Button, Collapse, Drawer, type SlideProps, useMediaQuery } from "@mui/material";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 import { mainNavigation, type NavigationKey } from "../../data/navigation";
 
@@ -24,6 +25,14 @@ declare module '@mui/material/Drawer' {
 
 function ContractingNavbar() {
   const t = useTranslation();
+  const { pathname } = useLocation();
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const desktopTriggers = useRef<Partial<Record<NavigationKey, HTMLButtonElement | null>>>({});
+  const mobileTriggers = useRef<Partial<Record<NavigationKey, HTMLButtonElement | null>>>({});
+  const currentPage = (path: string) =>
+    pathname.replace(/\/$/, '') === contractingPath(path).replace(/\/$/, '')
+      ? 'page' as const
+      : undefined;
 
   const [isScrolled, setIsScrolled] =
   useState(false)
@@ -74,8 +83,10 @@ useEffect(() => {
       <Box
         component="header"
         onKeyDown={(event) => {
-          if (event.key === "Escape") {
+          if (event.key === "Escape" && activeDropdown) {
+            event.preventDefault();
             setActiveDropdown(null);
+            desktopTriggers.current[activeDropdown]?.focus();
           }
         }}
         // sx={{
@@ -125,7 +136,7 @@ useEffect(() => {
             : 'none',
         
             transition:
-            'background-color 260ms ease, color 260ms ease, border-color 260ms ease, box-shadow 260ms ease, backdrop-filter 260ms ease',
+            'border-color 260ms ease, box-shadow 260ms ease, backdrop-filter 260ms ease',
         }}
       >
         <Box
@@ -265,6 +276,7 @@ useEffect(() => {
                     key={item.labelKey}
                     component={RouterLink}
                     to={contractingPath(item.path ?? "")}
+                    aria-current={currentPage(item.path ?? "")}
                     sx={{
                       px: {
                         lg: 1,
@@ -293,7 +305,7 @@ useEffect(() => {
 
                         color: isScrolled
                           ? '#B9DAF2'
-                          : '#649ABD',
+                          : 'text.secondary',
                       },
                     }}
                   >
@@ -327,9 +339,9 @@ useEffect(() => {
 
                   <Button
                     type="button"
-                    aria-haspopup="menu"
+                    ref={(element) => { desktopTriggers.current[item.labelKey] = element; }}
+                    aria-controls={`contracting-desktop-${item.labelKey}`}
                     aria-expanded={isOpen}
-                    onFocus={() => setActiveDropdown(item.labelKey)}
                     onClick={() =>
                       setActiveDropdown((current) =>
                         current === item.labelKey ? null : item.labelKey
@@ -346,7 +358,7 @@ useEffect(() => {
                       color: isOpen
                       ? isScrolled
                         ? '#B9DAF2'
-                        : '#649ABD'
+                        : 'text.secondary'
                       : isScrolled
                         ? '#FFFFFF'
                         : '#082F4D',
@@ -367,13 +379,13 @@ useEffect(() => {
 
                         color: isScrolled
                           ? '#B9DAF2'
-                          : '#649ABD',
+                          : 'text.secondary',
                       },
                     }}
                   >
                     {t.navigation[item.labelKey]}
 
-                    <Box
+                    <Box aria-hidden="true"
                       component="span"
                       sx={{
                         marginInlineStart: 0.65,
@@ -392,7 +404,8 @@ useEffect(() => {
                   {/* Dropdown */}
 
                   <Box
-                    role="menu"
+                    id={`contracting-desktop-${item.labelKey}`}
+                    inert={!isOpen}
                     sx={{
                       position: "absolute",
 
@@ -446,7 +459,7 @@ useEffect(() => {
                         key={child.path}
                         component={RouterLink}
                         to={contractingPath(child.path)}
-                        role="menuitem"
+                        aria-current={currentPage(child.path)}
                         onClick={() => setActiveDropdown(null)}
                         sx={{
                           minHeight: 52,
@@ -473,7 +486,7 @@ useEffect(() => {
                           "&:hover": {
                             bgcolor: "#EEF4F6",
 
-                            color: "#649ABD",
+                            color: 'text.secondary',
                           },
 
                           "&:focus-visible": {
@@ -483,9 +496,9 @@ useEffect(() => {
                           },
                         }}
                       >
-                        <Box
+                        <Box aria-hidden="true"
                           sx={{
-                            color: "#A1B4BF",
+                            color: 'text.secondary',
 
                             fontSize: "0.48rem",
 
@@ -505,9 +518,9 @@ useEffect(() => {
                           {t.navigation[child.labelKey]}
                         </Box>
 
-                        <Box
+                        <Box aria-hidden="true"
                           sx={{
-                            color: "#649ABD",
+                            color: 'text.secondary',
 
                             fontSize: "0.75rem",
                           }}
@@ -566,6 +579,8 @@ useEffect(() => {
               <Box
                 component="button"
                 type="button"
+                aria-pressed={language === "en"}
+                aria-label={t.language.english}
                 onClick={() => setLanguage("en")}
                 sx={{
                   border: 0,
@@ -581,8 +596,8 @@ useEffect(() => {
                       ? '#FFFFFF'
                       : '#082F4D'
                     : isScrolled
-                      ? 'rgba(255,255,255,0.48)'
-                      : 'rgba(8,47,77,0.38)',
+                      ? 'rgba(255,255,255,0.8)'
+                      : 'rgba(8,47,77,0.72)',
 
                   fontFamily: "inherit",
 
@@ -614,6 +629,7 @@ useEffect(() => {
                 component="button"
                 type="button"
                 dir="rtl"
+                aria-pressed={language === "ar"}
                 onClick={() => setLanguage("ar")}
                 sx={{
                   border: 0,
@@ -627,10 +643,10 @@ useEffect(() => {
                   language === 'ar'
                     ? isScrolled
                       ? '#B9DAF2'
-                      : '#649ABD'
+                      : 'text.secondary'
                     : isScrolled
-                      ? 'rgba(255,255,255,0.48)'
-                      : 'rgba(8,47,77,0.38)',
+                      ? 'rgba(255,255,255,0.8)'
+                      : 'rgba(8,47,77,0.72)',
 
                   fontFamily: "inherit",
 
@@ -654,6 +670,7 @@ useEffect(() => {
               type="button"
               aria-label={t.navigation.openMenuLabel}
               aria-expanded={mobileOpen}
+              aria-controls="contracting-mobile-navigation"
               onClick={() => setMobileOpen(true)}
               sx={{
                 appearance: "none",
@@ -737,6 +754,9 @@ useEffect(() => {
       {/* Mobile Drawer */}
 
       <Drawer
+        data-contracting-portal
+        transitionDuration={reduceMotion ? 0 : undefined}
+        ModalProps={{ keepMounted: true }}
         anchor={direction === 'rtl' ? 'left' : 'right'}
         dir={direction}
         lang={language}
@@ -746,6 +766,10 @@ useEffect(() => {
           // Without a CSS RTL plugin, keep Slide aligned with the physical anchor.
           transition: { direction: direction === 'rtl' ? 'right' : 'left' },
           paper: {
+            id: "contracting-mobile-navigation",
+            role: "dialog",
+            "aria-modal": true,
+            "aria-label": t.navigation.mainNavigationLabel,
             dir: direction,
             lang: language,
             sx: {
@@ -814,7 +838,7 @@ useEffect(() => {
                 sx={{
                   mt: 0.3,
 
-                  color: "#649ABD",
+                  color: 'text.secondary',
 
                   fontSize: "0.5rem",
 
@@ -861,6 +885,14 @@ useEffect(() => {
 
           <Box
             component="nav"
+            onKeyDown={(event) => {
+              if (event.key === 'Escape' && mobileGroup) {
+                event.preventDefault();
+                event.stopPropagation();
+                setMobileGroup(null);
+                mobileTriggers.current[mobileGroup]?.focus();
+              }
+            }}
             aria-label={t.navigation.mainNavigationLabel}
             sx={{
               mt: 4,
@@ -877,6 +909,7 @@ useEffect(() => {
                     key={item.labelKey}
                     component={RouterLink}
                     to={contractingPath(item.path ?? "")}
+                    aria-current={currentPage(item.path ?? "")}
                     onClick={closeMobileMenu}
                     sx={{
                       minHeight: 64,
@@ -898,9 +931,9 @@ useEffect(() => {
                       borderColor: "rgba(8,47,77,0.10)",
                     }}
                   >
-                    <Box
+                    <Box aria-hidden="true"
                       sx={{
-                        color: "#649ABD",
+                        color: 'text.secondary',
 
                         fontSize: "0.52rem",
 
@@ -920,9 +953,9 @@ useEffect(() => {
                       {t.navigation[item.labelKey]}
                     </Box>
 
-                    <Box
+                    <Box aria-hidden="true"
                       sx={{
-                        color: "#649ABD",
+                        color: 'text.secondary',
                       }}
                     >
                       {direction === 'rtl' ? '↖' : '↗'}
@@ -943,6 +976,8 @@ useEffect(() => {
                   <Box
                     component="button"
                     type="button"
+                    ref={(element: HTMLButtonElement | null) => { mobileTriggers.current[item.labelKey] = element; }}
+                    aria-controls={`contracting-mobile-${item.labelKey}`}
                     aria-expanded={isOpen}
                     onClick={() =>
                       setMobileGroup((current) =>
@@ -979,9 +1014,9 @@ useEffect(() => {
                       cursor: "pointer",
                     }}
                   >
-                    <Box
+                    <Box aria-hidden="true"
                       sx={{
-                        color: "#649ABD",
+                        color: 'text.secondary',
 
                         fontSize: "0.52rem",
 
@@ -1001,21 +1036,22 @@ useEffect(() => {
                       {t.navigation[item.labelKey]}
                     </Box>
 
-                    <Box
+                    <Box aria-hidden="true"
                       sx={{
                         transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
 
                         transition: "transform 180ms ease",
 
-                        color: "#649ABD",
+                        color: 'text.secondary',
                       }}
                     >
                       ↓
                     </Box>
                   </Box>
 
-                  <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                  <Collapse in={isOpen} timeout={reduceMotion ? 0 : "auto"} inert={!isOpen}>
                     <Box
+                      id={`contracting-mobile-${item.labelKey}`}
                       sx={{
                         pb: 1.5,
 
@@ -1027,6 +1063,7 @@ useEffect(() => {
                           key={child.path}
                           component={RouterLink}
                           to={contractingPath(child.path)}
+                          aria-current={currentPage(child.path)}
                           onClick={closeMobileMenu}
                           sx={{
                             minHeight: 46,
@@ -1044,7 +1081,7 @@ useEffect(() => {
                             fontWeight: 600,
 
                             "&:hover": {
-                              color: "#649ABD",
+                              color: 'text.secondary',
                             },
                           }}
                         >
@@ -1095,7 +1132,7 @@ useEffect(() => {
                 color:
                   language === 'en'
                     ? '#082F4D'
-                    : 'rgba(8,47,77,0.42)',
+                    : 'rgba(8,47,77,0.72)',
 
                 p: 0,
 
@@ -1130,8 +1167,8 @@ useEffect(() => {
 
                 color:
                   language === 'ar'
-                    ? '#649ABD'
-                    : 'rgba(8,47,77,0.42)',
+                    ? 'text.secondary'
+                    : 'rgba(8,47,77,0.72)',
 
                 p: 0,
 

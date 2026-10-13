@@ -201,7 +201,7 @@ function ProjectDetailsPage() {
               ) : (
                 <Typography
                   sx={{
-                    color: '#649ABD',
+                    color: 'text.secondary',
                     fontSize: '1.4rem',
                     fontWeight: 600,
                   }}
@@ -258,7 +258,7 @@ function ProjectDetailsPage() {
                 >
                   <Typography
                     sx={{
-                      color: '#649ABD',
+                      color: 'text.secondary',
 
                       fontSize: '0.75rem',
 

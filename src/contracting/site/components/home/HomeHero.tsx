@@ -121,7 +121,7 @@ function HomeHero() {
               <Typography
                 component="span"
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: {
                     xs: '0.64rem',
@@ -243,9 +243,11 @@ function HomeHero() {
                   fontWeight: 700,
 
                   boxShadow: 'none',
+                  transition: 'box-shadow 180ms ease',
 
                   '&:hover': {
                     bgcolor: '#649ABD',
+                    color: '#082F4D',
                     boxShadow: 'none',
                   },
                 }}
@@ -321,7 +323,7 @@ function HomeHero() {
               <Typography
                 sx={{
                   color:
-                    'rgba(8,47,77,0.42)',
+                    'rgba(8,47,77,0.72)',
 
                   fontSize: '0.58rem',
 

@@ -55,7 +55,7 @@ function InnerPageHero({
           sx={{
             mb: 2,
 
-            color: '#649ABD',
+            color: 'text.secondary',
 
             fontSize: '0.7rem',
 
@@ -103,7 +103,7 @@ function InnerPageHero({
               maxWidth: 720,
 
               color:
-                'rgba(8,47,77,0.58)',
+                'rgba(8,47,77,0.72)',
 
               fontSize: {
                 xs: '0.95rem',

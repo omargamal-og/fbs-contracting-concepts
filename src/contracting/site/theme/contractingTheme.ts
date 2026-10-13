@@ -13,6 +13,10 @@ export const contractingTheme = createTheme({
       light: '#B9DAF2',
     },
 
+    error: {
+      main: '#C62828',
+    },
+
     background: {
       default: '#EEF4F6',
       paper: '#FFFFFF',
@@ -20,7 +24,7 @@ export const contractingTheme = createTheme({
 
     text: {
       primary: '#082F4D',
-      secondary: '#649ABD',
+      secondary: '#386682',
     },
   },
 
@@ -46,6 +50,14 @@ export const contractingTheme = createTheme({
     button: {
       textTransform: 'none',
       fontWeight: 600,
+    },
+  },
+
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: { borderColor: '#50697A' },
+      },
     },
   },
 

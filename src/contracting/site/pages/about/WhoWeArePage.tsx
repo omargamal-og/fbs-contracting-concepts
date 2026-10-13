@@ -70,7 +70,7 @@ function WhoWeArePage() {
             <Box>
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: '0.7rem',
 
@@ -129,7 +129,7 @@ function WhoWeArePage() {
                   key={paragraph}
                   sx={{
                     color:
-                      'rgba(8,47,77,0.64)',
+                      'rgba(8,47,77,0.72)',
 
                     fontSize: {
                       xs: '0.96rem',

@@ -137,7 +137,7 @@ function ContactCta() {
               sx={{
                 mb: 1.6,
 
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.7rem',
 
@@ -179,7 +179,7 @@ function ContactCta() {
                 sx={{
                   display: 'block',
 
-                  color: '#649ABD',
+                  color: '#4F7F9C',
                 }}
               >
                 {t.home.contactCta.titleLine2}
@@ -193,7 +193,7 @@ function ContactCta() {
                 maxWidth: 620,
 
                 color:
-                  'rgba(8,47,77,0.58)',
+                  'rgba(8,47,77,0.72)',
 
                 fontSize: {
                   xs: '0.94rem',
@@ -239,9 +239,11 @@ function ContactCta() {
               fontWeight: 700,
 
               boxShadow: 'none',
+              transition: 'box-shadow 180ms ease',
 
               '&:hover': {
                 bgcolor: '#649ABD',
+                color: '#082F4D',
 
                 boxShadow: 'none',
               },

@@ -142,7 +142,7 @@ function EconomicResponsibilityPage() {
                 >
                   <Typography
                     sx={{
-                      color: '#649ABD',
+                      color: 'text.secondary',
                       fontWeight: 700,
                       fontSize: '0.8rem',
                     }}

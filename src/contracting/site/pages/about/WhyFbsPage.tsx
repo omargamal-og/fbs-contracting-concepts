@@ -109,7 +109,7 @@ function WhyFbsPage() {
 
                 <Typography
                   sx={{
-                    color: '#649ABD',
+                    color: 'text.secondary',
 
                     fontSize: '0.8rem',
 

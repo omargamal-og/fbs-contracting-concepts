@@ -174,7 +174,7 @@ function TrainingPage() {
                   position: 'relative',
                   zIndex: 1,
 
-                  color: '#B9DAF2',
+                  color: '#FFFFFF',
 
                   fontSize: '0.8rem',
                   fontWeight: 700,
@@ -309,7 +309,7 @@ function TrainingPage() {
                 >
                   <Typography
                     sx={{
-                      color: '#649ABD',
+                      color: 'text.secondary',
                       fontSize: '0.85rem',
                       fontWeight: 700,
                     }}

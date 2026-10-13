@@ -13,6 +13,7 @@ function ContractingLayout() {
   } = useLanguage()
   return (
     <Box
+    data-contracting-site
     dir={direction}
     lang={language}
       sx={{

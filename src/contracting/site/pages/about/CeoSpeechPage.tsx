@@ -126,7 +126,7 @@ function CeoSpeechPage() {
 
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: '0.95rem',
 
@@ -150,7 +150,7 @@ function CeoSpeechPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: '0.75rem',
 

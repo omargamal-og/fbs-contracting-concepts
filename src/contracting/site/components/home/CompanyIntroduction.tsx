@@ -73,7 +73,7 @@ function CompanyIntroduction() {
               sx={{
                 mb: 1.6,
 
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.7rem',
 
@@ -159,7 +159,7 @@ function CompanyIntroduction() {
               sx={{
                 mt: 2.5,
 
-                color: 'rgba(8,47,77,0.58)',
+                color: 'rgba(8,47,77,0.72)',
 
                 fontSize: {
                   xs: '0.92rem',
@@ -199,7 +199,7 @@ function CompanyIntroduction() {
 
                   marginInlineStart: 1.2,
 
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   transition:
                     'transform 180ms ease',
@@ -208,7 +208,7 @@ function CompanyIntroduction() {
                 '&:hover': {
                   bgcolor: 'transparent',
 
-                  color: '#649ABD',
+                  color: 'text.secondary',
                 },
 
                 '&:hover::after': {
