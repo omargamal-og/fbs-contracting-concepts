@@ -101,6 +101,14 @@ export type HomeDictionary = {
   projectCategories: ProjectCategoriesDictionary
 
   projectMap: {
+    allLocations: string
+    viewProjects: string
+    selectedCity: string
+    chooseProject: string
+    viewCityProjects: string
+    projectSingular: string
+    projectPlural: string
+    makkahRegion: string
     eyebrow: string
     titleLine1: string
     titleLine2: string

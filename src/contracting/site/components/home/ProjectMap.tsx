@@ -1,91 +1,103 @@
-import { useLanguage } from '../../i18n/useLanguage'
-
+import { useMemo, useRef, useState, type MouseEvent } from 'react'
 import {
-  getFeaturedProjectByRegion,
-} from '../../data/projects'
-
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-
-import {
-  Box,
-  Button,
-  Container,
-  Typography,
+  Box, Button, Chip, ListSubheader, Menu, MenuItem, Typography, Container,
+  useMediaQuery,
 } from '@mui/material'
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles'
+import { Link as RouterLink } from 'react-router-dom'
 
-import {
-  Link as RouterLink,
-} from 'react-router-dom'
-
-import {
-  contractingPath,
-} from '../../config/site'
-
-import {
-  useTranslation,
-} from '../../i18n/useTranslation'
-
+import saudiMapSvg from '../../../core/assets/saudi-arabia.svg?raw'
+import { conceptATheme } from '../../../themes/conceptATheme'
+import { projects } from '../../data/projects'
+import { contractingPath } from '../../config/site'
+import { useLanguage } from '../../i18n/useLanguage'
+import { useTranslation } from '../../i18n/useTranslation'
 import type { ProjectRegionId } from '../../i18n/types'
 
-type ProjectId = ProjectRegionId
+// Visual anchors copied from Concept A's core/data/projects.ts (first pin per city).
+// Taif retains the previous Home map's illustrative anchor, normalized from its
+// 800 × 620 viewBox as requested. These are display anchors, not geographic data.
+const cityPositions = {
+  riyadh: { x: 59, y: 47, svgId: 'SA01' },
+  jeddah: { x: 25.5, y: 65.5, svgId: 'SA02' },
+  madinah: { x: 31, y: 48, svgId: 'SA03' },
+  taif: { x: 248 / 800 * 100, y: 399 / 620 * 100, svgId: 'SA02' },
+  tabuk: { x: 18, y: 28, svgId: 'SA07' },
+} satisfies Record<ProjectRegionId, { x: number; y: number; svgId: string }>
 
-// Illustrative anchors in the existing 800 × 620 viewBox, not geographic coordinates.
-const projectPositions: Record<ProjectId, { x: number; y: number }> = {
-  riyadh: { x: 457, y: 303 },
-  jeddah: { x: 219, y: 347 },
-  madinah: { x: 286, y: 244 },
-  taif: { x: 248, y: 399 },
-  tabuk: { x: 229, y: 162 },
-}
+const cities = (Object.keys(cityPositions) as ProjectRegionId[]).filter(
+  (city) => projects.some((project) => project.region === city),
+)
 
 function ProjectMap() {
   const t = useTranslation()
-
-  const { language } = useLanguage()
-
-  const [selectedProject, setSelectedProject] =
-  useState<ProjectId>('riyadh')
-
-  const mapRef = useRef<HTMLDivElement>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
-  const [mapTransform, setMapTransform] = useState<
-    Pick<DOMMatrix, 'a' | 'b' | 'c' | 'd' | 'e' | 'f'> | null
-  >(null)
-
-  useEffect(() => {
-    const map = mapRef.current
-    const svg = svgRef.current
-    if (!map || !svg) return
-
-    // Include the SVG's meet/letterboxing transform while keeping native buttons
-    // and their tap targets at a readable CSS size outside the scaled drawing.
-    const observer = new ResizeObserver(() => {
-      const matrix = svg.getScreenCTM()
-      if (!matrix) return
-      const bounds = map.getBoundingClientRect()
-      setMapTransform({
-        a: matrix.a,
-        b: matrix.b,
-        c: matrix.c,
-        d: matrix.d,
-        e: matrix.e - bounds.left,
-        f: matrix.f - bounds.top,
-      })
-    })
-    observer.observe(svg)
-    observer.observe(map)
-    return () => observer.disconnect()
-  }, [])
-
-  const project =
-  getFeaturedProjectByRegion(selectedProject)
-
-  if (!project) {
-    return null
+  const content = t.home.projectMap
+  const { language, direction } = useLanguage()
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const siteTheme = useTheme()
+  // Keep Concept A's visual theme and the site's accessible small-text color.
+  const mapTheme = useMemo(() => createTheme(conceptATheme, {
+    direction, palette: { text: { secondary: siteTheme.palette.text.secondary } },
+  }), [direction, siteTheme.palette.text.secondary])
+  const [selectedCity, setSelectedCity] = useState<ProjectRegionId>('riyadh')
+  const [filter, setFilter] = useState<ProjectRegionId | 'all'>('all')
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null)
+  const [hover, setHover] = useState<{ city: ProjectRegionId | null; regionId: string; x: number; y: number } | null>(null)
+  const canvasRef = useRef<HTMLDivElement>(null)
+  const pinRefs = useRef<Partial<Record<ProjectRegionId, HTMLButtonElement | null>>>({})
+  const selectedProjects = projects.filter((project) => project.region === selectedCity)
+  const selectedCategories = [...new Set(selectedProjects.map((project) => project.category))]
+  const cityName = (city: ProjectRegionId) => content.projects[city].location
+  const countLabel = (count: number) =>
+    new Intl.NumberFormat(language).format(count) + ' ' +
+    (count === 1 ? content.projectSingular : content.projectPlural)
+  const closeProjects = () => setAnchor(null)
+  const openCity = (city: ProjectRegionId, element: HTMLElement) => {
+    setSelectedCity(city)
+    setFilter(city)
+    setHover(null)
+    setAnchor(element)
+  }
+  const nearestCity = (event: MouseEvent<HTMLElement>, candidates = cities) => {
+    const bounds = canvasRef.current!.getBoundingClientRect()
+    const distance = (city: ProjectRegionId) => {
+      const position = cityPositions[city]
+      return Math.hypot(
+        event.clientX - bounds.left - bounds.width * position.x / 100,
+        event.clientY - bounds.top - bounds.height * position.y / 100,
+      )
+    }
+    return candidates.reduce((nearest, city) => distance(city) < distance(nearest) ? city : nearest)
+  }
+  const handlePinClick = (event: MouseEvent<HTMLButtonElement>, city: ProjectRegionId) => {
+    // Nearby cities can share enlarged touch areas on a small map. Resolve pointer
+    // clicks to the nearest existing anchor; keyboard clicks keep the focused city.
+    const targetCity = event.detail > 0 ? nearestCity(event) : city
+    const pin = pinRefs.current[targetCity]!
+    pin.focus({ preventScroll: true })
+    openCity(targetCity, pin)
+  }
+  const regionLabels: Record<string, string> = {
+    SA01: cityName('riyadh'), SA02: content.makkahRegion,
+    SA03: cityName('madinah'), SA07: cityName('tabuk'),
+  }
+  const handleRegionClick = (event: MouseEvent<HTMLDivElement>) => {
+    const id = (event.target as Element).id
+    const candidates = cities.filter((city) => cityPositions[city].svgId === id)
+    if (!candidates.length) return
+    const city = nearestCity(event, candidates)
+    const pin = pinRefs.current[city]!
+    pin.focus({ preventScroll: true })
+    openCity(city, pin)
+  }
+  const handlePointerMove = (event: MouseEvent<HTMLDivElement>) => {
+    if (anchor) return
+    const target = event.target as Element
+    const city = target.closest('[data-city-pin]') ? nearestCity(event) : null
+    const label = city ? cityName(city) : regionLabels[target.id]
+    if (!label) { setHover(null); return }
+    const bounds = event.currentTarget.getBoundingClientRect()
+    setHover({ city, regionId: target.id, x: Math.max(8, Math.min(event.clientX - bounds.left + 14, bounds.width - 200)), y: event.clientY - bounds.top })
   }
 
   return (
@@ -212,352 +224,271 @@ function ProjectMap() {
           </Typography>
         </Box>
 
-        {/* Map Panel */}
+        <ThemeProvider theme={mapTheme}>
+          {/* Same filter strip, map card, outline and side panel as Concept A. */}
+          <Box sx={{
+            display: 'flex', gap: { xs: 1, md: 2 },
+            flexWrap: { xs: 'nowrap', md: 'wrap' },
+            overflowX: { xs: 'auto', md: 'visible' },
+            pb: { xs: 1, md: 0 }, scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+          }}>
+            {(['all', ...cities] as const).map((city) => (
+              <Button
+                key={city}
+                type="button"
+                aria-pressed={filter === city}
+                aria-haspopup={city === 'all' ? undefined : 'menu'}
+                aria-expanded={city === 'all' ? undefined : Boolean(anchor?.id === 'map-filter-' + city)}
+                aria-controls={city !== 'all' && anchor?.id === 'map-filter-' + city ? 'contracting-city-projects' : undefined}
+                id={'map-filter-' + city}
+                onClick={(event) => {
+                  if (city === 'all') {
+                    setFilter('all')
+                    closeProjects()
+                  } else openCity(city, event.currentTarget)
+                }}
+                sx={{
+                  flexShrink: 0, minWidth: 0, minHeight: 44, px: 2.2, py: 1.2,
+                  borderRadius: 0, borderBottom: '2px solid',
+                  borderColor: filter === city ? 'secondary.main' : 'transparent',
+                  color: filter === city ? 'text.primary' : 'text.secondary',
+                  bgcolor: 'transparent',
+                  '&:hover': { bgcolor: 'transparent', color: 'text.primary' },
+                }}
+              >
+                {city === 'all' ? content.allLocations : cityName(city)}
+              </Button>
+            ))}
+          </Box>
 
-        <Box
-          sx={{
+          <Box sx={{
             display: 'grid',
-
-            gridTemplateColumns: {
-              xs: '1fr',
-              lg: '1.45fr 0.55fr',
-            },
-
-            bgcolor: '#FFFFFF',
-
-            borderRadius: {
-              xs: '22px',
-              md: '30px',
-            },
-
-            overflow: 'hidden',
-
-            border: '1px solid',
-
-            borderColor:
-              'rgba(8,47,77,0.08)',
-
-            boxShadow:
-              '0 24px 70px rgba(8,47,77,0.07)',
-          }}
-        >
-          {/* Map */}
-
-          <Box
-            ref={mapRef}
-            sx={{
-              position: 'relative',
-
-              minHeight: {
-                xs: 470,
-                md: 620,
-                lg: 680,
-              },
-
-              bgcolor: '#F7FAFB',
-
-              overflow: 'hidden',
-            }}
-          >
-            {/* Saudi Arabia SVG */}
-
-            <Box
-              component="svg"
-              ref={svgRef}
-              aria-hidden="true"
-              viewBox="0 0 800 620"
-              preserveAspectRatio="xMidYMid meet"
-              sx={{
-                position: 'absolute',
-
-                inset: '8%',
-
-                width: '84%',
-                height: '84%',
-              }}
-            >
-              <path
-                d="
-                  M190 110
-                  L350 95
-                  L505 125
-                  L590 195
-                  L610 270
-                  L575 335
-                  L605 410
-                  L520 500
-                  L390 535
-                  L270 505
-                  L205 430
-                  L170 340
-                  L145 245
-                  Z
-                "
-                fill="#DAE4EA"
-                stroke="#A1B4BF"
-                strokeWidth="2"
-              />
-
-              <path
-                d="
-                  M190 110
-                  L350 95
-                  L505 125
-                "
-                fill="none"
-                stroke="#B9DAF2"
-                strokeWidth="6"
-                strokeLinecap="round"
-              />
-            </Box>
-
-            {/* Pins */}
-
-            {mapTransform && (
-              Object.keys(
-                projectPositions,
-              ) as ProjectId[]
-            ).map((id) => {
-              const position =
-                projectPositions[id]
-
-              const isSelected =
-                selectedProject === id
-
-              return (
+            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0, 1.35fr) minmax(360px, 0.65fr)' },
+            gap: { xs: 3, lg: 4 }, alignItems: 'stretch',
+          }}>
+            <Box data-concept-a-map-card sx={{
+              bgcolor: '#ECE9DF', border: '1px solid rgba(23,23,23,0.10)',
+              minWidth: 0, p: { xs: 2.5, md: 5 }, display: 'flex', flexDirection: 'column',
+            }}>
+              <Box
+                ref={canvasRef}
+                data-city-map-canvas
+                dir="ltr"
+                onMouseMove={handlePointerMove}
+                onMouseLeave={() => setHover(null)}
+                sx={{ position: 'relative', width: '100%', maxWidth: 700, mx: 'auto' }}
+              >
                 <Box
-                  key={id}
-
-                  component="button"
-
-                  type="button"
-
-                  onClick={() =>
-                    setSelectedProject(id)
-                  }
-
-                  aria-label={
-                    getFeaturedProjectByRegion(id)?.name[language] ??
-                    t.home.projectMap.projects[id].title
-                  }
-
-                  aria-pressed={isSelected}
-                  aria-controls="contracting-project-preview"
-
+                  aria-hidden="true"
+                  onClick={handleRegionClick}
+                  dangerouslySetInnerHTML={{ __html: saudiMapSvg }}
                   sx={{
-                    position: 'absolute',
-
-                    left: mapTransform.a * position.x +
-                      mapTransform.c * position.y + mapTransform.e,
-                    top: mapTransform.b * position.x +
-                      mapTransform.d * position.y + mapTransform.f,
-
-                    transform:
-                      'translate(-50%, -50%)',
-
-                    width: { xs: 32, sm: 44 },
-                    height: { xs: 32, sm: 44 },
-                    p: 0,
-                    border: 0,
-                    borderRadius: '50%',
-                    bgcolor: 'transparent',
-                    cursor: 'pointer',
-                    '&:focus-visible': {
-                      outline: '2px solid #082F4D',
-                      outlineOffset: 3,
+                    width: '100%',
+                    '& svg': { display: 'block', width: '100%', height: 'auto' },
+                    '& path': {
+                      fill: '#9DA896', stroke: '#F5F2EA', strokeWidth: 1,
+                      transition: 'fill 250ms ease, opacity 250ms ease, stroke 250ms ease',
+                      opacity: filter === 'all' ? 0.86 : 0.28,
+                    },
+                    '& #SA01, & #SA02, & #SA03, & #SA07': { cursor: 'pointer' },
+                    '& #SA01:hover, & #SA02:hover, & #SA03:hover, & #SA07:hover': {
+                      fill: '#AA9875', opacity: 1,
+                    },
+                    ['& #' + cityPositions[selectedCity].svgId]: {
+                      fill: '#B29A70', stroke: '#FFFFFF', strokeWidth: 2, opacity: 1,
+                      filter: 'drop-shadow(0 6px 12px rgba(154,123,79,0.18))',
                     },
                   }}
-                >
-                  <Box
-                    component="span"
-                    sx={{
-                      position: 'absolute',
-                      left: '50%',
-                      top: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      pointerEvents: 'none',
-                      width: isSelected ? 28 : 20,
-                      height: isSelected ? 28 : 20,
-                      boxSizing: 'border-box',
-                      borderRadius: '50%',
-                      border: '5px solid #FFFFFF',
-                      bgcolor: isSelected ? '#082F4D' : '#649ABD',
-                      boxShadow: '0 8px 22px rgba(8,47,77,0.22)',
-                      transition:
-                        'width 180ms ease, height 180ms ease, background-color 180ms ease',
-                      '&::after': {
-                        content: '""',
-                        position: 'absolute',
-                        inset: -10,
-                        borderRadius: '50%',
-                        border: '1px solid',
-                        borderColor: isSelected
-                          ? 'rgba(8,47,77,0.25)'
-                          : 'transparent',
-                      },
-                    }}
-                  />
+                />
+
+                {hover && (
+                  <Box dir={direction} sx={{
+                    position: 'absolute',
+                    left: hover.x,
+                    top: hover.y, transform: 'translateY(-50%)',
+                    px: 1.5, py: 0.8, maxWidth: 'calc(100% - 16px)',
+                    bgcolor: '#082F4D', color: '#FFFFFF', fontSize: '0.72rem',
+                    fontWeight: 700, letterSpacing: 1, textTransform: 'uppercase',
+                    pointerEvents: 'none', zIndex: 20, boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                  }} aria-hidden="true">
+                    {hover.city ? cityName(hover.city) : regionLabels[hover.regionId]}
+                  </Box>
+                )}
+
+                {cities.map((city) => {
+                  const isActive = selectedCity === city
+                  const position = cityPositions[city]
+                  return (
+                    <Box key={city} sx={{
+                      position: 'absolute', left: position.x + '%', top: position.y + '%',
+                      transform: 'translate(-50%, -50%)', zIndex: isActive ? 5 : 3,
+                    }}>
+                      {isActive && (
+                        <Box data-map-pulse aria-hidden="true" sx={{
+                          position: 'absolute', width: 32, height: 32, left: '50%', top: '50%',
+                          transform: 'translate(-50%, -50%)', borderRadius: '50%',
+                          border: '1px solid rgba(154,123,79,0.55)', pointerEvents: 'none',
+                          animation: 'fbsMapPulse 2.6s ease-out infinite',
+                          '@keyframes fbsMapPulse': {
+                            '0%': { transform: 'translate(-50%, -50%) scale(0.55)', opacity: 0.65 },
+                            '100%': { transform: 'translate(-50%, -50%) scale(1.7)', opacity: 0 },
+                          },
+                        }} />
+                      )}
+                      <Box
+                        component="button"
+                        ref={(element: HTMLButtonElement | null) => { pinRefs.current[city] = element }}
+                        id={'map-pin-' + city}
+                        data-city-pin={city}
+                        type="button"
+                        aria-label={content.viewCityProjects + ' ' + cityName(city)}
+                        aria-pressed={isActive}
+                        aria-haspopup="menu"
+                        aria-expanded={anchor?.id === 'map-pin-' + city}
+                        aria-controls={anchor?.id === 'map-pin-' + city ? 'contracting-city-projects' : undefined}
+                        onClick={(event: MouseEvent<HTMLButtonElement>) => handlePinClick(event, city)}
+                        sx={{
+                          position: 'relative', display: 'block', width: 44, height: 44,
+                          p: 0, border: 0, borderRadius: '50%', bgcolor: 'transparent', cursor: 'pointer',
+                        }}
+                      >
+                        <Box component="span" className="city-pin-dot" aria-hidden="true" sx={{
+                          position: 'absolute', left: '50%', top: '50%',
+                          transform: 'translate(-50%, -50%)' + (hover?.city === city && !reduceMotion ? ' scale(1.3)' : ''),
+                          boxSizing: 'border-box',
+                          width: isActive ? 20 : 16, height: isActive ? 20 : 16,
+                          borderRadius: '50%', border: '4px solid #FFFFFF',
+                          bgcolor: isActive ? 'secondary.main' : '#082F4D',
+                          opacity: filter !== 'all' && !isActive ? 0.72 : 1,
+                          boxShadow: '0 2px 10px rgba(0,0,0,0.18)', pointerEvents: 'none',
+                          transition: 'transform 180ms ease, background-color 180ms ease',
+                        }} />
+                      </Box>
+                    </Box>
+                  )
+                })}
+              </Box>
+
+              <Box sx={{
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                gap: 2, mt: 2, pt: 2, borderTop: '1px solid rgba(23,23,23,0.08)',
+              }}>
+                <Typography sx={{ color: 'text.secondary', fontSize: '0.7rem', letterSpacing: 1.5, textTransform: 'uppercase' }}>
+                  {content.countryLabel}
+                </Typography>
+                <Typography sx={{ color: 'text.secondary', fontSize: '0.75rem', flexShrink: 0 }}>
+                  {countLabel(filter === 'all' ? projects.length : selectedProjects.length)}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box sx={{
+              bgcolor: '#082F4D', color: '#FFFFFF', p: { xs: 4, md: 5 },
+              minWidth: 0, minHeight: { xs: 360, lg: 'auto' },
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+            }}>
+              <Box>
+                <Typography variant="overline" sx={{ color: 'rgba(255,255,255,0.78)', letterSpacing: 1.6 }}>
+                  {content.selectedCity}
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 3, mb: 4 }}>
+                  {selectedCategories.map((category) => (
+                    <Chip key={category} label={t.home.projectCategories[category].title} size="small"
+                      sx={{ bgcolor: 'rgba(255,255,255,0.09)', color: '#FFFFFF' }} />
+                  ))}
                 </Box>
-              )
-            })}
-
-            {/* Map Label */}
-
-            <Box
-              sx={{
-                position: 'absolute',
-
-                insetInlineStart: {
-                  xs: 20,
-                  md: 30,
-                },
-
-                bottom: {
-                  xs: 20,
-                  md: 30,
-                },
-
-                color:
-                  'rgba(8,47,77,0.72)',
-
-                fontSize: '0.6rem',
-
-                fontWeight: 700,
-
-                letterSpacing: '0.14em',
-
-                textTransform: 'uppercase',
-              }}
-            >
-              {t.home.projectMap.countryLabel}
+                <Typography component="h3" variant="h3" sx={{
+                  maxWidth: 380, fontSize: { xs: '2.2rem', md: '3rem' },
+                  lineHeight: 1.05, overflowWrap: 'anywhere',
+                }}>
+                  {cityName(selectedCity)}
+                </Typography>
+                <Typography sx={{ mt: 2, color: 'rgba(255,255,255,0.78)', fontSize: '0.95rem' }}>
+                  {countLabel(selectedProjects.length)}
+                </Typography>
+                <Typography sx={{ mt: 4, maxWidth: 420, lineHeight: 1.75, color: 'rgba(255,255,255,0.78)' }}>
+                  {content.chooseProject}
+                </Typography>
+              </Box>
+              <Button
+                id="map-city-projects-button"
+                type="button"
+                variant="contained"
+                aria-haspopup="menu"
+                aria-expanded={anchor?.id === 'map-city-projects-button'}
+                aria-controls={anchor?.id === 'map-city-projects-button' ? 'contracting-city-projects' : undefined}
+                onClick={(event) => { setHover(null); setAnchor(event.currentTarget) }}
+                sx={{ mt: 6, alignSelf: 'flex-start', bgcolor: '#FFFFFF', color: '#082F4D', px: 3,
+                  '&:hover': { bgcolor: '#E8E8E8' } }}
+              >
+                {content.viewProjects}
+              </Button>
             </Box>
           </Box>
 
-          {/* Project Preview */}
-
-          <Box
-            sx={{
-              p: {
-                xs: 3,
-                md: 4,
-                lg: 5,
+          <Menu
+            data-contracting-portal
+            dir={direction}
+            lang={language}
+            anchorEl={anchor}
+            open={Boolean(anchor)}
+            onClose={closeProjects}
+            transitionDuration={reduceMotion ? 0 : undefined}
+            marginThreshold={16}
+            anchorOrigin={{ vertical: 'top', horizontal: direction === 'rtl' ? 'right' : 'left' }}
+            transformOrigin={{ vertical: 'bottom', horizontal: direction === 'rtl' ? 'right' : 'left' }}
+            slotProps={{
+              paper: {
+                dir: direction, lang: language,
+                sx: {
+                  width: 320, maxWidth: 'calc(100vw - 32px)',
+                  maxHeight: 'min(440px, calc(100dvh - 32px))',
+                  bgcolor: '#082F4D', color: '#FFFFFF', borderRadius: 0,
+                  boxShadow: '0 18px 45px rgba(0,0,0,0.22)',
+                },
               },
-
-              display: 'flex',
-
-              flexDirection: 'column',
-
-              justifyContent:
-                'space-between',
-
-              bgcolor: '#FFFFFF',
-
-              borderInlineStart: {
-                lg: '1px solid',
-              },
-
-              borderColor:
-                'rgba(8,47,77,0.08)',
+              list: { id: 'contracting-city-projects', 'aria-labelledby': 'contracting-city-projects-heading' },
             }}
           >
-            <Box id="contracting-project-preview" aria-live="polite" aria-atomic="true">
-              <Typography
+            <ListSubheader component="li" role="presentation" disableSticky sx={{
+              bgcolor: '#082F4D', color: '#FFFFFF', px: 2, py: 1.5, lineHeight: 1.5,
+              borderBottom: '1px solid rgba(255,255,255,0.18)',
+            }}>
+              <Typography id="contracting-city-projects-heading" component="h3" sx={{ fontSize: '1rem', fontWeight: 700 }}>
+                {cityName(selectedCity)}
+              </Typography>
+              <Typography sx={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.78)' }}>
+                {countLabel(selectedProjects.length)}
+              </Typography>
+            </ListSubheader>
+            {selectedProjects.map((project) => (
+              <MenuItem
+                key={project.slug}
+                component={RouterLink}
+                to={contractingPath('projects/' + project.slug)}
+                aria-label={project.name[language]}
+                onClick={closeProjects}
                 sx={{
-                  color: 'text.secondary',
-
-                  fontSize: '0.62rem',
-
-                  fontWeight: 700,
-
-                  letterSpacing: '0.14em',
-
-                  textTransform:
-                    'uppercase',
+                  minHeight: 56, px: 2, py: 1.5, gap: 2,
+                  alignItems: 'center', whiteSpace: 'normal', textAlign: 'start',
+                  borderBottom: '1px solid rgba(255,255,255,0.12)',
+                  '&:hover, &.Mui-focusVisible': { bgcolor: 'rgba(255,255,255,0.12)' },
                 }}
               >
-                {t.home.projectCategories[project.category].title}
-              </Typography>
-
-              <Typography
-                component="h3"
-                sx={{
-                  mt: 1.5,
-
-                  mb: 0,
-
-                  color: '#082F4D',
-
-                  fontSize: {
-                    xs: '2rem',
-                    lg: '2.6rem',
-                  },
-
-                  fontWeight: 500,
-
-                  lineHeight: 1,
-
-                  letterSpacing: '-0.045em',
-                }}
-              >
-                {project.name[language]}
-              </Typography>
-
-              <Typography
-                sx={{
-                  mt: 2,
-
-                  color:
-                    'rgba(8,47,77,0.72)',
-
-                  fontSize: '0.86rem',
-
-                  fontWeight: 600,
-                }}
-              >
-                {project.location[language]}
-              </Typography>
-            </Box>
-
-            <Button
-              component={RouterLink}
-
-              to={contractingPath(
-                `projects/${project.slug}`,
-              )}
-
-              sx={{
-                mt: {
-                  xs: 4,
-                  lg: 8,
-                },
-
-                alignSelf: 'flex-start',
-
-                minHeight: 48,
-
-                px: 2.8,
-
-                bgcolor: '#082F4D',
-
-                color: '#FFFFFF',
-
-                borderRadius: '999px',
-                transition: 'box-shadow 180ms ease',
-
-                fontSize: '0.74rem',
-
-                fontWeight: 700,
-
-                '&:hover': {
-                  bgcolor: '#649ABD',
-                  color: '#082F4D',
-                },
-              }}
-            >
-              {t.home.projectMap.viewProject}
-            </Button>
-          </Box>
-        </Box>
+                <Box sx={{ minWidth: 0, flex: 1, overflowWrap: 'anywhere' }}>
+                  <Typography component="span" sx={{ display: 'block', fontSize: '0.85rem', fontWeight: 700 }}>
+                    {project.name[language]}
+                  </Typography>
+                  <Typography component="span" sx={{ display: 'block', mt: 0.4, fontSize: '0.72rem', color: 'rgba(255,255,255,0.78)' }}>
+                    {t.home.projectCategories[project.category].title}
+                  </Typography>
+                </Box>
+                <Box component="span" aria-hidden="true">{direction === 'rtl' ? '↖' : '↗'}</Box>
+              </MenuItem>
+            ))}
+          </Menu>
+        </ThemeProvider>
       </Container>
     </Box>
   )

@@ -136,6 +136,14 @@ export const ar: SiteDictionary = {
     },
 
     projectMap: {
+      allLocations: 'الكل',
+      viewProjects: 'عرض المشاريع',
+      selectedCity: 'المدينة المختارة',
+      chooseProject: 'اختر مشروعًا من قائمة المدينة للاطلاع على تفاصيله.',
+      viewCityProjects: 'عرض المشاريع في',
+      projectSingular: 'مشروع',
+      projectPlural: 'مشاريع',
+      makkahRegion: 'مكة المكرمة',
       countryLabel: 'المملكة العربية السعودية',
       eyebrow: 'نطاق مشاريعنا',
     
