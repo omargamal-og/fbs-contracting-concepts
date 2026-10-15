@@ -136,14 +136,11 @@ export const en: SiteDictionary = {
     },
 
     projectMap: {
-      allLocations: 'All',
-      viewProjects: 'View Projects',
-      selectedCity: 'Selected City',
-      chooseProject: 'Choose a project from the city list to explore its details.',
-      viewCityProjects: 'View projects in',
+      selectedProjectLabel: 'Selected Project',
+      photoPinHint: 'Select a project photo to explore its details.',
+      photoPositionNote: 'Photo positions and connectors are illustrative, not exact project coordinates.',
       projectSingular: 'Project',
       projectPlural: 'Projects',
-      makkahRegion: 'Makkah',
       countryLabel: 'Saudi Arabia',
       eyebrow: 'Project Footprint',
     
