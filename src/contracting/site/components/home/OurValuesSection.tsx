@@ -67,7 +67,7 @@ function OurValuesSection() {
               sx={{
                 mb: 1.6,
 
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.7rem',
 
@@ -121,7 +121,7 @@ function OurValuesSection() {
 
                 maxWidth: 480,
 
-                color: 'rgba(8,47,77,0.58)',
+                color: 'rgba(8,47,77,0.72)',
 
                 fontSize: '0.96rem',
 
@@ -187,7 +187,7 @@ function OurValuesSection() {
                     sx={{
                       mb: 5,
 
-                      color: '#649ABD',
+                      color: 'text.secondary',
 
                       fontSize: '0.62rem',
 

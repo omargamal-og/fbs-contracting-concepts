@@ -1,3 +1,5 @@
+import FooterSocialLinks from './FooterSocialLinks'
+
 import {
   Box,
   Container,
@@ -220,7 +222,7 @@ function ContractingFooter() {
                 maxWidth: 470,
 
                 color:
-                  'rgba(8,47,77,0.56)',
+                  'rgba(8,47,77,0.72)',
 
                 fontSize: '0.92rem',
 
@@ -229,6 +231,8 @@ function ContractingFooter() {
             >
               {t.footer.description}
             </Typography>
+
+            <FooterSocialLinks />
           </Box>
 
           {/* Links */}
@@ -260,7 +264,7 @@ function ContractingFooter() {
                     sx={{
                       mb: 2.5,
 
-                      color: '#649ABD',
+                      color: 'text.secondary',
 
                       fontSize:
                         '0.62rem',
@@ -318,7 +322,7 @@ function ContractingFooter() {
 
                             '&:hover': {
                               color:
-                                '#649ABD',
+                                'text.secondary',
                             },
                           }}
                         >
@@ -338,8 +342,8 @@ function ContractingFooter() {
         <Box
           sx={{
             mt: {
-              xs: 7,
-              md: 9,
+              xs: 5,
+              md: 6,
             },
 
             pt: 3,
@@ -370,7 +374,7 @@ function ContractingFooter() {
           <Typography
             sx={{
               color:
-                'rgba(8,47,77,0.42)',
+                'rgba(8,47,77,0.72)',
 
               fontSize: '0.68rem',
             }}
@@ -410,7 +414,7 @@ function ContractingFooter() {
                 color:
                   language === 'en'
                     ? '#082F4D'
-                    : 'rgba(8,47,77,0.36)',
+                    : 'rgba(8,47,77,0.72)',
 
                 fontFamily:
                   'inherit',
@@ -423,7 +427,7 @@ function ContractingFooter() {
                 cursor: 'pointer',
               }}
             >
-              English
+              {t.language.english}
             </Box>
 
             <Box
@@ -458,8 +462,8 @@ function ContractingFooter() {
 
                 color:
                   language === 'ar'
-                    ? '#649ABD'
-                    : 'rgba(8,47,77,0.36)',
+                    ? 'text.secondary'
+                    : 'rgba(8,47,77,0.72)',
 
                 fontFamily:
                   'inherit',
@@ -472,7 +476,7 @@ function ContractingFooter() {
                 cursor: 'pointer',
               }}
             >
-              العربية
+              {t.language.arabic}
             </Box>
           </Box>
         </Box>

@@ -39,6 +39,8 @@ export type NavigationDictionary = {
   supplierRegistration: string
   contact: string
 
+  mainNavigationLabel: string
+  openMenuLabel: string
   menu: string
   close: string
 }
@@ -67,6 +69,15 @@ export type ProjectRegionId =
   | 'taif'
   | 'tabuk'
 
+export type HeroStatisticId =
+  | 'projectValue'
+  | 'residentialProjects'
+  | 'residentialUnits'
+  | 'builtUpArea'
+  | 'commercialProjects'
+  | 'concreteWorks'
+  | 'employees'
+
 export type HomeDictionary = {
   hero: {
     eyebrow: string
@@ -76,6 +87,15 @@ export type HomeDictionary = {
     primaryCta: string
     secondaryCta: string
     location: string
+    imageAlt: string
+    statistics: {
+      heading: string
+      approvalNotice: string
+      thousand: string
+      billion: string
+      currencyUnit: string
+      labels: Record<HeroStatisticId, string>
+    }
   }
 
   companyIntroduction: {
@@ -98,11 +118,17 @@ export type HomeDictionary = {
   projectCategories: ProjectCategoriesDictionary
 
   projectMap: {
+    selectedProjectLabel: string
+    photoPinHint: string
+    photoPositionNote: string
+    projectSingular: string
+    projectPlural: string
     eyebrow: string
     titleLine1: string
     titleLine2: string
     description: string
     viewProject: string
+    countryLabel: string
   
     projects: Record<
   ProjectRegionId,
@@ -514,6 +540,8 @@ export type ProjectDetailsDictionary = {
 }
 
 export type SiteDictionary = {
+  loadingPage: string
+
   navigation: NavigationDictionary
 
   home: HomeDictionary
@@ -521,6 +549,18 @@ export type SiteDictionary = {
   innerPages: InnerPagesDictionary
 
   projectDetails: ProjectDetailsDictionary
+
+  validation: {
+    requiredField: string
+    invalidEmail: string
+    invalidCategory: string
+  }
+
+  notFound: {
+    title: string
+    description: string
+    backToHome: string
+  }
 
   footer: FooterDictionary
 

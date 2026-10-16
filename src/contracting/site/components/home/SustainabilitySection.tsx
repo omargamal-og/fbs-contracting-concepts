@@ -16,9 +16,11 @@ import {
 import {
   useTranslation,
 } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function SustainabilitySection() {
   const t = useTranslation()
+  const { direction } = useLanguage()
 
   const items = [
     {
@@ -88,7 +90,7 @@ function SustainabilitySection() {
               sx={{
                 mb: 1.6,
 
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.7rem',
 
@@ -129,7 +131,7 @@ function SustainabilitySection() {
                 sx={{
                   display: 'block',
 
-                  color: '#649ABD',
+                  color: '#4F7F9C',
                 }}
               >
                 {t.home.sustainability.titleLine2}
@@ -142,7 +144,7 @@ function SustainabilitySection() {
 
                 maxWidth: 500,
 
-                color: 'rgba(8,47,77,0.58)',
+                color: 'rgba(8,47,77,0.72)',
 
                 fontSize: '0.96rem',
 
@@ -175,11 +177,11 @@ function SustainabilitySection() {
                 borderRadius: 0,
 
                 '&::after': {
-                  content: '"→"',
+                  content: direction === 'rtl' ? '"←"' : '"→"',
 
-                  ml: 1.2,
+                  marginInlineStart: 1.2,
 
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   transition:
                     'transform 180ms ease',
@@ -188,12 +190,12 @@ function SustainabilitySection() {
                 '&:hover': {
                   bgcolor: 'transparent',
 
-                  color: '#649ABD',
+                  color: 'text.secondary',
                 },
 
                 '&:hover::after': {
                   transform:
-                    'translateX(4px)',
+                    direction === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)',
                 },
               }}
             >
@@ -257,7 +259,7 @@ function SustainabilitySection() {
                       md: 7,
                     },
 
-                    color: '#649ABD',
+                    color: 'text.secondary',
 
                     fontSize: '0.62rem',
 
@@ -296,7 +298,7 @@ function SustainabilitySection() {
                     mt: 1.6,
 
                     color:
-                      'rgba(8,47,77,0.56)',
+                      'rgba(8,47,77,0.72)',
 
                     fontSize: '0.87rem',
 

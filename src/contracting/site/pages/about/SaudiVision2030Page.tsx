@@ -94,7 +94,9 @@ function SaudiVision2030Page() {
               <Box
                 component="img"
                 src={vision2030Logo}
-                alt="Saudi Vision 2030"
+                width={334}
+                height={228}
+                alt={content.title}
                 sx={{
                   width: {
                     xs: '75%',
@@ -273,7 +275,7 @@ function SaudiVision2030Page() {
                   >
                     <Typography
                       sx={{
-                        color: '#649ABD',
+                        color: 'text.secondary',
 
                         fontSize: '0.85rem',
 

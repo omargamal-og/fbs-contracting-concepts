@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import type {
   ChangeEvent,
@@ -15,13 +15,18 @@ import {
   DialogTitle,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 
 import InnerPageHero from '../../components/inner/InnerPageHero'
 import { useTranslation } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function CareersPage() {
   const t = useTranslation()
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { direction, language } = useLanguage()
 
   const content = t.innerPages.careers
 
@@ -37,6 +42,17 @@ function CareersPage() {
   >(null)
 
   const [reviewOpen, setReviewOpen] = useState(false)
+
+  const [fieldErrors, setFieldErrors] = useState({
+    name: false,
+    email: false,
+    subject: false,
+    message: false,
+  })
+
+  const updateFieldError = (field: keyof typeof fieldErrors, invalid: boolean) => {
+    setFieldErrors((current) => ({ ...current, [field]: current[field] && invalid }))
+  }
 
   const handleFileChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -84,7 +100,15 @@ function CareersPage() {
   ) => {
     event.preventDefault()
 
-    if (fileError) return
+    const nextErrors = {
+      name: !name.trim(),
+      email: !email.trim() || !event.currentTarget.querySelector<HTMLInputElement>('input[type="email"]')?.validity.valid,
+      subject: !subject.trim(),
+      message: !message.trim(),
+    }
+    setFieldErrors(nextErrors)
+
+    if (Object.values(nextErrors).some(Boolean) || fileError) return
 
     setReviewOpen(true)
   }
@@ -104,6 +128,7 @@ function CareersPage() {
     {
       label: content.emailLabel,
       value: email,
+      direction: 'ltr',
     },
     {
       label: content.subjectLabel,
@@ -264,9 +289,13 @@ function CareersPage() {
             <TextField
               label={content.nameLabel}
               value={name}
-              onChange={(event) =>
+              onChange={(event) => {
                 setName(event.target.value)
-              }
+                updateFieldError('name', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, name: true }))}
+              error={fieldErrors.name}
+              helperText={fieldErrors.name ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={inputStyles}
@@ -275,9 +304,18 @@ function CareersPage() {
             <TextField
               label={content.emailLabel}
               type="email"
+              slotProps={{ htmlInput: { dir: 'ltr' } }}
               value={email}
-              onChange={(event) =>
+              onChange={(event) => {
                 setEmail(event.target.value)
+                updateFieldError('email', !event.target.value.trim() || !event.target.validity.valid)
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, email: true }))}
+              error={fieldErrors.email}
+              helperText={
+                fieldErrors.email
+                  ? email.trim() ? t.validation.invalidEmail : t.validation.requiredField
+                  : undefined
               }
               required
               fullWidth
@@ -287,9 +325,13 @@ function CareersPage() {
             <TextField
               label={content.subjectLabel}
               value={subject}
-              onChange={(event) =>
+              onChange={(event) => {
                 setSubject(event.target.value)
-              }
+                updateFieldError('subject', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, subject: true }))}
+              error={fieldErrors.subject}
+              helperText={fieldErrors.subject ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={{
@@ -301,9 +343,13 @@ function CareersPage() {
             <TextField
               label={content.messageLabel}
               value={message}
-              onChange={(event) =>
+              onChange={(event) => {
                 setMessage(event.target.value)
-              }
+                updateFieldError('message', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, message: true }))}
+              error={fieldErrors.message}
+              helperText={fieldErrors.message ? t.validation.requiredField : undefined}
               multiline
               rows={6}
               required
@@ -336,27 +382,34 @@ function CareersPage() {
               </Typography>
 
               <Button
-                component="label"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                aria-invalid={Boolean(fileError)}
+                aria-describedby={
+                  'careers-file-hint' +
+                  (fileError ? ' careers-file-error' : cvFile ? ' careers-file-name' : '')
+                }
                 variant="outlined"
                 sx={{
                   color: '#082F4D',
-                  borderColor: '#649ABD',
+                  borderColor: 'text.secondary',
                   borderRadius: '10px',
                   textTransform: 'none',
                 }}
               >
                 {content.cvLabel}
-
-                <input
-                  hidden
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleFileChange}
-                />
               </Button>
 
+              <input
+                ref={fileInputRef}
+                hidden
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleFileChange}
+              />
+
               {cvFile && (
-                <Typography
+                <Typography id="careers-file-name" role="status"
                   sx={{
                     mt: 2,
                     color: '#082F4D',
@@ -367,10 +420,10 @@ function CareersPage() {
                 </Typography>
               )}
 
-              <Typography
+              <Typography id="careers-file-hint"
                 sx={{
                   mt: 2,
-                  color: '#647B8B',
+                  color: 'text.secondary',
                   fontSize: '0.85rem',
                 }}
               >
@@ -379,6 +432,7 @@ function CareersPage() {
 
               {fileError && (
                 <Typography
+                  id="careers-file-error"
                   role="alert"
                   sx={{
                     mt: 2,
@@ -422,7 +476,7 @@ function CareersPage() {
             <Typography
               sx={{
                 gridColumn: '1 / -1',
-                color: '#647B8B',
+                color: 'text.secondary',
                 fontSize: '0.85rem',
                 lineHeight: 1.8,
               }}
@@ -436,6 +490,11 @@ function CareersPage() {
       {/* Application Review */}
 
       <Dialog
+        data-contracting-portal
+        transitionDuration={reduceMotion ? 0 : undefined}
+        aria-describedby="careers-review-notice"
+        dir={direction}
+        lang={language}
         open={reviewOpen}
         onClose={() => setReviewOpen(false)}
         fullWidth
@@ -458,7 +517,7 @@ function CareersPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   mb: 0.5,
@@ -468,8 +527,10 @@ function CareersPage() {
               </Typography>
 
               <Typography
+                dir={field.direction}
                 sx={{
                   color: '#082F4D',
+                  textAlign: direction === 'rtl' ? 'right' : 'left',
                   overflowWrap: 'anywhere',
                   whiteSpace: 'pre-wrap',
                 }}
@@ -479,9 +540,9 @@ function CareersPage() {
             </Box>
           ))}
 
-          <Typography
+          <Typography id="careers-review-notice"
             sx={{
-              color: '#647B8B',
+              color: 'text.secondary',
               fontSize: '0.85rem',
               lineHeight: 1.8,
             }}

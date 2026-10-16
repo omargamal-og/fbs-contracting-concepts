@@ -91,6 +91,8 @@ function CeoSpeechPage() {
                 <Box
                   component="img"
                   src={ceoImage}
+                  width={777}
+                  height={717}
                   alt={content.name}
                   sx={{
                     width: '100%',
@@ -126,7 +128,7 @@ function CeoSpeechPage() {
 
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: '0.95rem',
 
@@ -150,7 +152,7 @@ function CeoSpeechPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: '0.75rem',
 
@@ -159,7 +161,7 @@ function CeoSpeechPage() {
                   textTransform: 'uppercase',
                 }}
               >
-                FBS Contracting
+                {t.home.hero.eyebrow}
               </Typography>
 
               {content.body.map((paragraph, index) => (

@@ -1,6 +1,8 @@
 import type { SiteDictionary } from './types'
 
 export const ar: SiteDictionary = {
+  loadingPage: "جارٍ تحميل الصفحة…",
+
   navigation: {
     logo_t1: 'FBS',
     logo_t2: 'للمقاولات',
@@ -53,12 +55,31 @@ export const ar: SiteDictionary = {
 
     contact: 'تواصل معنا',
 
+    mainNavigationLabel: 'التنقل الرئيسي',
+    openMenuLabel: 'فتح القائمة',
     menu: 'القائمة',
     close: 'إغلاق',
   },
 
   home: {
     hero: {
+      imageAlt: 'عمارة مشروع جوهرة السحاب السكني في الرياض',
+      statistics: {
+        heading: 'FBS للمقاولات بالأرقام',
+        approvalNotice: 'أرقام توضيحية من التصميم الحالي للشركة، بانتظار الاعتماد الرسمي من العميل.',
+        thousand: 'ألف',
+        billion: 'مليار',
+        currencyUnit: 'ر.س',
+        labels: {
+          projectValue: 'قيمة المشاريع',
+          residentialProjects: 'مشاريع سكنية',
+          residentialUnits: 'وحدات سكنية',
+          builtUpArea: 'مساحة البناء',
+          commercialProjects: 'مشاريع تجارية',
+          concreteWorks: 'الأعمال الخرسانية',
+          employees: 'العاملون',
+        },
+      },
       eyebrow: 'FBS للمقاولات',
     
       titleLine1: 'نبني برؤية',
@@ -131,6 +152,12 @@ export const ar: SiteDictionary = {
     },
 
     projectMap: {
+      selectedProjectLabel: 'المشروع المحدد',
+      photoPinHint: 'اختر صورة المشروع للاطلاع على تفاصيله.',
+      photoPositionNote: 'مواضع الصور وخطوط الربط توضيحية، وليست إحداثيات دقيقة للمشاريع.',
+      projectSingular: 'مشروع',
+      projectPlural: 'مشاريع',
+      countryLabel: 'المملكة العربية السعودية',
       eyebrow: 'نطاق مشاريعنا',
     
       titleLine1: 'نبني في مختلف',
@@ -1036,7 +1063,7 @@ export const ar: SiteDictionary = {
       closeLabel: 'إغلاق',
       notAttachedLabel: 'لم يتم إرفاق ملف',
     
-      invalidPhone: 'يرجى إدخال رقم هاتف صحيح.',
+      invalidPhone: 'أدخل من 8 إلى 15 رقمًا. يُسمح بالمسافات والشرطات والأقواس وعلامة + واحدة في البداية.',
       invalidFileType: 'يرجى اختيار ملف PDF أو DOC أو DOCX.',
       invalidFileSize: 'يجب ألا يتجاوز حجم الملف 5 ميجابايت.',
     
@@ -1098,6 +1125,18 @@ export const ar: SiteDictionary = {
   
     notFoundDescription:
       'لم نتمكن من العثور على المشروع المطلوب.',
+  },
+
+  validation: {
+    requiredField: 'هذا الحقل مطلوب.',
+    invalidEmail: 'يرجى إدخال بريد إلكتروني صحيح.',
+    invalidCategory: 'يرجى اختيار مجال النشاط.',
+  },
+
+  notFound: {
+    title: 'الصفحة غير موجودة',
+    description: 'لم نتمكن من العثور على الصفحة التي تبحث عنها.',
+    backToHome: 'العودة إلى الصفحة الرئيسية',
   },
 
   footer: {

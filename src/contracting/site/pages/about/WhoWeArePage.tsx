@@ -70,7 +70,7 @@ function WhoWeArePage() {
             <Box>
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   fontSize: '0.7rem',
 
@@ -81,7 +81,7 @@ function WhoWeArePage() {
                   textTransform: 'uppercase',
                 }}
               >
-                FBS Contracting
+                {t.home.hero.eyebrow}
               </Typography>
 
               <Typography
@@ -107,7 +107,8 @@ function WhoWeArePage() {
                   letterSpacing: '-0.05em',
                 }}
               >
-                A Vision That Shapes Reality
+                {t.home.companyIntroduction.titleLine1}{' '}
+                {t.home.companyIntroduction.titleLine2}
               </Typography>
             </Box>
 
@@ -128,7 +129,7 @@ function WhoWeArePage() {
                   key={paragraph}
                   sx={{
                     color:
-                      'rgba(8,47,77,0.64)',
+                      'rgba(8,47,77,0.72)',
 
                     fontSize: {
                       xs: '0.96rem',

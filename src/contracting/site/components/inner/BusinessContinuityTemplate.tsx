@@ -147,7 +147,7 @@ function BusinessContinuityTemplate({
                 >
                   <Typography
                     sx={{
-                      color: '#649ABD',
+                      color: 'text.secondary',
                       fontSize: '0.8rem',
                       fontWeight: 700,
                     }}

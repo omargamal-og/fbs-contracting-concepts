@@ -1,6 +1,8 @@
 import type { SiteDictionary } from './types'
 
 export const en: SiteDictionary = {
+  loadingPage: "Loading page…",
+
   navigation: {
     logo_t1: 'FBS',
     logo_t2: 'Contracting',
@@ -53,12 +55,31 @@ export const en: SiteDictionary = {
 
     contact: 'Contact',
 
+    mainNavigationLabel: 'Main navigation',
+    openMenuLabel: 'Open menu',
     menu: 'Menu',
     close: 'Close',
   },
 
   home: {
     hero: {
+      imageAlt: 'Jawhart Al-Sahab residential architecture in Riyadh',
+      statistics: {
+        heading: 'FBS Contracting in numbers',
+        approvalNotice: 'Demo figures from the existing company artwork. Pending official client approval.',
+        thousand: 'K',
+        billion: 'B',
+        currencyUnit: 'SAR',
+        labels: {
+          projectValue: 'Project value',
+          residentialProjects: 'Residential projects',
+          residentialUnits: 'Residential units',
+          builtUpArea: 'Built-up area',
+          commercialProjects: 'Commercial projects',
+          concreteWorks: 'Concrete works',
+          employees: 'Employees',
+        },
+      },
       eyebrow: 'FBS Contracting',
     
       titleLine1: 'Building with',
@@ -131,6 +152,12 @@ export const en: SiteDictionary = {
     },
 
     projectMap: {
+      selectedProjectLabel: 'Selected Project',
+      photoPinHint: 'Select a project photo to explore its details.',
+      photoPositionNote: 'Photo positions and connectors are illustrative, not exact project coordinates.',
+      projectSingular: 'Project',
+      projectPlural: 'Projects',
+      countryLabel: 'Saudi Arabia',
       eyebrow: 'Project Footprint',
     
       titleLine1: 'Building across',
@@ -1038,7 +1065,7 @@ export const en: SiteDictionary = {
       closeLabel: 'Close',
       notAttachedLabel: 'Not attached',
     
-      invalidPhone: 'Please enter a valid phone number.',
+      invalidPhone: 'Enter 8–15 digits. Use only spaces, hyphens, parentheses and an optional leading +.',
       invalidFileType: 'Please select a PDF, DOC or DOCX file.',
       invalidFileSize: 'The file must not exceed 5 MB.',
     
@@ -1101,6 +1128,18 @@ export const en: SiteDictionary = {
   
     notFoundDescription:
       'The requested project could not be found.',
+  },
+
+  validation: {
+    requiredField: 'This field is required.',
+    invalidEmail: 'Please enter a valid email address.',
+    invalidCategory: 'Please select a business category.',
+  },
+
+  notFound: {
+    title: 'Page Not Found',
+    description: 'The page you are looking for could not be found.',
+    backToHome: 'Back to Home',
   },
 
   footer: {

@@ -13,16 +13,20 @@ import {
   Link,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 
 import InnerPageHero from '../../components/inner/InnerPageHero'
 import { useTranslation } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 const CONTACT_PHONE = '920024010'
 const CONTACT_EMAIL = 'info.cont@fbs.com.sa'
 
 function ContactPage() {
   const t = useTranslation()
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const { direction, language } = useLanguage()
   const content = t.innerPages.contact
 
   const [name, setName] = useState('')
@@ -32,12 +36,31 @@ function ContactPage() {
   const [message, setMessage] = useState('')
 
   const [reviewOpen, setReviewOpen] = useState(false)
+
+  const [fieldErrors, setFieldErrors] = useState({
+    name: false,
+    email: false,
+    subject: false,
+    message: false,
+  })
+
+  const updateFieldError = (field: keyof typeof fieldErrors, invalid: boolean) => {
+    setFieldErrors((current) => ({ ...current, [field]: current[field] && invalid }))
+  }
   const [formError, setFormError] = useState(false)
 
   const handleSubmit = (
     event: FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault()
+
+    const nextErrors = {
+      name: !name.trim(),
+      email: !email.trim() || !event.currentTarget.querySelector<HTMLInputElement>('input[type="email"]')?.validity.valid,
+      subject: !subject.trim(),
+      message: !message.trim(),
+    }
+    setFieldErrors(nextErrors)
 
     if (
       !name.trim() ||
@@ -48,6 +71,8 @@ function ContactPage() {
       setFormError(true)
       return
     }
+
+    if (nextErrors.email) return
 
     setFormError(false)
     setReviewOpen(true)
@@ -79,10 +104,12 @@ function ContactPage() {
     {
       label: content.emailLabel,
       value: email,
+      direction: 'ltr',
     },
     {
       label: content.phoneLabel,
       value: phone || content.notProvidedLabel,
+      direction: phone ? 'ltr' : direction,
     },
     {
       label: content.subjectLabel,
@@ -216,7 +243,7 @@ function ContactPage() {
                 >
                   <Typography
                     sx={{
-                      color: '#649ABD',
+                      color: 'text.secondary',
                       fontSize: '0.85rem',
                       fontWeight: 700,
                       mb: 1.5,
@@ -309,8 +336,12 @@ function ContactPage() {
                   value={name}
                   onChange={(event) => {
                     setName(event.target.value)
+                    updateFieldError('name', !event.target.value.trim())
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, name: true }))}
+                  error={fieldErrors.name}
+                  helperText={fieldErrors.name ? t.validation.requiredField : undefined}
                   autoComplete="name"
                   required
                   fullWidth
@@ -320,11 +351,20 @@ function ContactPage() {
                 <TextField
                   label={content.emailLabel}
                   type="email"
+                  slotProps={{ htmlInput: { dir: 'ltr' } }}
                   value={email}
                   onChange={(event) => {
                     setEmail(event.target.value)
+                    updateFieldError('email', !event.target.value.trim() || !event.target.validity.valid)
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, email: true }))}
+                  error={fieldErrors.email}
+                  helperText={
+                    fieldErrors.email
+                      ? email.trim() ? t.validation.invalidEmail : t.validation.requiredField
+                      : undefined
+                  }
                   autoComplete="email"
                   required
                   fullWidth
@@ -334,6 +374,7 @@ function ContactPage() {
                 <TextField
                   label={content.phoneLabel}
                   type="tel"
+                  slotProps={{ htmlInput: { dir: 'ltr' } }}
                   value={phone}
                   onChange={(event) =>
                     setPhone(event.target.value)
@@ -348,8 +389,12 @@ function ContactPage() {
                   value={subject}
                   onChange={(event) => {
                     setSubject(event.target.value)
+                    updateFieldError('subject', !event.target.value.trim())
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, subject: true }))}
+                  error={fieldErrors.subject}
+                  helperText={fieldErrors.subject ? t.validation.requiredField : undefined}
                   required
                   fullWidth
                   sx={fieldSx}
@@ -360,8 +405,12 @@ function ContactPage() {
                   value={message}
                   onChange={(event) => {
                     setMessage(event.target.value)
+                    updateFieldError('message', !event.target.value.trim())
                     setFormError(false)
                   }}
+                  onInvalid={() => setFieldErrors((current) => ({ ...current, message: true }))}
+                  error={fieldErrors.message}
+                  helperText={fieldErrors.message ? t.validation.requiredField : undefined}
                   multiline
                   rows={6}
                   required
@@ -416,7 +465,7 @@ function ContactPage() {
                 <Typography
                   sx={{
                     gridColumn: '1 / -1',
-                    color: '#647B8B',
+                    color: 'text.secondary',
                     fontSize: '0.85rem',
                     lineHeight: 1.8,
                   }}
@@ -432,6 +481,11 @@ function ContactPage() {
       {/* Review Dialog */}
 
       <Dialog
+        data-contracting-portal
+        transitionDuration={reduceMotion ? 0 : undefined}
+        aria-describedby="contact-review-notice"
+        dir={direction}
+        lang={language}
         open={reviewOpen}
         onClose={() => setReviewOpen(false)}
         fullWidth
@@ -456,7 +510,7 @@ function ContactPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   mb: 0.5,
@@ -466,8 +520,10 @@ function ContactPage() {
               </Typography>
 
               <Typography
+                dir={field.direction}
                 sx={{
                   color: '#082F4D',
+                  textAlign: direction === 'rtl' ? 'right' : 'left',
                   overflowWrap: 'anywhere',
                   whiteSpace: 'pre-wrap',
                 }}
@@ -477,9 +533,9 @@ function ContactPage() {
             </Box>
           ))}
 
-          <Typography
+          <Typography id="contact-review-notice"
             sx={{
-              color: '#647B8B',
+              color: 'text.secondary',
               fontSize: '0.85rem',
               lineHeight: 1.8,
             }}

@@ -16,9 +16,11 @@ import {
 import {
   useTranslation,
 } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
 
 function SaudiVisionSection() {
   const t = useTranslation()
+  const { direction } = useLanguage()
 
   return (
     <Box
@@ -168,7 +170,7 @@ function SaudiVisionSection() {
               sx={{
                 mb: 1.6,
 
-                color: '#649ABD',
+                color: 'text.secondary',
 
                 fontSize: '0.7rem',
 
@@ -210,7 +212,7 @@ function SaudiVisionSection() {
                 sx={{
                   display: 'block',
 
-                  color: '#649ABD',
+                  color: '#4F7F9C',
                 }}
               >
                 {t.home.vision2030.titleLine2}
@@ -224,7 +226,7 @@ function SaudiVisionSection() {
                 maxWidth: 620,
 
                 color:
-                  'rgba(8,47,77,0.60)',
+                  'rgba(8,47,77,0.72)',
 
                 fontSize: {
                   xs: '0.94rem',
@@ -260,11 +262,11 @@ function SaudiVisionSection() {
                 borderRadius: 0,
 
                 '&::after': {
-                  content: '"→"',
+                  content: direction === 'rtl' ? '"←"' : '"→"',
 
-                  ml: 1.2,
+                  marginInlineStart: 1.2,
 
-                  color: '#649ABD',
+                  color: 'text.secondary',
 
                   transition:
                     'transform 180ms ease',
@@ -273,12 +275,12 @@ function SaudiVisionSection() {
                 '&:hover': {
                   bgcolor: 'transparent',
 
-                  color: '#649ABD',
+                  color: 'text.secondary',
                 },
 
                 '&:hover::after': {
                   transform:
-                    'translateX(4px)',
+                    direction === 'rtl' ? 'translateX(-4px)' : 'translateX(4px)',
                 },
               }}
             >

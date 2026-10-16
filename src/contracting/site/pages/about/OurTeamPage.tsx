@@ -126,6 +126,8 @@ function OurTeamPage() {
             >
               <Box
                 component="img"
+                loading="lazy"
+                decoding="async"
                 src={managementImages[ceo.id]}
                 alt={ceo.name}
                 sx={{
@@ -155,14 +157,15 @@ function OurTeamPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  textTransform: 'uppercase',
+                  color: 'text.secondary',
                   fontWeight: 700,
                   fontSize: '0.8rem',
                   letterSpacing: '0.1em',
                   mb: 2,
                 }}
               >
-                FBS CONTRACTING
+                {t.home.hero.eyebrow}
               </Typography>
 
               <Typography
@@ -183,7 +186,7 @@ function OurTeamPage() {
               <Typography
                 sx={{
                   mt: 2,
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '1.1rem',
                   fontWeight: 600,
                 }}
@@ -271,6 +274,8 @@ function OurTeamPage() {
                   >
                     <Box
                       component="img"
+                      loading="lazy"
+                      decoding="async"
                       src={managementImages[member.id]}
                       alt={member.name}
                       sx={{
@@ -309,7 +314,7 @@ function OurTeamPage() {
                       sx={{
                         mt: 1,
 
-                        color: '#649ABD',
+                        color: 'text.secondary',
 
                         fontSize: '0.9rem',
 

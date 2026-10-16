@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import type {
   ChangeEvent,
@@ -16,13 +16,19 @@ import {
   MenuItem,
   TextField,
   Typography,
+  useMediaQuery,
 } from '@mui/material'
 
 import InnerPageHero from '../../components/inner/InnerPageHero'
 import { useTranslation } from '../../i18n/useTranslation'
+import { useLanguage } from '../../i18n/useLanguage'
+import { isValidSupplierPhone } from '../../utils/validateSupplierPhone'
 
 function SupplierRegistrationPage() {
   const t = useTranslation()
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { direction, language } = useLanguage()
 
   const content = t.innerPages.supplierRegistration
 
@@ -41,6 +47,17 @@ function SupplierRegistrationPage() {
 
   const [phoneError, setPhoneError] = useState(false)
   const [reviewOpen, setReviewOpen] = useState(false)
+
+  const [fieldErrors, setFieldErrors] = useState({
+    companyName: false,
+    contactName: false,
+    email: false,
+    category: false,
+  })
+
+  const updateFieldError = (field: keyof typeof fieldErrors, invalid: boolean) => {
+    setFieldErrors((current) => ({ ...current, [field]: current[field] && invalid }))
+  }
 
   const handleFileChange = (
     event: ChangeEvent<HTMLInputElement>,
@@ -80,20 +97,24 @@ function SupplierRegistrationPage() {
   ) => {
     event.preventDefault()
 
-    const phoneDigits = phone.replace(/\D/g, '')
-
-    if (
-      phoneDigits.length < 8 ||
-      phoneDigits.length > 15
-    ) {
-      setPhoneError(true)
-      return
+    const nextErrors = {
+      companyName: !companyName.trim(),
+      contactName: !contactName.trim(),
+      email: !email.trim() || !event.currentTarget.querySelector<HTMLInputElement>('input[type="email"]')?.validity.valid,
+      category: !content.categories.some((item) => item.value === category),
     }
+    setFieldErrors(nextErrors)
 
-    if (fileError) return
+    const invalidPhone = !isValidSupplierPhone(phone)
+    setPhoneError(invalidPhone)
 
-    setPhoneError(false)
+    if (Object.values(nextErrors).some(Boolean) || invalidPhone || fileError) return
     setReviewOpen(true)
+  }
+
+  const updatePhoneError = (value: string) => {
+    const invalid = !isValidSupplierPhone(value)
+    setPhoneError((current) => current && invalid)
   }
 
   const fieldSx = {
@@ -120,10 +141,12 @@ function SupplierRegistrationPage() {
     {
       label: content.emailLabel,
       value: email,
+      direction: 'ltr',
     },
     {
       label: content.phoneLabel,
       value: phone,
+      direction: 'ltr',
     },
     {
       label: content.categoryLabel,
@@ -226,9 +249,13 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.companyNameLabel}
               value={companyName}
-              onChange={(event) =>
+              onChange={(event) => {
                 setCompanyName(event.target.value)
-              }
+                updateFieldError('companyName', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, companyName: true }))}
+              error={fieldErrors.companyName}
+              helperText={fieldErrors.companyName ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={fieldSx}
@@ -237,9 +264,13 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.contactNameLabel}
               value={contactName}
-              onChange={(event) =>
+              onChange={(event) => {
                 setContactName(event.target.value)
-              }
+                updateFieldError('contactName', !event.target.value.trim())
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, contactName: true }))}
+              error={fieldErrors.contactName}
+              helperText={fieldErrors.contactName ? t.validation.requiredField : undefined}
               required
               fullWidth
               sx={fieldSx}
@@ -248,9 +279,18 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.emailLabel}
               type="email"
+              slotProps={{ htmlInput: { dir: 'ltr' } }}
               value={email}
-              onChange={(event) =>
+              onChange={(event) => {
                 setEmail(event.target.value)
+                updateFieldError('email', !event.target.value.trim() || !event.target.validity.valid)
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, email: true }))}
+              error={fieldErrors.email}
+              helperText={
+                fieldErrors.email
+                  ? email.trim() ? t.validation.invalidEmail : t.validation.requiredField
+                  : undefined
               }
               required
               fullWidth
@@ -260,15 +300,17 @@ function SupplierRegistrationPage() {
             <TextField
               label={content.phoneLabel}
               type="tel"
+              slotProps={{ htmlInput: { dir: 'ltr' } }}
               value={phone}
               onChange={(event) => {
                 setPhone(event.target.value)
-                setPhoneError(false)
+                updatePhoneError(event.target.value)
               }}
+              onInvalid={() => setPhoneError(true)}
               error={phoneError}
               helperText={
                 phoneError
-                  ? content.invalidPhone
+                  ? phone.trim() ? content.invalidPhone : t.validation.requiredField
                   : undefined
               }
               required
@@ -278,11 +320,16 @@ function SupplierRegistrationPage() {
 
             <TextField
               select
+              slotProps={{ select: { MenuProps: { dir: direction, lang: language, ...{ 'data-contracting-portal': '' }, transitionDuration: reduceMotion ? 0 : undefined } } }}
               label={content.categoryLabel}
               value={category}
-              onChange={(event) =>
+              onChange={(event) => {
                 setCategory(event.target.value)
-              }
+                updateFieldError('category', !content.categories.some((item) => item.value === event.target.value))
+              }}
+              onInvalid={() => setFieldErrors((current) => ({ ...current, category: true }))}
+              error={fieldErrors.category}
+              helperText={fieldErrors.category ? t.validation.invalidCategory : undefined}
               required
               fullWidth
               sx={{
@@ -341,27 +388,34 @@ function SupplierRegistrationPage() {
               </Typography>
 
               <Button
-                component="label"
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                aria-invalid={Boolean(fileError)}
+                aria-describedby={
+                  'suppliers-file-hint' +
+                  (fileError ? ' suppliers-file-error' : profileFile ? ' suppliers-file-name' : '')
+                }
                 variant="outlined"
                 sx={{
                   color: '#082F4D',
-                  borderColor: '#649ABD',
+                  borderColor: 'text.secondary',
                   borderRadius: '10px',
                   textTransform: 'none',
                 }}
               >
                 {content.profileLabel}
-
-                <input
-                  hidden
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleFileChange}
-                />
               </Button>
 
+              <input
+                ref={fileInputRef}
+                hidden
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleFileChange}
+              />
+
               {profileFile && (
-                <Typography
+                <Typography id="suppliers-file-name" role="status"
                   sx={{
                     mt: 2,
                     color: '#082F4D',
@@ -372,10 +426,10 @@ function SupplierRegistrationPage() {
                 </Typography>
               )}
 
-              <Typography
+              <Typography id="suppliers-file-hint"
                 sx={{
                   mt: 2,
-                  color: '#647B8B',
+                  color: 'text.secondary',
                   fontSize: '0.85rem',
                 }}
               >
@@ -384,6 +438,7 @@ function SupplierRegistrationPage() {
 
               {fileError && (
                 <Typography
+                  id="suppliers-file-error"
                   role="alert"
                   sx={{
                     mt: 2,
@@ -427,7 +482,7 @@ function SupplierRegistrationPage() {
             <Typography
               sx={{
                 gridColumn: '1 / -1',
-                color: '#647B8B',
+                color: 'text.secondary',
                 fontSize: '0.85rem',
                 lineHeight: 1.8,
               }}
@@ -441,6 +496,11 @@ function SupplierRegistrationPage() {
       {/* Review Dialog */}
 
       <Dialog
+        data-contracting-portal
+        transitionDuration={reduceMotion ? 0 : undefined}
+        aria-describedby="suppliers-review-notice"
+        dir={direction}
+        lang={language}
         open={reviewOpen}
         onClose={() => setReviewOpen(false)}
         fullWidth
@@ -463,7 +523,7 @@ function SupplierRegistrationPage() {
             >
               <Typography
                 sx={{
-                  color: '#649ABD',
+                  color: 'text.secondary',
                   fontSize: '0.8rem',
                   fontWeight: 600,
                   mb: 0.5,
@@ -473,8 +533,10 @@ function SupplierRegistrationPage() {
               </Typography>
 
               <Typography
+                dir={field.direction}
                 sx={{
                   color: '#082F4D',
+                  textAlign: direction === 'rtl' ? 'right' : 'left',
                   overflowWrap: 'anywhere',
                   whiteSpace: 'pre-wrap',
                 }}
@@ -484,9 +546,9 @@ function SupplierRegistrationPage() {
             </Box>
           ))}
 
-          <Typography
+          <Typography id="suppliers-review-notice"
             sx={{
-              color: '#647B8B',
+              color: 'text.secondary',
               fontSize: '0.85rem',
             }}
           >
