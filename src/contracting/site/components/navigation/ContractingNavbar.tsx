@@ -266,6 +266,10 @@ useEffect(() => {
             }}
           >
             {mainNavigation.map((item) => {
+
+              if (item.path === 'contact') {
+                return null
+              }
               const hasChildren = Boolean(item.children?.length);
 
               const isOpen = activeDropdown === item.labelKey;
@@ -551,6 +555,75 @@ useEffect(() => {
               },
             }}
           >
+
+            {/* Get in Touch CTA */}
+            <Button
+              component={RouterLink}
+              to={contractingPath('contact')}
+              aria-current={currentPage('contact')}
+              endIcon={
+                <Box
+                  component="span"
+                  aria-hidden="true"
+                  sx={{
+                    display: 'inline-flex',
+                    fontSize: '1rem',
+                    transition: 'transform 220ms ease',
+                  }}
+                >
+                  {direction === 'rtl' ? '↖' : '↗'}
+                </Box>
+              }
+              sx={{
+                display: { xs: 'none', lg: 'inline-flex' },
+                flexShrink: 0,
+                alignItems: 'center',
+                gap: 0.5,
+                minHeight: 42,
+                px: 2.2,
+                borderRadius: '9px',
+                bgcolor: isScrolled ? '#FFFFFF' : '#082F4D',
+                color: '#082F4D',
+                fontSize: '0.76rem',
+                fontWeight: 700,
+                whiteSpace: 'nowrap',
+                boxShadow: isScrolled
+                  ? 'none'
+                  : '0 6px 20px rgba(8,47,77,0.14)',
+
+                '& .MuiButton-endIcon': {
+                  marginInlineStart: 0.5,
+                  marginInlineEnd: 0,
+                },
+
+                '&:hover': {
+                  bgcolor: '#B9DAF2',
+                  color: '#082F4D',
+                  boxShadow: '0 8px 24px rgba(8,47,77,0.16)',
+
+                  '& .MuiButton-endIcon > span': {
+                    transform: 'translate(2px, -2px)',
+                  },
+                },
+
+                '&:focus-visible': {
+                  outline: '2px solid #649ABD',
+                  outlineOffset: 3,
+                },
+
+                '@media (prefers-reduced-motion: reduce)': {
+                  '& .MuiButton-endIcon > span': {
+                    transition: 'none',
+                  },
+                },
+
+                ...(!isScrolled && {
+                  color: '#FFFFFF',
+                }),
+              }}
+            >
+              {language === 'en' ? 'Get in Touch' : 'تواصل معنا'}
+            </Button>
             {/* Language UI */}
 
             <Box

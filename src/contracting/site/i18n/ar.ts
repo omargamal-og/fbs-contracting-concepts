@@ -63,7 +63,23 @@ export const ar: SiteDictionary = {
 
   home: {
     hero: {
-      imageAlt: 'مشاريع FBS للمقاولات',
+      imageAlt: 'عمارة مشروع جوهرة السحاب السكني في الرياض',
+      statistics: {
+        heading: 'FBS للمقاولات بالأرقام',
+        approvalNotice: 'أرقام توضيحية من التصميم الحالي للشركة، بانتظار الاعتماد الرسمي من العميل.',
+        thousand: 'ألف',
+        billion: 'مليار',
+        currencyUnit: 'ر.س',
+        labels: {
+          projectValue: 'قيمة المشاريع',
+          residentialProjects: 'مشاريع سكنية',
+          residentialUnits: 'وحدات سكنية',
+          builtUpArea: 'مساحة البناء',
+          commercialProjects: 'مشاريع تجارية',
+          concreteWorks: 'الأعمال الخرسانية',
+          employees: 'العاملون',
+        },
+      },
       eyebrow: 'FBS للمقاولات',
     
       titleLine1: 'نبني برؤية',

@@ -69,6 +69,15 @@ export type ProjectRegionId =
   | 'taif'
   | 'tabuk'
 
+export type HeroStatisticId =
+  | 'projectValue'
+  | 'residentialProjects'
+  | 'residentialUnits'
+  | 'builtUpArea'
+  | 'commercialProjects'
+  | 'concreteWorks'
+  | 'employees'
+
 export type HomeDictionary = {
   hero: {
     eyebrow: string
@@ -79,6 +88,14 @@ export type HomeDictionary = {
     secondaryCta: string
     location: string
     imageAlt: string
+    statistics: {
+      heading: string
+      approvalNotice: string
+      thousand: string
+      billion: string
+      currencyUnit: string
+      labels: Record<HeroStatisticId, string>
+    }
   }
 
   companyIntroduction: {

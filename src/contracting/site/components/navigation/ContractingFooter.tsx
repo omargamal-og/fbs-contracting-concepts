@@ -1,3 +1,5 @@
+import FooterSocialLinks from './FooterSocialLinks'
+
 import {
   Box,
   Container,
@@ -229,6 +231,8 @@ function ContractingFooter() {
             >
               {t.footer.description}
             </Typography>
+
+            <FooterSocialLinks />
           </Box>
 
           {/* Links */}
@@ -338,8 +342,8 @@ function ContractingFooter() {
         <Box
           sx={{
             mt: {
-              xs: 7,
-              md: 9,
+              xs: 5,
+              md: 6,
             },
 
             pt: 3,

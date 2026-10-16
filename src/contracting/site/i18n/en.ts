@@ -63,7 +63,23 @@ export const en: SiteDictionary = {
 
   home: {
     hero: {
-      imageAlt: 'FBS Contracting projects',
+      imageAlt: 'Jawhart Al-Sahab residential architecture in Riyadh',
+      statistics: {
+        heading: 'FBS Contracting in numbers',
+        approvalNotice: 'Demo figures from the existing company artwork. Pending official client approval.',
+        thousand: 'K',
+        billion: 'B',
+        currencyUnit: 'SAR',
+        labels: {
+          projectValue: 'Project value',
+          residentialProjects: 'Residential projects',
+          residentialUnits: 'Residential units',
+          builtUpArea: 'Built-up area',
+          commercialProjects: 'Commercial projects',
+          concreteWorks: 'Concrete works',
+          employees: 'Employees',
+        },
+      },
       eyebrow: 'FBS Contracting',
     
       titleLine1: 'Building with',
