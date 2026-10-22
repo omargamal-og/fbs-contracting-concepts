@@ -1,0 +1,97 @@
+{
+  "sourceHashes": {
+    "src/contracting/site/data/projects.ts": "9095175043a42f02d2f7564f8f775ef3f58edca7f303b3c17c40ce4fb4a225a3",
+    "src/contracting/site/data/navigation.ts": "2f8b3e1372e04e8a35e1d7949f3ab956e147124b0e67bde36887202a3db6a63d",
+    "src/contracting/site/i18n/en.ts": "66d3e4e1928249f0a76b92cfd277e9deeb54df193687fdbceeda82e09caa8d3e",
+    "src/contracting/site/i18n/ar.ts": "26f153c8518cec18493eeb732bf1eda7a09ea243476c9de43dffe0278ee8af8a",
+    "src/contracting/site/components/home/HeroStatistics.tsx": "3e81f2350e87148863dc4af06dcabcce68a636d8563acc76ffb91c14c01cbb42"
+  },
+  "counts": {
+    "site_settings": 1,
+    "page": 24,
+    "page_section": 9,
+    "sector": 2,
+    "service": 5,
+    "project": 8,
+    "media_asset": 9,
+    "project_media": 8,
+    "statistic": 7,
+    "hero_media": 1,
+    "navigation_item": 28
+  },
+  "projectSlugs": [
+    "jawhart-al-sahab-riyadh",
+    "nozol-khayala-jeddah",
+    "nozol-al-dar-madinah",
+    "malfa-al-hawya-taif",
+    "malfa-tabuk-hills",
+    "king-abdullah-road-starbucks-riyadh",
+    "prince-mohammed-bin-salman-starbucks-al-aqiq",
+    "western-ring-road-starbucks-al-uraija"
+  ],
+  "unapprovedStatistics": [
+    "projectValue",
+    "residentialProjects",
+    "residentialUnits",
+    "builtUpArea",
+    "commercialProjects",
+    "concreteWorks",
+    "employees"
+  ],
+  "assets": [
+    {
+      "slug": "jawhart-al-sahab-riyadh-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/jawhart-al-sahab-riyadh.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "nozol-khayala-jeddah-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/nozol-khayala-jeddah.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "nozol-al-dar-madinah-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/nozol-al-dar-madinah.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "malfa-al-hawya-taif-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/malfa-al-hawya-taif.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "malfa-tabuk-hills-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/malfa-tabuk-hills.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "king-abdullah-road-starbucks-riyadh-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/king-abdullah-road-starbucks-riyadh.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "prince-mohammed-bin-salman-starbucks-al-aqiq-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/prince-mohammed-bin-salman-starbucks-al-aqiq.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "western-ring-road-starbucks-al-uraija-cover",
+      "sourcePath": "src/contracting/site/assets/images/projects/western-ring-road-starbucks-al-uraija.jpg",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    },
+    {
+      "slug": "existing-home-hero",
+      "sourcePath": "src/contracting/site/assets/images/home/fbs-hero-architecture.webp",
+      "uploadStatus": "not_uploaded",
+      "approvalStatus": "unreviewed"
+    }
+  ]
+}

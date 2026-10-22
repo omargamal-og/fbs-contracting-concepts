@@ -1,3 +1,17 @@
+# FBS Contracting ? Corporate V2 foundation
+
+The existing React website remains at /contracting/build. Phase 1 adds a Supabase data foundation without mounting it in the current pages or changing their routes.
+
+- Setup, schema, roles, storage, and deferred workflows: [Foundation guide](docs/supabase-foundation.md).
+- Test results, limitations, and file inventory: [Verification report](docs/phase-1-verification.md).
+- Homepage follow-up: [Phase 2 plan](docs/phase-2-homepage-plan.md).
+
+Run npm install, then npm run test:foundation, npm run content:seed:check, npm run lint, npm run typecheck, and npm run build. Tests run locally without Docker or credentials. The seed generator never connects to a database.
+
+The original Vite template documentation follows.
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
