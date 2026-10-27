@@ -9,13 +9,15 @@ import type { SiteLanguage } from './types'
 
 type LanguageProviderProps = {
   children: ReactNode
+  initialLanguage?: SiteLanguage
 }
 
 function LanguageProvider({
   children,
+  initialLanguage = 'en',
 }: LanguageProviderProps) {
   const [language, setLanguage] =
-    useState<SiteLanguage>('en')
+    useState<SiteLanguage>(initialLanguage)
 
   const direction: 'ltr' | 'rtl' =
     language === 'ar'

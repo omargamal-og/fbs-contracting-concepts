@@ -1,0 +1,87 @@
+{
+  "updatedOn": "2026-10-25",
+  "revision": "V3 premium homepage and navigation upgrade",
+  "newMediaFiles": [],
+  "sourceAssetsModified": false,
+  "existingManifests": [
+    "v3-media-provenance.json",
+    "v3-phase3-derivatives.json",
+    "v3-navbar-logos.json"
+  ],
+  "reusedMedia": [
+    {
+      "path": "public/contracting/v3/media/hero-02-engineers.mp4",
+      "use": "Selective Expertise film, also preserved in the original hero sequence",
+      "bytes": 1798366,
+      "sha256": "1ec57fbf5378334f1963f93342a35cc8c46d5cefa2c8bd469ced725916784e32",
+      "creator": "Mikael Blomkvist",
+      "sourcePage": "https://www.pexels.com/video/engineer-talking-to-a-construction-worker-8964377/",
+      "licenseRecord": "v3-media-provenance.json",
+      "loading": "In-view desktop only; still fallback for mobile, reduced motion, data saving or playback failure. Reuses the existing URL and browser cache.",
+      "representation": "Licensed illustrative stock, not actual FBS team or project footage"
+    },
+    {
+      "paths": [
+        "public/contracting/v3/media/company-collaboration.webp",
+        "public/contracting/v3/media/expertise-groundwork.webp",
+        "public/contracting/v3/media/construction-structure.webp"
+      ],
+      "use": "Approach and contextual menu image cards, homepage compositions and film poster",
+      "licenseRecord": "v3-phase3-derivatives.json",
+      "treatment": "Proportional CSS covering and framing only. Safety and People cards use closer CSS crops of existing stills. No source pixels changed.",
+      "representation": "Explicitly labeled illustrative construction imagery, not FBS project or team photography"
+    },
+    {
+      "paths": [
+        "public/contracting/v3/media/construction-background.webp",
+        "public/contracting/v3/media/hero-02-poster.jpg"
+      ],
+      "use": "Approach/contextual cards and existing fixed architectural background",
+      "licenseRecord": "v3-media-provenance.json",
+      "representation": "Licensed illustrative stock"
+    },
+    {
+      "paths": [
+        "public/contracting/v3/media/fbs-contracting-english-navbar.png",
+        "public/contracting/v3/media/fbs-contracting-arabic-navbar.png"
+      ],
+      "use": "Language-specific navbar and footer branding",
+      "approvalRecord": "v3-navbar-logos.json",
+      "treatment": "Existing cropped files retained unchanged. Natural aspect ratios explicitly reserved before decode. No redraw, mirror, recoloring or resampling in this revision."
+    }
+  ],
+  "content": {
+    "capabilities": {
+      "sources": ["src/contracting/site/v3/content.ts", "existing published homepage service records"],
+      "fallbackNames": ["Feasibility Study", "Land Development", "Design Management", "Construction Works", "Maintenance & Operations"],
+      "policy": "Use existing approved FBS copy or published services; no new unsupported capability claims. Other Approach cards link to existing content routes."
+    },
+    "news": {
+      "officialReference": "https://www.linkedin.com/company/fbs-contracting/",
+      "referenceOrigin": "Explicitly provided by the user; company listing inspected through publicly available LinkedIn search results on 2026-10-25",
+      "importedPosts": [],
+      "liveSynchronization": false,
+      "limitation": "Individual dated posts, reliable source permalinks and media rights were not sufficiently verified for importing records. The page renders published manual CMS news or an honest unavailable state."
+    },
+    "projects": {
+      "policy": "Production uses the existing published approved records/media boundary. No stock construction scene is reclassified as an FBS project.",
+      "localPreview": "Existing development-only company-profile records remain visibly marked as awaiting publication approval; this revision does not approve or publish them."
+    },
+    "statistics": "Existing publication and reference-date checks retained; no seven unapproved draft statistics rendered.",
+    "contactAndSocial": "Only published CMS contact settings and recognized HTTPS social hosts are rendered, apart from the user-specified official LinkedIn URL. No legacy group URLs or invented contact details.",
+    "governance": "Missing policy documents remain explicitly unavailable; no placeholder legal links are created."
+  },
+  "visualReference": {
+    "description": "User-supplied Bechtel Approach-menu screenshot",
+    "use": "Layout inspiration only: intro/capability column and image-card grid. No competitor brand assets or imagery copied."
+  },
+  "palette": {
+    "interface": ["#082F4D", "#649ABD", "#A1B4BF", "#B9DAF2", "#DAE4EA", "#EEF4F6", "#FFFFFF"],
+    "exception": "Social hover colors follow the user's explicit platform-brand-color requirement; photography retains its natural colors."
+  },
+  "verification": {
+    "sourceHashes": "All three hero video files and both cropped logos match the existing manifests.",
+    "browserEvidence": "artifacts/v3/expansive/after/browser-review.json",
+    "report": "docs/v3-expansive-homepage.md"
+  }
+}

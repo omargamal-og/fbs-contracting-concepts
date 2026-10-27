@@ -1,0 +1,30 @@
+{
+  "updatedOn": "2026-10-25",
+  "verifiedOn": "2026-10-25",
+  "verification": "Resumed read-only audit: both originals and cropped assets exist; recorded hashes match; zero differing retained RGBA pixels; maximum removed alpha is 1 for Arabic and 0 for English. Audit: artifacts/v3/branding-resumed/asset-audit.json.",
+  "method": "Deterministic PNG canvas cropping only; no resampling, redrawing, translation, mirroring or artwork recoloring. Every retained RGBA pixel was checked against the source crop and is identical.",
+  "assets": [
+    {
+      "language": "ar",
+      "source": "User-supplied FBS Arabic contracting navbar logo.png",
+      "approval": "User explicitly requested this artwork for Arabic branding in the current conversation.",
+      "sourceSha256": "861dfe7aae9ece6bf518e37d84464821e2ef7a6d33fcc58e4fabc578b3861260",
+      "sourceDimensions": [2172, 724],
+      "crop": {"x": 73, "y": 245, "width": 2025, "height": 255},
+      "alphaNote": "Bounds use alpha > 1 to exclude isolated alpha-1 (1/255 opacity) noise outside the visible artwork. Retained pixels, including their antialiasing, are unchanged.",
+      "path": "public/contracting/v3/media/fbs-contracting-arabic-navbar.png",
+      "sha256": "daa0079aebe5bee5b3c47390aa5594ce8efc2586b592eb9f4af3f58c25474fd7"
+    },
+    {
+      "language": "en",
+      "source": "public/contracting/v3/media/fbs-contracting-official.png",
+      "sourceProvenance": "v3-media-provenance.json",
+      "sourceSha256": "e4ccd6da8ff0ddeba89cc64fe917e006c03c7b611c1d5a076e469444e60a3195",
+      "sourceDimensions": [400, 62],
+      "crop": {"x": 16, "y": 7, "width": 372, "height": 42},
+      "alphaNote": "Only fully transparent surrounding canvas was removed. The original file remains unchanged.",
+      "path": "public/contracting/v3/media/fbs-contracting-english-navbar.png",
+      "sha256": "2d5bd7cca9f868d495bc87fdf9d15ada7a5bf8ddfd396d2edbb3a2d46c335c5b"
+    }
+  ]
+}

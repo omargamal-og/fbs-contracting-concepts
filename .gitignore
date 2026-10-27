@@ -29,3 +29,11 @@ dist-ssr
 !.env.example
 supabase/.temp/
 supabase/.branches/
+
+# Local V2 browser QA artifacts
+artifacts/v2/
+test-results/
+playwright-report/
+
+# Local V3 source downloads, processing tools and visual QA
+artifacts/v3/

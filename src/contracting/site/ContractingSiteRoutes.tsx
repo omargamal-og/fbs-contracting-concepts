@@ -1,93 +1,22 @@
 import { lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-import { contractingPath } from './config/site'
 import ContractingLayout from './layouts/ContractingLayout'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 
 import LanguageProvider from './i18n/LanguageProvider'
+import { useLanguage } from './i18n/useLanguage'
 import ContractingThemeProvider from './theme/ContractingThemeProvider'
+import { V3_BASE } from './v3/content'
 
-
-const WhoWeArePage = lazy(() =>
-  import('./pages/about/routePages').then((pages) => ({ default: pages.WhoWeArePage })),
-)
-
-const ChairmanSpeechPage = lazy(() =>
-  import('./pages/about/routePages').then((pages) => ({ default: pages.ChairmanSpeechPage })),
-)
-
-const CeoSpeechPage = lazy(() =>
-  import('./pages/about/routePages').then((pages) => ({ default: pages.CeoSpeechPage })),
-)
-
-const WhyFbsPage = lazy(() =>
-  import('./pages/about/routePages').then((pages) => ({ default: pages.WhyFbsPage })),
-)
-
-const VisionMissionPage = lazy(() =>
-  import('./pages/about/routePages').then((pages) => ({ default: pages.VisionMissionPage })),
-)
-
-const CoreValuesPage = lazy(() =>
-  import('./pages/about/routePages').then((pages) => ({ default: pages.CoreValuesPage })),
-)
-
-const OurTeamPage = lazy(() =>
-  import('./pages/about/routePages').then((pages) => ({ default: pages.OurTeamPage })),
-)
 
 const SaudiVision2030Page = lazy(() =>
   import('./pages/about/routePages').then((pages) => ({ default: pages.SaudiVision2030Page })),
 )
 
-const ResidentialProjectsPage = lazy(() =>
-  import('./components/projects/routePages').then((pages) => ({ default: pages.ResidentialProjectsPage })),
-)
-
 const ProjectDetailsPage = lazy(() =>
   import('./components/projects/routePages').then((pages) => ({ default: pages.ProjectDetailsPage })),
-)
-
-const CommercialProjectsPage = lazy(() =>
-  import('./components/projects/routePages').then((pages) => ({ default: pages.CommercialProjectsPage })),
-)
-
-const EnvironmentalResponsibilityPage = lazy(() =>
-  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.EnvironmentalResponsibilityPage })),
-)
-
-const SocialResponsibilityPage = lazy(() =>
-  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.SocialResponsibilityPage })),
-)
-
-const EconomicResponsibilityPage = lazy(() =>
-  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.EconomicResponsibilityPage })),
-)
-
-const ContinuousImprovementPage = lazy(() =>
-  import('./pages/sustainability/routePages').then((pages) => ({ default: pages.ContinuousImprovementPage })),
-)
-
-const RiskAssessmentPage = lazy(() =>
-  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.RiskAssessmentPage })),
-)
-
-const BusinessImpactAnalysisPage = lazy(() =>
-  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.BusinessImpactAnalysisPage })),
-)
-
-const PlanDevelopmentPage = lazy(() =>
-  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.PlanDevelopmentPage })),
-)
-
-const RecoveryRestorationPage = lazy(() =>
-  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.RecoveryRestorationPage })),
-)
-
-const LeadershipAccountabilityPage = lazy(() =>
-  import('./pages/businessContinuity/routePages').then((pages) => ({ default: pages.LeadershipAccountabilityPage })),
 )
 
 const CareersPage = lazy(() =>
@@ -101,6 +30,11 @@ const TrainingPage = lazy(() =>
 const SupplierRegistrationPage = lazy(() => import('./pages/suppliers/SupplierRegistrationPage'))
 
 const ContactPage = lazy(() => import('./pages/contact/ContactPage'))
+
+function V3LegacyRedirect({ page, anchor }: { page: string; anchor?: string }) {
+  const { language } = useLanguage()
+  return <Navigate to={`${V3_BASE}/${page}?lang=${language}${anchor ? `#${anchor}` : ''}`} replace />
+}
 
 function ContractingSiteRoutes() {
   return (
@@ -116,39 +50,37 @@ function ContractingSiteRoutes() {
         {/* About */}
         <Route
           path="about"
-          element={
-            <Navigate to={contractingPath('about/who-we-are')} replace />
-          }
+          element={<V3LegacyRedirect page="company" anchor="about" />}
         />
 
         <Route
           path="about/who-we-are"
-          element={<WhoWeArePage />}
+          element={<V3LegacyRedirect page="company" anchor="about" />}
         />
 
         <Route
           path="about/chairman-speech"
-          element={<ChairmanSpeechPage />}
+          element={<V3LegacyRedirect page="company" anchor="chairman-message" />}
         />
 
         <Route
           path="about/ceo-message"
-          element={<CeoSpeechPage />}
+          element={<V3LegacyRedirect page="company" anchor="ceo-message" />}
         />
 
         <Route
           path="about/why-fbs-contracting"
-          element={<WhyFbsPage />}
+          element={<V3LegacyRedirect page="company" anchor="why-fbs" />}
         />
 
         <Route
           path="about/our-team"
-          element={<OurTeamPage />}
+          element={<V3LegacyRedirect page="company" anchor="leadership" />}
         />
 
         <Route
           path="about/vision-mission"
-          element={<VisionMissionPage />}
+          element={<V3LegacyRedirect page="company" anchor="vision-mission" />}
         />
 
         <Route
@@ -158,25 +90,25 @@ function ContractingSiteRoutes() {
 
         <Route
           path="about/core-values"
-          element={<CoreValuesPage />}
+          element={<V3LegacyRedirect page="company" anchor="values" />}
         />
 
         {/* Projects */}
         <Route
           path="projects"
           element={
-            <Navigate to={contractingPath('projects/residential')} replace />
+            <V3LegacyRedirect page="projects" anchor="directory" />
           }
         />
 
         <Route
           path="projects/residential"
-          element={<ResidentialProjectsPage />}
+          element={<V3LegacyRedirect page="projects" anchor="residential" />}
         />
 
         <Route
           path="projects/commercial"
-          element={<CommercialProjectsPage />}
+          element={<V3LegacyRedirect page="projects" anchor="commercial" />}
         />
 
         <Route
@@ -188,67 +120,61 @@ function ContractingSiteRoutes() {
         <Route
           path="sustainability"
           element={
-            <Navigate
-              to={contractingPath('sustainability/environmental-responsibility')}
-              replace
-            />
+            <V3LegacyRedirect page="approach" anchor="sustainability" />
           }
         />
 
         <Route
           path="sustainability/environmental-responsibility"
-          element={<EnvironmentalResponsibilityPage />}
+          element={<V3LegacyRedirect page="approach" anchor="environmental-responsibility" />}
         />
 
         <Route
           path="sustainability/social-responsibility"
-          element={<SocialResponsibilityPage />}
+          element={<V3LegacyRedirect page="approach" anchor="social-responsibility" />}
         />
 
         <Route
           path="sustainability/economic-responsibility"
-          element={<EconomicResponsibilityPage />}
+          element={<V3LegacyRedirect page="approach" anchor="economic-responsibility" />}
         />
 
         <Route
           path="sustainability/continuous-improvement"
-          element={<ContinuousImprovementPage />}
+          element={<V3LegacyRedirect page="approach" anchor="continuous-improvement" />}
         />
 
         {/* Business Continuity */}
         <Route
           path="business-continuity"
           element={
-            <Navigate
-              to={contractingPath('business-continuity/risk-assessment-management')}
-              replace
-            />
+            <V3LegacyRedirect page="approach" anchor="continuity" />
           }
         />
 
         <Route
           path="business-continuity/risk-assessment-management"
-          element={<RiskAssessmentPage />}
+          element={<V3LegacyRedirect page="approach" anchor="risk-assessment-management" />}
         />
 
         <Route
           path="business-continuity/business-impact-analysis"
-          element={<BusinessImpactAnalysisPage />}
+          element={<V3LegacyRedirect page="approach" anchor="business-impact-analysis" />}
         />
 
         <Route
           path="business-continuity/plan-development"
-          element={<PlanDevelopmentPage />}
+          element={<V3LegacyRedirect page="approach" anchor="plan-development" />}
         />
 
         <Route
           path="business-continuity/recovery-restoration"
-          element={<RecoveryRestorationPage />}
+          element={<V3LegacyRedirect page="approach" anchor="recovery-restoration" />}
         />
 
         <Route
           path="business-continuity/leadership-accountability"
-          element={<LeadershipAccountabilityPage />}
+          element={<V3LegacyRedirect page="approach" anchor="leadership-accountability" />}
         />
 
         {/* Careers */}

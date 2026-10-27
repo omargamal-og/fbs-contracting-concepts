@@ -11,23 +11,32 @@
     "typecheck": "tsc -b --pretty false",
     "test:foundation": "tsx --test --test-reporter=spec tests/foundation/security.test.mjs tests/foundation/content.test.mjs",
     "content:seed": "node scripts/generate-content-seed.mjs",
-    "content:seed:check": "node scripts/generate-content-seed.mjs --check"
+    "content:seed:check": "node scripts/generate-content-seed.mjs --check",
+    "test:v2": "tsx --test --test-reporter=spec tests/v2/model.test.mjs",
+    "test:ui": "playwright test",
+    "test:v3": "playwright test --config playwright.v3.config.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@gsap/react": "^2.1.2",
     "@mui/material": "^9.4.0",
     "@supabase/supabase-js": "^2.109.0",
+    "gsap": "^3.15.0",
+    "mapbox-gl": "^3.33.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.4"
+    "react-router-dom": "^7.18.4",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.11",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^10.10.0",
     "eslint-plugin-react-hooks": "^7.1.1",

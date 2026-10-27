@@ -1,0 +1,7 @@
+[
+  {"id":"riyadh","name":{"en":"Riyadh","ar":"الرياض"},"sourceName":"Riyadh","coordinates":[46.720487,24.634497]},
+  {"id":"jeddah","name":{"en":"Jeddah","ar":"جدة"},"sourceName":"Jeddah","coordinates":[39.217252,21.518835]},
+  {"id":"madinah","name":{"en":"Madinah","ar":"المدينة المنورة"},"sourceName":"Medina","coordinates":[39.578057,24.501935]},
+  {"id":"taif","name":{"en":"Taif","ar":"الطائف"},"sourceName":"At Taif","coordinates":[40.382279,21.262228]},
+  {"id":"tabuk","name":{"en":"Tabuk","ar":"تبوك"},"sourceName":"Tabuk","coordinates":[36.554967,28.383835]}
+]

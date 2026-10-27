@@ -1,0 +1,59 @@
+{
+  "verifiedOn": "2026-10-25",
+  "purpose": "V3 visual review upgrade; no CMS publication or business approval changes",
+  "licensedStills": [
+    {
+      "path": "public/contracting/v3/media/construction-perspective.webp",
+      "sourcePage": "https://www.pexels.com/photo/facade-of-unfinished-concrete-building-at-construction-site-7108782/",
+      "creator": "Mathias Reding",
+      "downloadUrl": "https://images.pexels.com/photos/7108782/pexels-photo-7108782.jpeg?auto=compress&fm=webp&w=1600&q=85",
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "bytes": 471874,
+      "dimensions": [
+        1600,
+        2400
+      ],
+      "sha256": "091cf736f1a9fd6b42c62d4444b8dd348e90719479d52ea89a011da1fdaf9612",
+      "use": "Illustrative architectural imagery with visible stock labeling; never a project photograph or a news-post image. Proportional CSS covering only."
+    },
+    {
+      "path": "public/contracting/v3/media/architectural-detail.webp",
+      "sourcePage": "https://www.pexels.com/photo/white-concrete-building-305814/",
+      "creator": "Scott Webb",
+      "downloadUrl": "https://images.pexels.com/photos/305814/pexels-photo-305814.jpeg?auto=compress&fm=webp&w=1600&q=85",
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "bytes": 122114,
+      "dimensions": [
+        1600,
+        900
+      ],
+      "sha256": "d05966625bd9d3e5f2b8e976a9dc445274b3d6031e0d73c21364cc2063638df1",
+      "use": "Illustrative architectural imagery with visible stock labeling; never a project photograph or a news-post image. Proportional CSS covering only."
+    }
+  ],
+  "geography": "v3-saudi-geography.json",
+  "branding": "v3-navbar-logos.json",
+  "existingFootage": "v3-media-provenance.json",
+  "draftStatistics": {
+    "source": "supabase/seed.sql",
+    "sourceSha256": "17945b203499566d0c96e4e3a27e6ea2df3cf218deb2a4293d391b32fec74d19",
+    "sourceLineage": "HeroStatistics.tsx values transcribed from existing hero-projects.jpg; bilingual labels in the SQL content_translations records.",
+    "approval": "All seven remain draft / unreviewed, reference_date null.",
+    "scope": "Generated local snapshot loaded only behind import.meta.env.DEV; separate reviewStatistics field, not the approved data.statistics collection. Production excludes the fixture module.",
+    "generator": "scripts/generate-v3-review-statistics.mjs",
+    "fixture": "src/contracting/site/v3/reviewStatistics.development.ts",
+    "rawValues": [
+      1200000000,
+      15,
+      3000,
+      800000,
+      30,
+      200000,
+      2000
+    ],
+    "noticeEn": "Preliminary figures — subject to confirmation",
+    "noticeAr": "أرقام مبدئية — خاضعة للتأكيد"
+  }
+}

@@ -1,0 +1,106 @@
+/* global document, window */
+
+import { test, expect } from '@playwright/test'
+test.use({reducedMotion:'reduce'})
+test.beforeEach(async({page})=>{
+  await page.route(/https?:\/\/(?!127\.0\.0\.1|localhost)/,route=>route.abort())
+})
+async function ready(page,language='en') {
+  await page.goto('/contracting/v2?lang='+language)
+  await expect(page.locator('.fbs-v2[data-preview]')).toBeVisible()
+  await expect(page.locator('.v2-content-status')).toHaveCount(0)
+}
+test('complete homepage, separate impact, static media, and map/news fallbacks',async({page})=>{
+  const errors=[];page.on('pageerror',error=>errors.push(error.message))
+  await ready(page)
+  for(const id of ['v2-hero','v2-impact','v2-company','v2-expertise','v2-projects','v2-map','v2-news','v2-sustainability','v2-connect'])await expect(page.locator('#'+id)).toHaveCount(1)
+  await expect(page.locator('footer.v2-footer')).toHaveCount(1)
+  await expect(page.locator('.v2-preview-banner')).toContainText('Company approval pending')
+  await expect(page.locator('#v2-hero .v2-statistics')).toHaveCount(0)
+  await expect(page.locator('#v2-impact .v2-statistics')).toHaveCount(1)
+  await expect(page.locator('#v2-hero video')).toHaveCount(0)
+  await expect(page.getByRole('button',{name:'Play background video'})).toHaveCount(0)
+  await expect(page.getByTestId('map-fallback')).toBeVisible()
+  await expect(page.locator('.v2-map-marker')).toHaveCount(0)
+  await expect(page.locator('#v2-news')).toContainText('Company news and insights will be shared here.')
+  const boxes=await Promise.all([page.locator('#v2-hero').boundingBox(),page.locator('#v2-impact').boundingBox()])
+  expect(boxes[1].y).toBeGreaterThanOrEqual(boxes[0].y+boxes[0].height-1)
+  expect(errors).toEqual([])
+})
+test('desktop navigation opens on hover and click, traps focus, and restores it on Escape',async({page})=>{
+  await ready(page)
+  const trigger=page.locator('[data-group=company]')
+  await trigger.hover();await expect(page.getByRole('dialog')).toBeVisible()
+  await trigger.click();await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.locator('[data-v2-page]')).toHaveJSProperty('inert',true)
+  for(let index=0;index<20;index++){
+    await page.keyboard.press('Tab')
+    expect(await page.evaluate(()=>!!document.activeElement.closest('.v2-nav'))).toBe(true)
+  }
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(trigger).toBeFocused()
+  await expect(page.locator('[data-v2-page]')).toHaveJSProperty('inert',false)
+  await expect(page.locator('body')).not.toHaveCSS('overflow','hidden')
+  await trigger.focus();await page.keyboard.press('ArrowDown')
+  await expect(page.getByRole('dialog').getByRole('link',{name:/Who we are/})).toBeFocused()
+})
+test('expertise supports keyboard selection and its matching panel',async({page})=>{
+  await ready(page)
+  const tab=page.getByRole('tab',{name:/Feasibility Study/})
+  await tab.scrollIntoViewIfNeeded();await tab.focus();await page.keyboard.press('ArrowDown')
+  await expect(page.getByRole('tab',{name:/Land Development/})).toHaveAttribute('aria-selected','true')
+  await expect(page.getByRole('tabpanel')).toContainText('Land Development')
+  await page.keyboard.press('End')
+  await expect(page.getByRole('tabpanel')).toContainText('Maintenance & Operations')
+})
+test('project navigation updates selection and opens the corresponding V2 detail route',async({page})=>{
+  await ready(page)
+  await page.locator('.v2-map-project-list').getByRole('button',{name:/Nozol Khayala/}).click()
+  await expect(page.locator('.v2-map-selected')).toContainText('Nozol Khayala')
+  await page.locator('.v2-map-selected').getByRole('link',{name:'Explore project'}).click()
+  await expect(page).toHaveURL(/\/contracting\/v2\/projects\/nozol-khayala-jeddah/)
+  await expect(page.getByRole('heading',{level:1})).toHaveText('Nozol Khayala')
+  await expect(page.locator('.v2-detail-preview')).toBeVisible()
+})
+for(const [width,height,language] of [[1440,1000,'en'],[768,1024,'en'],[390,844,'en'],[390,844,'ar'],[320,740,'ar']])test('responsive '+width+' '+language,async({page})=>{
+  await page.setViewportSize({width,height});await ready(page,language)
+  await expect(page.locator('html')).toHaveAttribute('dir',language==='ar'?'rtl':'ltr')
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true)
+  expect(await page.locator('body').innerText()).not.toMatch(/\?{3,}/)
+  if(width<901){
+    await page.getByRole('button',{name:language==='ar'?'فتح قائمة التنقل':'Open navigation',exact:true}).click()
+    await expect(page.getByRole('dialog')).toBeVisible()
+    await page.locator('.v2-mobile-groups').getByRole('button',{name:language==='ar'?'تواصل معنا':'Connect',exact:true}).click()
+    await expect(page.getByRole('dialog').getByRole('link',{name:new RegExp(language==='ar'?'انضم إلى موردينا':'Become a supplier')})).toBeVisible()
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true)
+    await page.keyboard.press('Escape')
+  }
+  await page.screenshot({path:'artifacts/v2/qa-'+width+'-'+language+'.png'})
+})
+test('language switch updates the document and survives reload',async({page})=>{
+  await ready(page)
+  await page.locator('.v2-language').click()
+  await expect(page.locator('html')).toHaveAttribute('lang','ar')
+  await expect(page.locator('h1')).toContainText('نبني برؤية')
+  await page.goto('/contracting/v2')
+  await expect(page.locator('html')).toHaveAttribute('dir','rtl')
+  await expect(page.locator('h1')).toContainText('نبني برؤية')
+})
+test('animation scopes and document state clean up when navigating to an existing corporate route',async({page})=>{
+  await page.emulateMedia({reducedMotion:'no-preference'});await ready(page)
+  expect(await page.evaluate(async()=>{const module=await import('/src/contracting/site/v2/motion/gsap.ts');return module.ScrollTrigger.getAll().length})).toBeGreaterThan(0)
+  await page.locator('[data-group=company]').focus();await page.keyboard.press('ArrowDown')
+  await page.getByRole('dialog').getByRole('link',{name:/Who we are/}).click()
+  await expect(page).toHaveURL(/\/contracting\/build\/about\/who-we-are/)
+  await expect(page.locator('.fbs-v2')).toHaveCount(0)
+  await expect(page.locator('body')).not.toHaveCSS('overflow','hidden')
+  expect(await page.evaluate(async()=>{const module=await import('/src/contracting/site/v2/motion/gsap.ts');return module.ScrollTrigger.getAll().length})).toBe(0)
+})
+test('existing corporate and concept routes remain available',async({page})=>{
+  for(const route of ['/contracting','/contracting/build','/contracting/concept-a','/contracting/concept-b','/contracting/concept-c','/contracting/build/projects/jawhart-al-sahab-riyadh']){
+    await page.goto(route)
+    await expect(page.locator('h1')).toHaveCount(1)
+    await expect(page.locator('.fbs-v2')).toHaveCount(0)
+  }
+})

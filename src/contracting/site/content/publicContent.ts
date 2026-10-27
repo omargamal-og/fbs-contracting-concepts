@@ -32,6 +32,7 @@ export async function getPublicContent<K extends ContentKind>(kind: K, request: 
       const detailRows = (details.data ?? []) as TableRow<(typeof CONTENT_TABLES)[K]>[]
       const detailMap = new Map(detailRows.map(row => [row.id, row]))
       for (const item of roots.data) {
+        if (item.publication_status !== 'published' || item.approval_status !== 'approved') continue
         const translation = localized.get(item.id)
         const detail = detailMap.get(item.id)
         // An unpublish between requests must never produce a partial presentation model.
@@ -70,14 +71,31 @@ export async function getPublicHomepage(request: ContentRequest, client?: Public
   } }
 }
 // site-media is private even for released assets. Do not use getPublicUrl().
-export async function getReleasedMediaUrl(asset: LocalizedContent<'media_asset'>, client?: PublicContentClient): Promise<ContentResult<string>> {
+export async function getReleasedMediaUrl(asset: LocalizedContent<'media_asset'>, client?: PublicContentClient, lifetimeSeconds = 60): Promise<ContentResult<string>> {
   if (!asset.details.object_path) return { status: 'unavailable', reason: 'empty' }
   const configured = client ? { status: 'ready' as const, client } : getPublicContentClient()
   if (configured.status !== 'ready') return configured
   try {
-    const result = await configured.client.storage.from('site-media').createSignedUrl(asset.details.object_path, 60)
+    const result = await configured.client.storage.from('site-media').createSignedUrl(asset.details.object_path, Math.min(900, Math.max(60, Math.trunc(lifetimeSeconds) || 60)))
     if (result.error || !result.data?.signedUrl) throw new Error('Media unavailable')
     return { status: 'ready', data: result.data.signedUrl }
   } catch { return { status: 'error', message: 'Released media could not be loaded.', retryable: true } }
 }
 
+
+// Variants inherit the approved parent asset's RLS; used by responsive media delivery.
+export async function getPublicMediaVariants(request: ContentRequest, suppliedClient?: PublicContentClient): Promise<ContentResult<TableRow<'media_variants'>[]>> {
+  const configured = suppliedClient ? { status: 'ready' as const, client: suppliedClient } : getPublicContentClient()
+  if (configured.status !== 'ready') return configured
+  try {
+    const rows: TableRow<'media_variants'>[] = []
+    for (let offset = 0; ; offset += batchSize) {
+      const query = configured.client.from('media_variants').select('*').order('id').range(offset, offset + batchSize - 1)
+      const result = await (request.signal ? query.abortSignal(request.signal) : query)
+      if (result.error) throw result.error
+      rows.push(...result.data)
+      if (result.data.length < batchSize) break
+    }
+    return { status: 'ready', data: rows }
+  } catch { return { status: 'error', message: 'Published media variants could not be loaded.', retryable: true } }
+}

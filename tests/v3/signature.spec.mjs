@@ -1,0 +1,46 @@
+/* global document, window, DOMMatrixReadOnly, getComputedStyle */
+import {test,expect} from '@playwright/test'
+const phase=page=>page.locator('.v3-gallery-track').evaluate(node=>Math.abs(new DOMMatrixReadOnly(getComputedStyle(node).transform).m41))
+for(const language of ['en','ar'])test(`gallery ${language} ignores heading hover, pauses on a card and follows its real project URL`,async({page})=>{
+ await page.goto('/contracting/v3?lang='+language);await expect(page.locator('[data-gallery-original] [data-project-link]')).toHaveCount(8)
+ await page.locator('#v3-projects').scrollIntoViewIfNeeded()
+ const header=await page.locator('#v3-projects h2').boundingBox();await page.mouse.move(header.x+header.width/2,header.y+header.height/2)
+ await expect(page.locator('.v3-project-card-rail')).toHaveAttribute('data-gallery-state','running')
+ const a=await phase(page);await page.waitForTimeout(450);expect(await phase(page)-a).toBeGreaterThan(14)
+ const card=page.locator('[data-gallery-original] .v3-project-card').nth(1),box=await card.boundingBox(),x=Math.max(35,Math.min(1370,box.x+box.width/2)),y=box.y+140
+ await page.mouse.move(x,y);await expect(page.locator('.v3-project-card-rail')).toHaveAttribute('data-gallery-state','paused')
+ const still=await phase(page);await page.waitForTimeout(650);expect(await phase(page)).toBe(still)
+ await expect(card.locator('[data-project-link]')).toHaveCSS('cursor','pointer')
+ const href=await card.locator('[data-project-link]').getAttribute('href'),title=await card.locator('h3').innerText()
+ await page.mouse.move(header.x+30,header.y+20);await expect(page.locator('.v3-project-card-rail')).toHaveAttribute('data-gallery-state','running')
+ const nextBox=await card.boundingBox();await page.mouse.move(nextBox.x+nextBox.width/2,nextBox.y+140);await page.waitForTimeout(650)
+ await card.locator('[data-project-link]').click({position:{x:180,y:140}})
+ await expect(page).toHaveURL(new RegExp(href.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'$'));await expect(page.locator('#v3-project-detail-title')).toHaveText(title)
+ await page.reload();await expect(page.locator('#v3-project-detail-title')).toHaveText(title)
+ await expect(page.locator('.v3-project-preview')).toContainText(language==='en'?'Publication approval pending':'اعتماد النشر')
+ await page.locator('.v3-language').click();await expect(page).toHaveURL(new RegExp('lang='+(language==='en'?'ar':'en')))
+ await expect(page.locator('#v3-project-detail-title')).toBeVisible();expect(await page.evaluate(()=>Math.max(0,document.documentElement.scrollWidth-window.innerWidth))).toBe(0)
+})
+
+test('map has project presence and a single capped, pausable ambient loop',async({page})=>{
+ await page.goto('/contracting/v3?lang=en');await page.locator('#v3-map').scrollIntoViewIfNeeded()
+ const canvas=page.locator('.v3-map-canvas');await expect(canvas).toHaveAttribute('data-state','ready');await page.waitForTimeout(1100)
+ await expect(canvas).toHaveAttribute('data-map-ambient','running')
+ await expect(page.locator('.v3-map-pin.has-project')).toHaveCount(5);await expect(page.locator('.v3-map-review-notice')).toContainText('approval pending')
+ await expect(page.locator('.v3-map-callout')).toHaveCount(0);await expect(page.locator('.v3-map-projects img')).toHaveCount(1);await expect(page.locator('.v3-map-projects h4')).toHaveText('Jawhart Al-Sahab')
+ let count=Number(await canvas.getAttribute('data-render-count'));await page.waitForTimeout(800);const delta=Number(await canvas.getAttribute('data-render-count'))-count;expect(delta).toBeGreaterThan(10);expect(delta).toBeLessThan(32)
+ await page.locator('.v3-map-ambient').click();await expect(canvas).toHaveAttribute('data-map-ambient','paused');count=Number(await canvas.getAttribute('data-render-count'));await page.waitForTimeout(250);expect(Number(await canvas.getAttribute('data-render-count'))).toBe(count)
+ await page.locator('.v3-map-ambient').click();await expect(canvas).toHaveAttribute('data-map-ambient','running')
+ await page.locator('.v3-map-project-switch button').last().click();await expect(page.locator('.v3-map-projects h4')).not.toHaveText('Jawhart Al-Sahab')
+ await page.locator('.v3-map-cities button').nth(1).click();await expect(page.locator('.v3-map-projects h4')).toHaveText('Nozol Khayala')
+ await expect(page.locator('.v3-map-projects a')).toHaveAttribute('href','/contracting/v3/projects/nozol-khayala-jeddah?lang=en')
+ await page.locator('#v3-connect').scrollIntoViewIfNeeded();await expect(canvas).toHaveAttribute('data-map-active','false');count=Number(await canvas.getAttribute('data-render-count'));await page.waitForTimeout(300);expect(Number(await canvas.getAttribute('data-render-count'))).toBe(count)
+})
+
+test('reduced motion preserves static project previews and page navigation without ambient frames',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:390,height:844});await page.goto('/contracting/v3?lang=ar');await page.locator('#v3-map').scrollIntoViewIfNeeded()
+ const canvas=page.locator('.v3-map-canvas');await expect(canvas).toHaveAttribute('data-state','ready');await expect(canvas).toHaveAttribute('data-map-ambient','reduced');await expect(page.locator('.v3-map-ambient')).toHaveCount(0)
+ const count=await canvas.getAttribute('data-render-count');await page.waitForTimeout(250);expect(await canvas.getAttribute('data-render-count')).toBe(count)
+ await page.locator('.v3-map-cities button').nth(4).click();await expect(page.locator('.v3-map-projects h4')).toHaveText('ملفى تبوك هيلز')
+ await page.locator('.v3-map-projects a').click();await expect(page).toHaveURL(/\/v3\/projects\/malfa-tabuk-hills\?lang=ar/);await expect(page.locator('#v3-project-detail-title')).toBeVisible()
+})

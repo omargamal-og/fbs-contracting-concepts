@@ -1,0 +1,158 @@
+{
+  "purpose": "Local V3 visual preview, not approved project media or CMS publication.",
+  "licenseSummary": "Pexels permits website use and edits, with optional attribution. Do not imply endorsement, portray people offensively, resell unmodified standalone copies, redistribute as stock, or use imagery as a trademark. Asset pages and the license were inspected on the stated date. Full terms remain authoritative.",
+  "videos": [
+    {
+      "id": "35672598",
+      "creator": "HONG SON",
+      "page": "https://www.pexels.com/video/aerial-view-of-high-rise-construction-site-35672598/",
+      "download": "https://videos.pexels.com/video-files/35672598/15116835_3840_2160_60fps.mp4",
+      "output": "hero-01-high-rise.mp4",
+      "poster": "hero-01-poster.jpg",
+      "trim": {
+        "startSeconds": 1,
+        "durationSeconds": 10
+      },
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "verifiedOn": "2026-10-22",
+      "originalSha256": "a63703295af2db8653fb741fb14d539fc639efbebc26106e173eefabec0e40a2",
+      "originalBytes": 62648309,
+      "path": "public/contracting/v3/media/hero-01-high-rise.mp4",
+      "sha256": "065c153d0962001d42ec9348918b6dfe6a807a9184d6565d200b4a11ab605a38",
+      "bytes": 2919906,
+      "posterPath": "public/contracting/v3/media/hero-01-poster.jpg",
+      "encoding": {
+        "codec": "H.264 High",
+        "pixelFormat": "yuv420p",
+        "width": 1600,
+        "height": 900,
+        "framesPerSecond": 24,
+        "audio": false,
+        "fastStart": true,
+        "crf": 25,
+        "preset": "fast"
+      },
+      "probe": [
+        "Duration: 00:00:10.00, start: 0.000000, bitrate: 2335 kb/s",
+        "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1600x900 [SAR 1:1 DAR 16:9], 2332 kb/s, 24 fps, 24 tbr, 12288 tbn (default)",
+        "Stream #0:1[0x2](eng): Data: none (tmcd / 0x64636D74), 0 kb/s"
+      ]
+    },
+    {
+      "id": "8964377",
+      "creator": "Mikael Blomkvist",
+      "page": "https://www.pexels.com/video/engineer-talking-to-a-construction-worker-8964377/",
+      "download": "https://videos.pexels.com/video-files/8964377/8964377-uhd_3840_2160_25fps.mp4",
+      "output": "hero-02-engineers.mp4",
+      "poster": "hero-02-poster.jpg",
+      "trim": {
+        "startSeconds": 0,
+        "durationSeconds": 8
+      },
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "verifiedOn": "2026-10-22",
+      "originalSha256": "a6dc94ea3ddddaf049efe6f54557a47d74335eb4aa1e5a6b7eaecc72558eac21",
+      "originalBytes": 25869244,
+      "path": "public/contracting/v3/media/hero-02-engineers.mp4",
+      "sha256": "1ec57fbf5378334f1963f93342a35cc8c46d5cefa2c8bd469ced725916784e32",
+      "bytes": 1798366,
+      "posterPath": "public/contracting/v3/media/hero-02-poster.jpg",
+      "encoding": {
+        "codec": "H.264 High",
+        "pixelFormat": "yuv420p",
+        "width": 1600,
+        "height": 900,
+        "framesPerSecond": 24,
+        "audio": false,
+        "fastStart": true,
+        "crf": 25,
+        "preset": "fast"
+      },
+      "probe": [
+        "Duration: 00:00:08.00, start: 0.000000, bitrate: 1798 kb/s",
+        "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1600x900, 1795 kb/s, 24 fps, 24 tbr, 12288 tbn (default)"
+      ]
+    },
+    {
+      "id": "29704052",
+      "creator": "8 K",
+      "page": "https://www.pexels.com/video/aerial-view-of-excavator-at-construction-site-29704052/",
+      "download": "https://videos.pexels.com/video-files/29704052/12773075_3840_2160_24fps.mp4",
+      "output": "hero-03-excavator.mp4",
+      "poster": "hero-03-poster.jpg",
+      "trim": {
+        "startSeconds": 8,
+        "durationSeconds": 10
+      },
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "verifiedOn": "2026-10-22",
+      "originalSha256": "43612d849b01296c6589698b42ff867839bd644440ec923fad4b02f420fc0aed",
+      "originalBytes": 237316798,
+      "path": "public/contracting/v3/media/hero-03-excavator.mp4",
+      "sha256": "0774f768318dad72ddc861e5299edd5a5bb088f4c525ffe3554a8bf047a2e127",
+      "bytes": 4449451,
+      "posterPath": "public/contracting/v3/media/hero-03-poster.jpg",
+      "encoding": {
+        "codec": "H.264 High",
+        "pixelFormat": "yuv420p",
+        "width": 1600,
+        "height": 900,
+        "framesPerSecond": 24,
+        "audio": false,
+        "fastStart": true,
+        "crf": 25,
+        "preset": "fast"
+      },
+      "probe": [
+        "Duration: 00:00:10.00, start: 0.000000, bitrate: 3559 kb/s",
+        "Stream #0:0[0x1](eng): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1600x900, 3556 kb/s, 24 fps, 24 tbr, 12288 tbn (default)"
+      ]
+    }
+  ],
+  "persistentImage": {
+    "id": "12567101",
+    "creator": "Robert So",
+    "page": "https://www.pexels.com/photo/clear-sky-over-construction-crane-12567101/",
+    "download": "https://images.pexels.com/photos/12567101/pexels-photo-12567101.jpeg?cs=srgb&dl=pexels-robertkso-12567101.jpg&fm=jpg",
+    "licenseUrl": "https://www.pexels.com/license/",
+    "verifiedOn": "2026-10-22",
+    "originalSha256": "1ab352307e3abd744cc9679e199243594aaf42cced2e60b035f7bea336005fc8",
+    "derivatives": [
+      {
+        "path": "public/contracting/v3/media/construction-background.webp",
+        "sha256": "4a71376401cebaf5e878594d59d98345646ab533cce54145fc759482a1230b9d",
+        "bytes": 160432
+      },
+      {
+        "path": "public/contracting/v3/media/construction-background-mobile.webp",
+        "sha256": "eca85dc9b2b9707be561bf92ef8788f2913212ccac0360fd56733ab6e5b20482",
+        "bytes": 30518
+      }
+    ],
+    "use": "One independent fixed photograph below the video hero; temporary licensed stock, not an FBS project photograph."
+  },
+  "officialLogo": {
+    "path": "public/contracting/v3/media/fbs-contracting-official.png",
+    "sha256": "e4ccd6da8ff0ddeba89cc64fe917e006c03c7b611c1d5a076e469444e60a3195",
+    "source": "FBS Contracting-Profile 2027 -EN- .pdf, page 3",
+    "sourceSha256": "0b2e56040426128110588d8b082c838743ebd216b59bc9d01ebe661ee1135b8c",
+    "extraction": "Rendered official page at 1.5x; isolated existing top-right logo at x2420/y62, 400x62 pixels; removed white surrounding canvas to alpha. Letterforms and descriptor were not redrawn. White navbar variant uses a CSS color filter on the same logo."
+  },
+  "brandReference": {
+    "source": "FBS_Brand_Colors_Digital.pdf",
+    "sha256": "c3c88522000be0e43dc96ab69ba9a06c33165fd043c78a241d001c53c32b9fdb",
+    "verifiedOn": "2026-10-22",
+    "colors": [
+      "#082F4D",
+      "#649ABD",
+      "#A1B4BF",
+      "#B9DAF2",
+      "#DAE4EA",
+      "#FFFFFF",
+      "#EEF4F6"
+    ]
+  }
+}

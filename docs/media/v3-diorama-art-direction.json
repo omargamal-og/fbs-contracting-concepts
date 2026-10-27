@@ -1,0 +1,85 @@
+{
+  "updatedOn": "2026-10-27",
+  "scope": "V3 architectural geographic diorama",
+  "geographicSources": [
+    "v3-saudi-geography.json",
+    "v3-world-environment.json"
+  ],
+  "geographicSourceFilesChanged": false,
+  "elevationDataAdded": false,
+  "presentation": {
+    "relief": "Deterministic illustrative folds, coast-tapered, using three uniform shared-edge subdivisions of the existing national triangulation. No DEM or surveyed terrain claim.",
+    "sideDepth": 0.18,
+    "previousSideDepth": 0.9,
+    "neighborDepth": 0.055,
+    "cityObjects": "Three abstract mineral/glass building forms per verified reference city, a plinth, a light stem and animated ring. Not models or footprints of actual FBS developments.",
+    "projectPanels": 1,
+    "projectCoordinates": "Original verified city reference points only.",
+    "water": "Existing large plane; procedural water reflection and ripples. No satellite textures, bathymetry, fabricated roads or routes."
+  },
+  "camera": {
+    "defaultPosition": [
+      2.5,
+      23,
+      23
+    ],
+    "target": [
+      -0.7,
+      0.25,
+      -0.5
+    ],
+    "minDistance": 30.5,
+    "maxDistance": 37,
+    "minPolarRadians": 0.55,
+    "maxPolarRadians": 0.92,
+    "minAzimuthRadians": -0.32,
+    "maxAzimuthRadians": 0.45,
+    "verticalFov": "max(40 degrees, 2*atan(.4/aspect))",
+    "wideStageOffset": "12.5% of stage width; direction follows language, geography is never mirrored.",
+    "selectedCityFocus": "8% target emphasis, retaining whole-country framing."
+  },
+  "motion": {
+    "yawAmplitudeRadians": 0.06,
+    "pitchAmplitudeRadians": 0.016,
+    "manualInactivityMs": 4000,
+    "desktopCapFps": 30,
+    "smallStageCapFps": 20,
+    "scheduler": "One existing requestAnimationFrame scheduler, a one-shot manual-inactivity timer, cached static shadows.",
+    "pauseConditions": [
+      "explicit Pause",
+      "reduced motion",
+      "offscreen",
+      "hidden tab",
+      "active manual input"
+    ],
+    "idleRecording": "artifacts/v3/diorama/final/idle-continuous-16s.webm",
+    "interactionRecording": "artifacts/v3/diorama/final/interactions.webm"
+  },
+  "performance": {
+    "triangles": 90592,
+    "drawCalls": 96,
+    "initialDetailedPassTriangles": 253340,
+    "initialDetailedPassDrawCalls": 191,
+    "setupMsRange": [
+      53.5,
+      99.2
+    ],
+    "observedFramesIn1200MsRange": [
+      21,
+      27
+    ],
+    "lazySetup": "Modules preload nearby; WebGL/mesh construction waits for canvas visibility. Regional meshes and coastline segments are batched."
+  },
+  "preservationHashes": {
+    "public/contracting/v3/media/hero-01-high-rise.mp4": "065c153d0962001d42ec9348918b6dfe6a807a9184d6565d200b4a11ab605a38",
+    "public/contracting/v3/media/hero-02-engineers.mp4": "1ec57fbf5378334f1963f93342a35cc8c46d5cefa2c8bd469ced725916784e32",
+    "public/contracting/v3/media/hero-03-excavator.mp4": "0774f768318dad72ddc861e5299edd5a5bb088f4c525ffe3554a8bf047a2e127",
+    "public/contracting/v3/media/fbs-contracting-arabic-navbar.png": "daa0079aebe5bee5b3c47390aa5594ce8efc2586b592eb9f4af3f58c25474fd7",
+    "public/contracting/v3/media/fbs-contracting-english-navbar.png": "2d5bd7cca9f868d495bc87fdf9d15ada7a5bf8ddfd396d2edbb3a2d46c335c5b",
+    "src/contracting/site/v3/geography/saudi-boundary.json": "29ed118ca52150ca9865bb7b37b961c575ae7159b2d94282bef9d0cf31fc29a4",
+    "src/contracting/site/v3/geography/saudi-cities.json": "851c5906181afb1e7f84e4af8acb578c47a037904bafa6e139cb45599b895732"
+  },
+  "approvalPolicy": "DEV-only previews retain pending-publication labels. Production continues to require approved published CMS content.",
+  "newDependencies": [],
+  "newRasterAssets": []
+}
