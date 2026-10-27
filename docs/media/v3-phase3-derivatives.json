@@ -1,0 +1,36 @@
+{
+  "createdOn": "2026-10-23",
+  "purpose": "Additional stills extracted from the already licensed V3 videos; original video files unchanged.",
+  "assets": [
+    {
+      "path": "public/contracting/v3/media/company-collaboration.webp",
+      "sourceVideo": "hero-02-engineers.mp4",
+      "frameSeconds": 4,
+      "width": 1400,
+      "bytes": 185690,
+      "sha256": "d99a931b3d36fa6a66a33c3a24c6eeaa6769945477808eb4ac754afff91e9ba0",
+      "licenseRecord": "v3-media-provenance.json",
+      "use": "Licensed illustrative construction imagery; not represented as actual FBS project photography."
+    },
+    {
+      "path": "public/contracting/v3/media/expertise-groundwork.webp",
+      "sourceVideo": "hero-03-excavator.mp4",
+      "frameSeconds": 4,
+      "width": 1200,
+      "bytes": 176240,
+      "sha256": "ca18dde73116bffdec63a5330ff21d077f14745a53283be75fbd105eb87dd858",
+      "licenseRecord": "v3-media-provenance.json",
+      "use": "Licensed illustrative construction imagery; not represented as actual FBS project photography."
+    },
+    {
+      "path": "public/contracting/v3/media/construction-structure.webp",
+      "sourceVideo": "hero-01-high-rise.mp4",
+      "frameSeconds": 7,
+      "width": 1400,
+      "bytes": 219348,
+      "sha256": "1109dc4b34348ce25666fbfc21e58f3af0e1dc9b8fe84761fc05cf6b22ad301b",
+      "licenseRecord": "v3-media-provenance.json",
+      "use": "Licensed illustrative construction imagery; not represented as actual FBS project photography."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "updatedOn": "2026-10-26",
+  "scope": "V3 signature Saudi map and continuously moving project gallery",
+  "newMediaAssets": [],
+  "geographicSource": "v3-saudi-geography.json",
+  "geoCoordinatesChanged": false,
+  "projectMediaSource": "Existing company-profile project records and assets; approved published CMS media in production.",
+  "developmentPreview": {
+    "source": "src/contracting/site/data/projects.ts",
+    "adapter": "src/contracting/site/v3/developmentProjects.ts",
+    "cityAssociation": "Existing project.region, mapped to cityKey; no name inference or invented site coordinates.",
+    "status": "published:false; all preview surfaces retain publication-approval-pending labels.",
+    "production": "DEV-only fixture removed by Vite; production map/detail pages require the existing approved public-content adapter."
+  },
+  "motion": {
+    "desktopCapFps": 30,
+    "smallStageCapFps": 20,
+    "shadows": "Cached VSM map; no per-frame shadow rebuild.",
+    "pauseConditions": [
+      "offscreen",
+      "hidden document",
+      "reduced motion",
+      "explicit ambient pause",
+      "manual camera mode"
+    ],
+    "cityPositions": "Original city X/Z reference locations retained; only marker-head height breathes."
+  },
+  "routes": {
+    "added": "/contracting/v3/projects/:slug",
+    "existing": "All existing base/V2/legacy route registrations preserved."
+  },
+  "preservationHashes": {
+    "public/contracting/v3/media/hero-01-high-rise.mp4": "065c153d0962001d42ec9348918b6dfe6a807a9184d6565d200b4a11ab605a38",
+    "public/contracting/v3/media/hero-02-engineers.mp4": "1ec57fbf5378334f1963f93342a35cc8c46d5cefa2c8bd469ced725916784e32",
+    "public/contracting/v3/media/hero-03-excavator.mp4": "0774f768318dad72ddc861e5299edd5a5bb088f4c525ffe3554a8bf047a2e127",
+    "public/contracting/v3/media/fbs-contracting-arabic-navbar.png": "daa0079aebe5bee5b3c47390aa5594ce8efc2586b592eb9f4af3f58c25474fd7",
+    "public/contracting/v3/media/fbs-contracting-english-navbar.png": "2d5bd7cca9f868d495bc87fdf9d15ada7a5bf8ddfd396d2edbb3a2d46c335c5b",
+    "src/contracting/site/v3/geography/saudi-boundary.json": "29ed118ca52150ca9865bb7b37b961c575ae7159b2d94282bef9d0cf31fc29a4",
+    "src/contracting/site/v3/geography/saudi-cities.json": "851c5906181afb1e7f84e4af8acb578c47a037904bafa6e139cb45599b895732"
+  }
+}

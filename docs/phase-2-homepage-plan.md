@@ -1,0 +1,11 @@
+# Phase 2: complete homepage integration after foundation approval
+
+1. Verify the foundation against a full local Supabase stack. Reconcile generated types and approve source content, statistic reporting dates, photography/video rights, project status, and coordinates. Keep unknown values null and unpublished items hidden.
+2. Approve the new corporate design and motion tokens. Build the shared background, full-width mega navigation, footer, responsive typography, and reusable motion system; preserve accessibility and Arabic/RTL behavior.
+3. Build the complete homepage: multiple approved hero videos with image posters; a small statistics section immediately below; editorial company/services/sectors sections; selected projects and galleries; project-driven geographic map; CMS-managed news; sustainability/Vision content; and contact call to action. Do not silently present the existing demo figures as approved.
+4. Consume `getPublicHomepage`, `getPublicContent`, released-media access, and adapters from a controller/data boundary. Keep queries outside visual sections. Design explicit loading, unavailable, empty-section, error, and media/map fallback states. The current page remains intact until the replacement is complete and reviewable.
+5. Add GSAP/ScrollTrigger and Mapbox only in this phase. Confirm Mapbox billing, style, and a URL-restricted public token; show verified coordinates only and provide an accessible project list. Preserve a static alternative for reduced motion, unsupported WebGL, and unavailable media.
+6. Start news with manually approved CMS records and optional original-post links. Do not add LinkedIn sync until approved application access, organization authorization, and scopes exist.
+7. Validate desktop/mobile Arabic and English, keyboard navigation, reduced motion, video pause behavior, lazy loading, media budgets, route loading, and production build. Make the final `/contracting` route transition separately reviewable: retain concept URLs, preserve the selector at an archive URL, and retain `/contracting/build/*` compatibility. Keep the single BrowserRouter.
+
+The React admin dashboard and public career/supplier intake remain separate work. They require the server operations listed in the foundation guide; the private schema must not be exposed as a shortcut.

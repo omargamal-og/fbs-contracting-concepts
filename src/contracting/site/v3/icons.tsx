@@ -1,0 +1,2 @@
+export function Arrow({previous=false}:{previous?:boolean}){return <svg className={'v3-arrow'+(previous?' is-previous':'')} viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.4"/></svg>}
+export function PlaybackIcon({paused}:{paused:boolean}){return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">{paused?<path d="m9 5 10 7-10 7V5Z" stroke="currentColor" strokeWidth="1.4"/>:<><path d="M8 5v14M16 5v14" stroke="currentColor" strokeWidth="2"/></>}</svg>}

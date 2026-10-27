@@ -1,0 +1,130 @@
+{
+  "updatedOn": "2026-10-27",
+  "scope": "Full-scene V3 regional map environment",
+  "sourceManifest": "v3-saudi-geography.json",
+  "provider": "Natural Earth",
+  "license": "Public domain",
+  "termsUrl": "https://www.naturalearthdata.com/about/terms-of-use/",
+  "commit": "ca96624a56bd078437bca8184e78163e5039ad19",
+  "sourceUrl": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_50m_admin_0_countries.geojson",
+  "rawAuditPath": "artifacts/v3/completion/geography-source/ne_50m_admin_0_countries.geojson",
+  "rawSha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb",
+  "rawBytes": 3083490,
+  "asset": {
+    "path": "src/contracting/site/v3/geography/regional-context.json",
+    "sha256": "32d9ed019dd017dda898e9b742ab3c80dc970e62f326249f4641cf6fcf9ed68a",
+    "bytes": 68005,
+    "geometryHashes": [
+      {
+        "id": "YEM",
+        "geometrySha256": "437aae3bf762e3f21ef5ceb56ddf7591368eb88566c5e45f87a10bae4dc63a8a"
+      },
+      {
+        "id": "ARE",
+        "geometrySha256": "889f3b7e87831bc2bdbdf612b0769d00a24fd145c0d357beeff059fccf9cea99"
+      },
+      {
+        "id": "SYR",
+        "geometrySha256": "f95738b3597cac771c9e67c674be4cde0729a058c9cfec0e9f0af098b27f24d8"
+      },
+      {
+        "id": "SDN",
+        "geometrySha256": "8fcd05cbf06c4fe496f4c8a4a0d581bed5ac011eafa29c8ed4cda73c6393dcf5"
+      },
+      {
+        "id": "QAT",
+        "geometrySha256": "3d0951bdc1ce560bd0c2f315fdc341562c8ba46322880deab57bcb712201f991"
+      },
+      {
+        "id": "OMN",
+        "geometrySha256": "22e7f2e6da1764a423d194908f675032473ecefd13550d719d74084fe1c1707d"
+      },
+      {
+        "id": "LBN",
+        "geometrySha256": "8fd2307242d9b7415e0c8bc004cd8ee2d7f83ab03b761773e6acc56289266266"
+      },
+      {
+        "id": "KWT",
+        "geometrySha256": "37f0c70af66aac08ce9cade4973b1ce6c68f8f388a76bae00035558066d8a3bc"
+      },
+      {
+        "id": "JOR",
+        "geometrySha256": "7c2f73c5d601ad3370973f7d057488905a055d3cdbfb75272c98b4f17beb4cc5"
+      },
+      {
+        "id": "ISR",
+        "geometrySha256": "8db9125b353e939e7bcdab9b09aa3aa2f6be094796a27ac455fee6dc6091d8fb"
+      },
+      {
+        "id": "PSX",
+        "geometrySha256": "68c61b59d84557767763e673f364277321bd7d686ecb0cad3f4928c12abf99ca"
+      },
+      {
+        "id": "IRQ",
+        "geometrySha256": "de71046aadbf920b4f2937f17426d5b605d06b52511bb0e7359c1694abe94db5"
+      },
+      {
+        "id": "IRN",
+        "geometrySha256": "c1973d4cfbc6c558c1e69a2cb0ac2d3b4bbac8f9cfa7f1127cf3921f7d34ba29"
+      },
+      {
+        "id": "ERI",
+        "geometrySha256": "2a900e9d45dc13669c83648facb12910ddc65b9b76771cca4fcad72e4c1dff46"
+      },
+      {
+        "id": "EGY",
+        "geometrySha256": "df5d320dc22e2ee5259e0a7c222975ac3b5c0b92e76aabe570d5da09828ade5a"
+      },
+      {
+        "id": "DJI",
+        "geometrySha256": "c63485e345be1fd4a178ef18e2c17c0c2eee1ac879cf6040ef8b920b45b236a1"
+      },
+      {
+        "id": "BHR",
+        "geometrySha256": "b015a52ea2f3a602ec790dd8be92c48fdbfef8fb6dbac2c52b39fb0162ec567f"
+      }
+    ]
+  },
+  "extraction": "17 complete original country geometries; no clipping, simplification, coordinate changes or fabricated geography. Equality with each pinned source geometry verified locally.",
+  "presentation": "Illustrative vertical extrusion, procedural water highlights and atmospheric fog. No elevation, bathymetry, new roads, exact project-site coordinates or FBS coverage claims.",
+  "motion": {
+    "cameraYawRadians": 0.014,
+    "cameraPitchRadians": 0.004,
+    "desktopCapFps": 30,
+    "smallStageCapFps": 20,
+    "scheduler": "Existing single capped render loop; static cached shadows.",
+    "pauseConditions": [
+      "offscreen",
+      "hidden document",
+      "reduced motion",
+      "explicit pause",
+      "manual camera mode"
+    ]
+  },
+  "preserved": {
+    "existingSaudiBoundary": true,
+    "existingCityCoordinates": true,
+    "projectImages": true,
+    "heroVideos": true,
+    "languageLogos": true,
+    "routes": true,
+    "approvalPolicy": "DEV previews remain labeled pending; production requires approved published CMS records."
+  },
+  "cameraFraming": {
+    "near": 0.1,
+    "far": 500,
+    "minDistance": 12,
+    "maxDistance": 32,
+    "minPolarRadians": 0.18,
+    "maxPolarRadians": 0.9,
+    "minAzimuthRadians": -1.2566370614359172,
+    "maxAzimuthRadians": 1.2566370614359172,
+    "reason": "Retain an elevated readable country view at zoom/orbit limits; zoom buttons use the same limits as native controls."
+  },
+  "waterSurface": {
+    "width": 600,
+    "height": 600,
+    "reason": "Extend beyond the responsive view; atmospheric fog softens the distant surface."
+  },
+  "labels": "Selected city remains expanded. Overlapping city labels become clickable photographic beacons at the same projected reference position; city index remains fully labeled."
+}
