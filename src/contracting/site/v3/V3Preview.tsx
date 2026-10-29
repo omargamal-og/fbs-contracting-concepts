@@ -29,7 +29,7 @@ function Experience(){
  const {content,retry}=useHomepageContent(language),data=content.data
  const detailReturn=useRef<HTMLElement|null>(null)
  const [detail,setDetail]=useState<{kind:'project';item:ProjectView}|{kind:'news';item:NewsView}>()
- useEffect(()=>{const previous={lang:document.documentElement.lang,dir:document.documentElement.dir,title:document.title};document.documentElement.lang=language;document.documentElement.dir=direction;document.title=language==='ar'?'FBS للمقاولات | معاينة الموقع':'FBS Contracting | Corporate preview';try{localStorage.setItem('fbs-v3-language',language)}catch{/* Optional preference. */}return()=>{document.documentElement.lang=previous.lang;document.documentElement.dir=previous.dir;document.title=previous.title}},[language,direction])
+ useEffect(()=>{const previous={lang:document.documentElement.lang,dir:document.documentElement.dir,title:document.title};document.documentElement.lang=language;document.documentElement.dir=direction;document.title=language==='ar'?'FBS للمقاولات':'FBS Contracting';try{localStorage.setItem('fbs-v3-language',language)}catch{/* Optional preference. */}return()=>{document.documentElement.lang=previous.lang;document.documentElement.dir=previous.dir;document.title=previous.title}},[language,direction])
  useV3Scroll(root)
  useHomepageMotion(root,image,language+':'+content.status+':'+data.projects.length)
  return <div ref={root} className="fbs-v3" dir={direction} lang={language} id="v3-top">
@@ -42,7 +42,7 @@ function Experience(){
    <ImageReveal t={t}/>
    <ExpertiseSection t={t} data={data}/>
    <FeaturedProjects t={t} data={data}/>
-   <SaudiProjectMap language={language} projects={data.projects} preview={import.meta.env.DEV&&data.source==='development'}/>
+   <SaudiProjectMap language={language} projects={data.projects} preview={data.projects.some(project=>!project.published)}/>
    <ImageReveal t={t} second/>
    <SustainabilitySection t={t} data={data}/>
    <NewsSection t={t} data={data} onOpen={item=>setDetail({kind:'news',item})}/>
@@ -50,7 +50,7 @@ function Experience(){
    {content.status==='error'&&<div className="v3-content-notice" role="status">{t.error}<button onClick={retry}>{t.retry}</button></div>}
   </main><CorporateFooter t={t} data={data}/></div>
   {detail&&<DetailDialog t={t} title={detail.kind==='project'?detail.item.name:detail.item.title} onClose={()=>{setDetail(undefined);const target=detailReturn.current;detailReturn.current=null;if(target)requestAnimationFrame(()=>target.focus({preventScroll:true}))}}>
-   {detail.kind==='project'?<><V3Image media={detail.item.image} alt={detail.item.name} eager/>{!detail.item.published&&<p className="v3-project-preview">{t.projectPreview}</p>}{detail.item.location&&<p className="v3-dialog-location">{t.location+' · '+detail.item.location}</p>}{detail.item.summary&&<p className="v3-lead">{detail.item.summary}</p>}</>:<><V3Image media={detail.item.image} alt={detail.item.title} eager/>{detail.item.date&&<time dateTime={detail.item.date}>{new Intl.DateTimeFormat(language,{dateStyle:'long'}).format(new Date(detail.item.date+'T00:00:00Z'))}</time>}<p className="v3-lead">{detail.item.excerpt}</p><div className="v3-article-body">{detail.item.body.split(/\n\s*\n/).map((paragraph,index)=><p key={index}>{paragraph}</p>)}</div>{detail.item.linkedinUrl&&<a className="v3-link" href={detail.item.linkedinUrl} target="_blank" rel="noopener noreferrer">{t.originalPost}<Arrow/></a>}</>}
+   {detail.kind==='project'?<><V3Image media={detail.item.image} alt={detail.item.name} eager/>{detail.item.location&&<p className="v3-dialog-location">{t.location+' · '+detail.item.location}</p>}{detail.item.summary&&<p className="v3-lead">{detail.item.summary}</p>}</>:<><V3Image media={detail.item.image} alt={detail.item.title} eager/>{detail.item.date&&<time dateTime={detail.item.date}>{new Intl.DateTimeFormat(language,{dateStyle:'long'}).format(new Date(detail.item.date+'T00:00:00Z'))}</time>}<p className="v3-lead">{detail.item.excerpt}</p><div className="v3-article-body">{detail.item.body.split(/\n\s*\n/).map((paragraph,index)=><p key={index}>{paragraph}</p>)}</div>{detail.item.linkedinUrl&&<a className="v3-link" href={detail.item.linkedinUrl} target="_blank" rel="noopener noreferrer">{t.originalPost}<Arrow/></a>}</>}
   </DetailDialog>}
  </div>
 }

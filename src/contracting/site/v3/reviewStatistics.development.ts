@@ -1,5 +1,5 @@
-// Generated from the existing draft SQL seed, for local visual review only.
-// Never imported outside import.meta.env.DEV; no approval state is changed.
+// Existing draft SQL seed shown as a public demo dataset with a preliminary label.
+// This does not change CMS records or their approval state.
 import type { SiteLanguage } from '../i18n/types'
 import type { StatisticView } from '../v2/content/model'
 const records=[
@@ -12,7 +12,7 @@ const records=[
     "referenceDate": null,
     "labels": {
       "en": "Project value",
-      "ar": "قيمة المشاريع"
+      "ar": "\u0642\u064a\u0645\u0629 \u0627\u0644\u0645\u0634\u0627\u0631\u064a\u0639"
     }
   },
   {
@@ -24,7 +24,7 @@ const records=[
     "referenceDate": null,
     "labels": {
       "en": "Residential projects",
-      "ar": "مشاريع سكنية"
+      "ar": "\u0645\u0634\u0627\u0631\u064a\u0639 \u0633\u0643\u0646\u064a\u0629"
     }
   },
   {
@@ -36,7 +36,7 @@ const records=[
     "referenceDate": null,
     "labels": {
       "en": "Residential units",
-      "ar": "وحدات سكنية"
+      "ar": "\u0648\u062d\u062f\u0627\u062a \u0633\u0643\u0646\u064a\u0629"
     }
   },
   {
@@ -48,7 +48,7 @@ const records=[
     "referenceDate": null,
     "labels": {
       "en": "Built-up area",
-      "ar": "مساحة البناء"
+      "ar": "\u0645\u0633\u0627\u062d\u0629 \u0627\u0644\u0628\u0646\u0627\u0621"
     }
   },
   {
@@ -60,7 +60,7 @@ const records=[
     "referenceDate": null,
     "labels": {
       "en": "Commercial projects",
-      "ar": "مشاريع تجارية"
+      "ar": "\u0645\u0634\u0627\u0631\u064a\u0639 \u062a\u062c\u0627\u0631\u064a\u0629"
     }
   },
   {
@@ -72,7 +72,7 @@ const records=[
     "referenceDate": null,
     "labels": {
       "en": "Concrete works",
-      "ar": "الأعمال الخرسانية"
+      "ar": "\u0627\u0644\u0623\u0639\u0645\u0627\u0644 \u0627\u0644\u062e\u0631\u0633\u0627\u0646\u064a\u0629"
     }
   },
   {
@@ -84,7 +84,7 @@ const records=[
     "referenceDate": null,
     "labels": {
       "en": "Employees",
-      "ar": "العاملون"
+      "ar": "\u0627\u0644\u0639\u0627\u0645\u0644\u0648\u0646"
     }
   }
 ]
