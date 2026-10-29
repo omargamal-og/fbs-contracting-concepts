@@ -10,18 +10,19 @@ import { V3Image } from './Image'
 import { Link } from 'react-router-dom'
 import { projectDetailPath } from './projectNavigation'
 import { MEDIA, V3_BASE } from './content'
+import { featuredProfileProjectSlugs } from './profileProjects'
 
 type Delivery = { url: string; srcSet: string }
 // One signed-media subscription per real project, shared by all visual repeats.
 function GalleryAsset({ project, enabled, onDelivery }: { project: ProjectView; enabled: boolean; onDelivery: (id: string, delivery: Delivery) => void }) {
  const delivery = useMediaSource(project.image, enabled)
- useEffect(() => { onDelivery(project.id, { url: delivery.url, srcSet: delivery.srcSet }) }, [project.id, delivery.url, delivery.srcSet, onDelivery])
+ useEffect(() => { onDelivery(project.id, { url: delivery.url||project.image?.developmentUrl||'', srcSet: delivery.srcSet }) }, [project.id, project.image?.developmentUrl, delivery.url, delivery.srcSet, onDelivery])
  return null
 }
 
 export function FeaturedProjects({ t, data }: { t: V3Copy; data: HomepageView }) {
  const reduced = useReducedMotion()
- const projects = data.projects, rtl = data.language === 'ar', p = premiumCopy(data.language)
+ const projects = data.projects.filter(project=>featuredProfileProjectSlugs.includes(project.slug)), rtl = data.language === 'ar', p = premiumCopy(data.language)
  const identity = data.language + ':' + projects.map(project => project.id).join(',')
  const gallery = useProjectGallery(identity, rtl, reduced), { viewport, track, setDragging } = gallery
  const [images, setImages] = useState<Record<string, Delivery>>({})
@@ -96,7 +97,6 @@ export function FeaturedProjects({ t, data }: { t: V3Copy; data: HomepageView })
     {!reduced ? <button className="v3-gallery-play" aria-label={gallery.paused ? p.playGallery : p.pauseGallery} aria-pressed={gallery.paused} onClick={() => gallery.setPaused(value => !value)}><PlaybackIcon paused={gallery.paused}/><span>{gallery.paused ? p.play : p.pause}</span></button> : <span className="v3-gallery-still">{p.stationaryGallery}</span>}
     <button className="v3-icon-button" aria-label={t.previousProject} onClick={() => reveal(Math.round(gallery.getOffset() / gallery.getStep()) - 1, true)}><Arrow previous/></button><button className="v3-icon-button" aria-label={t.nextProject} onClick={() => reveal(Math.round(gallery.getOffset() / gallery.getStep()) + 1, true)}><Arrow/></button>
    </div>}</div>
-   {data.source === 'development' && <p className="v3-project-preview" role="note">{t.projectPreview}</p>}
    {projects.map(project => <GalleryAsset key={project.id} project={project} enabled={gallery.near} onDelivery={deliver}/>)}
    {projects.length ? <><p className="v3-gallery-help" id="v3-gallery-help">{p.galleryHelp}</p><div ref={viewport} className={'v3-project-card-rail' + (reduced ? ' is-stationary' : '')} role="region" aria-label={t.featured} aria-describedby="v3-gallery-help"
     onScroll={event => { if (reduced) gallery.moveTo(Math.abs(event.currentTarget.scrollLeft)) }}

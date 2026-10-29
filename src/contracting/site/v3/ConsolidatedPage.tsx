@@ -18,6 +18,7 @@ import { Arrow } from './icons'
 import { OFFICIAL_LINKEDIN, upgradeCopy } from './upgradeContent'
 import { governancePolicies } from './navigationReadiness'
 import { v3Brand } from './branding'
+import { getConsolidationDemo } from './consolidationDemo.development'
 import nawafImage from '../assets/images/team/uniform/nawaf-binshuail.png'
 import waelImage from '../assets/images/team/uniform/wael-darkazanli.png'
 import ahmedImage from '../assets/images/team/uniform/ahmed-talat.png'
@@ -37,11 +38,6 @@ import './consolidated-pages.css'
 
 export type ConsolidatedPageId='company'|'what-we-do'|'approach'|'projects'|'news'|'governance'
 type DemoArticle={id:string;title:string;category:string;excerpt:string;body:string}
-type DemoContent={
- services:readonly {id:string;title:string;summary:string}[]
- governance:readonly {id:string;title:string;summary:string}[]
- news:readonly DemoArticle[]
-}
 const teamImages:Record<string,string>={nawaf:nawafImage,wael:waelImage,ahmed:ahmedImage,mashael:mashaelImage,nasser:nasserImage,khaled:khaledImage}
 const visualImages=[MEDIA+'company-collaboration.webp',MEDIA+'hero-02-poster.jpg',MEDIA+'construction-structure.webp',MEDIA+'construction-background.webp',MEDIA+'architectural-detail.webp',MEDIA+'expertise-groundwork.webp']
 
@@ -50,7 +46,12 @@ function ConsolidatedPageView({page}:{page:ConsolidatedPageId}){
  const {content}=useHomepageContent(language),data=content.data
  const root=useRef<HTMLDivElement>(null),detailReturn=useRef<HTMLElement|null>(null)
  const [article,setArticle]=useState<NewsView|DemoArticle>()
- const [demo,setDemo]=useState<DemoContent>()
+ const [projectSearch,setProjectSearch]=useState('')
+ const [projectCategory,setProjectCategory]=useState(()=>{
+  const value=new URLSearchParams(window.location.search).get('category')
+  return value==='residential'||value==='commercial'?value:'all'
+ })
+ const demo=getConsolidationDemo(language)
  const brand=v3Brand(language)
  const local=(path:string)=>{const url=new URL(path,window.location.origin);url.searchParams.set('lang',language);return url.pathname+url.search+url.hash}
  useV3Scroll(root)
@@ -61,14 +62,15 @@ function ConsolidatedPageView({page}:{page:ConsolidatedPageId}){
   document.title=titles[page]+' | '+brand.label
   return()=>{document.documentElement.lang=previous.lang;document.documentElement.dir=previous.dir;document.title=previous.title}
  },[language,direction,page,brand.label,t.projects,t.news,u.governance])
- useEffect(()=>{
-  let current=true
-  if(import.meta.env.DEV)void import('./consolidationDemo.development').then(module=>{if(current)setDemo(module.getConsolidationDemo(language))})
-  return()=>{current=false}
- },[language])
- const company=inner.about,vision=company.visionMission,team=company.ourTeam,services=data.source==='published'&&data.services.length?data.services:demo?.services??t.services.map((title,index)=>({id:'capability-'+index,title,summary:t.servicesDescription}))
- const news:({kind:'published';item:NewsView}|{kind:'demo';item:DemoArticle})[]=data.source==='published'&&data.news.length?data.news.map(item=>({kind:'published',item})):demo?.news.map(item=>({kind:'demo',item}))??[]
- const projectCards=data.source==='published'?data.projects:[]
+ const company=inner.about,vision=company.visionMission,team=company.ourTeam,services=data.services.length?data.services:demo.services??t.services.map((title,index)=>({id:'capability-'+index,title,summary:t.servicesDescription}))
+ const news:({kind:'published';item:NewsView}|{kind:'demo';item:DemoArticle})[]=data.news.length?data.news.map(item=>({kind:'published',item})):demo.news.map(item=>({kind:'demo',item}))
+ const projectCards=data.projects
+ const filteredProjectCards=projectCards.filter(project=>{
+  const matchesCategory=projectCategory==='all'||project.category===projectCategory
+  const query=projectSearch.trim().toLocaleLowerCase(language)
+  const matchesSearch=!query||[project.name,project.location,project.summary,project.slug,project.category].some(value=>value?.toLocaleLowerCase(language).includes(query))
+  return matchesCategory&&matchesSearch
+ })
  const titles:Record<ConsolidatedPageId,string>={company:u.company,'what-we-do':u.whatWeDo,approach:u.ourApproach,projects:t.projects,news:t.news,governance:u.governance}
  const intros:Record<ConsolidatedPageId,string>={company:t.description,'what-we-do':t.servicesDescription,approach:t.sustainabilityContent.description,projects:t.projectDescription,news:t.menuNews,governance:u.governanceIntro}
  const heroImages:Record<ConsolidatedPageId,string>={company:MEDIA+'company-collaboration.webp','what-we-do':MEDIA+'expertise-groundwork.webp',approach:MEDIA+'construction-background.webp',projects:MEDIA+'construction-structure.webp',news:MEDIA+'architectural-detail.webp',governance:MEDIA+'construction-perspective.webp'}
@@ -124,18 +126,14 @@ function ConsolidatedPageView({page}:{page:ConsolidatedPageId}){
     ].map(({id,content,image})=><article id={id} key={id}><V3Image src={image} alt="" eager/><div><h3>{content.title}</h3><p>{content.introduction}</p><details><summary>{'commitments' in content?content.commitmentsTitle:content.systemsTitle}</summary><ul>{'commitments' in content?content.commitments.map(item=><li key={item.title}><strong>{item.title}</strong><span>{item.description}</span></li>):content.systems.map(item=><li key={item.title}><strong>{item.title}</strong><span>{item.description}</span></li>)}</ul>{'steps' in content&&<><h4>{content.approachTitle}</h4><ul>{content.steps.map(item=><li key={item.title}><strong>{item.title}</strong><span>{item.description}</span></li>)}</ul></>}<p>{content.closing}</p></details></div></article>)}</div></section>
    </>}
    {page==='projects'&&<>
-    <section className="v3-consolidated-block" id="directory"><div className="v3-consolidated-heading"><p className="v3-eyebrow">{t.featured}</p><h2>{t.featuredTitle}</h2><p>{t.projectDescription}</p></div><div className="v3-project-directory">{projectCards.length?projectCards.map(project=><ProjectDirectoryCard key={project.id} project={project} language={language}/>):[
-     {title:dictionary.home.projectCategories.residential.title,to:'#residential',image:MEDIA+'construction-structure.webp',description:dictionary.home.projectCategories.residential.description},
-     {title:dictionary.home.projectCategories.commercial.title,to:'#commercial',image:MEDIA+'construction-background.webp',description:dictionary.home.projectCategories.commercial.description},
-     {title:u.projectMap,to:'#project-map',image:MEDIA+'hero-01-poster.jpg',description:t.projectDescription},
-    ].map(item=><Link className="v3-project-directory-card" key={item.title} to={item.to.startsWith('#')?item.to:local(item.to)}><V3Image src={item.image} alt="" eager/><div><p className="v3-eyebrow">{t.projects}</p><h3>{item.title}</h3><p>{item.description}</p><span className="v3-link">{u.exploreTopic}<Arrow/></span></div></Link>)}</div></section>
-    <section className="v3-consolidated-block v3-project-categories" aria-label={t.projects}><div className="v3-consolidated-heading"><p className="v3-eyebrow">{t.nav.ourProjects}</p><h2>{dictionary.home.projectCategories.titleLine1} {dictionary.home.projectCategories.titleLine2}</h2><p>{dictionary.home.projectCategories.description}</p></div><div className="v3-project-category-links"><article id="residential"><h3>{dictionary.home.projectCategories.residential.title}</h3><p>{dictionary.home.projectCategories.residential.description}</p><Link to={local(contractingPath('projects/residential'))}>{u.viewCategory}<Arrow/></Link></article><article id="commercial"><h3>{dictionary.home.projectCategories.commercial.title}</h3><p>{dictionary.home.projectCategories.commercial.description}</p><Link to={local(contractingPath('projects/commercial'))}>{u.viewCategory}<Arrow/></Link></article></div></section>
-    <div id="project-map" className="v3-consolidated-map"><SaudiProjectMap language={language} projects={data.projects} preview={import.meta.env.DEV&&data.source==='development'}/></div>
+    <section className="v3-consolidated-block" id="directory"><div className="v3-consolidated-heading"><p className="v3-eyebrow">{t.featured}</p><h2>{t.featuredTitle}</h2><p>{t.projectDescription}</p></div><div className="v3-project-filters" role="group" aria-label={language==='en'?'Filter projects':'تصفية المشاريع'}><label className="v3-project-search"><span>{language==='en'?'Search projects':'ابحث في المشاريع'}</span><input type="search" value={projectSearch} onChange={event=>setProjectSearch(event.target.value)} placeholder={language==='en'?'Name, city or details':'الاسم أو المدينة أو التفاصيل'} /></label><div className="v3-project-filter-buttons">{(['all','residential','commercial'] as const).map(filter=><button type="button" key={filter} aria-pressed={projectCategory===filter} onClick={()=>setProjectCategory(filter)}>{filter==='all'?(language==='en'?'All projects':'كل المشاريع'):filter==='residential'?t.nav.residential:t.nav.commercial}</button>)}</div></div><div className="v3-project-directory">{filteredProjectCards.length?filteredProjectCards.map(project=><ProjectDirectoryCard key={project.id} project={project} language={language}/>):<p className="v3-project-no-results" role="status">{language==='en'?'No projects match this search.':'لا توجد مشاريع تطابق هذا البحث.'}</p>}</div></section>
+    <section className="v3-consolidated-block v3-project-categories" aria-label={t.projects}><div className="v3-consolidated-heading"><p className="v3-eyebrow">{t.nav.ourProjects}</p><h2>{dictionary.home.projectCategories.titleLine1} {dictionary.home.projectCategories.titleLine2}</h2><p>{dictionary.home.projectCategories.description}</p></div><div className="v3-project-category-links"><article id="residential"><h3>{dictionary.home.projectCategories.residential.title}</h3><p>{dictionary.home.projectCategories.residential.description}</p><Link to={local(V3_BASE+'/projects?category=residential#directory')}>{u.viewCategory}<Arrow/></Link></article><article id="commercial"><h3>{dictionary.home.projectCategories.commercial.title}</h3><p>{dictionary.home.projectCategories.commercial.description}</p><Link to={local(V3_BASE+'/projects?category=commercial#directory')}>{u.viewCategory}<Arrow/></Link></article></div></section>
+    <div id="project-map" className="v3-consolidated-map"><SaudiProjectMap language={language} projects={data.projects} preview={data.projects.some(project=>!project.published)}/></div>
    </>}
    {page==='news'&&<section className="v3-consolidated-block" id="latest"><div className="v3-consolidated-heading"><p className="v3-eyebrow">{u.newsLabel}</p><h2>{t.newsTitle}</h2><p>{t.menuNews}</p><a className="v3-link" href={OFFICIAL_LINKEDIN} target="_blank" rel="noopener noreferrer">{u.follow}<Arrow/></a></div>{news.length?<div className="v3-consolidated-news-grid">{news.map(({kind,item},index)=><button className="v3-news-story-card" id={'story-'+item.id} key={item.id} onClick={()=>{detailReturn.current=root.current?.querySelector<HTMLElement>('#story-'+item.id)??null;setArticle(item)}}><V3Image media={kind==='published'?item.image:undefined} src={visualImages[index%visualImages.length]} alt="" eager/><span className="v3-eyebrow">{kind==='published'?(item.date?new Intl.DateTimeFormat(language,{dateStyle:'long'}).format(new Date(item.date+'T00:00:00Z')):u.newsLabel):item.category}</span><h3>{item.title}</h3><p>{item.excerpt}</p><span className="v3-link">{t.readArticle}<Arrow/></span></button>)}</div>:<div className="v3-consolidated-news-empty"><V3Image src={MEDIA+'architectural-detail.webp'} alt="" eager/><div><h3>{u.newsEditorialTitle}</h3><p>{u.newsEditorialNote}</p><a className="v3-link" href={OFFICIAL_LINKEDIN} target="_blank" rel="noopener noreferrer">{u.follow}<Arrow/></a></div></div>}</section>}
    {page==='governance'&&<>
-    <section className="v3-consolidated-block" id="governance-overview"><div className="v3-consolidated-heading"><p className="v3-eyebrow">{u.governance}</p><h2>{language==='en'?'A clear guide to governance topics':'دليل واضح لموضوعات الحوكمة'}</h2><p>{u.governanceOverview}</p></div><div className="v3-governance-intro"><V3Image src={MEDIA+'construction-perspective.webp'} alt="" eager/><p>{u.governanceEditorial}</p></div></section>
-    <section className="v3-consolidated-block" id="policy-topics"><div className="v3-consolidated-heading"><p className="v3-eyebrow">FBS CONTRACTING</p><h2>{language==='en'?'Governance topics':'موضوعات الحوكمة'}</h2></div><div className="v3-governance-topic-grid">{(demo?.governance??governancePolicies.map(policy=>({id:policy.slug,title:policy[language],summary:u.governanceTopicGeneral}))).map(topic=><article id={topic.id} key={topic.id}><span className="v3-governance-topic-mark" aria-hidden="true">↗</span><h3>{topic.title}</h3><p>{topic.summary}</p></article>)}</div><p className="v3-governance-editorial-note">{u.governanceEditorial}</p></section>
+    <section className="v3-consolidated-block" id="governance-overview"><div className="v3-consolidated-heading"><p className="v3-eyebrow">{u.governance}</p><h2>{language==='en'?'A clear guide to governance topics':'دليل واضح لموضوعات الحوكمة'}</h2><p>{u.governanceOverview}</p></div></section>
+    <section className="v3-consolidated-block" id="policy-topics"><div className="v3-consolidated-heading"><p className="v3-eyebrow">FBS CONTRACTING</p><h2>{language==='en'?'Governance topics':'موضوعات الحوكمة'}</h2></div><div className="v3-governance-topic-grid">{(demo?.governance??governancePolicies.map(policy=>({id:policy.slug,title:policy[language],summary:u.governanceTopicGeneral}))).map(topic=><article id={topic.id} key={topic.id}><span className="v3-governance-topic-mark" aria-hidden="true">↗</span><h3>{topic.title}</h3><p>{topic.summary}</p></article>)}</div></section>
    </>}
   </main><CorporateFooter t={t} data={data}/></div>
   {article&&<DetailDialog t={t} title={article.title} onClose={()=>{setArticle(undefined);const target=detailReturn.current;detailReturn.current=null;if(target)requestAnimationFrame(()=>target.focus({preventScroll:true}))}}><div className="v3-consolidated-article-image"><V3Image media={'image' in article?article.image:undefined} src={MEDIA+'architectural-detail.webp'} alt={article.title} eager/></div><p className="v3-lead">{article.excerpt}</p><div className="v3-article-body">{article.body.split(/\n\s*\n/).map((paragraph,index)=><p key={index}>{paragraph}</p>)}</div>{'linkedinUrl' in article&&article.linkedinUrl&&<a className="v3-link" href={article.linkedinUrl} target="_blank" rel="noopener noreferrer">{t.originalPost}<Arrow/></a>}</DetailDialog>}
@@ -144,7 +142,8 @@ function ConsolidatedPageView({page}:{page:ConsolidatedPageId}){
 
 function ProjectDirectoryCard({project,language}:{project:ProjectView;language:SiteLanguage}){
  const t=copy(language),u=upgradeCopy(language)
- return <Link className="v3-project-directory-card" to={V3_BASE+'/projects/'+encodeURIComponent(project.slug)+'?lang='+language}><V3Image media={project.image} src={MEDIA+'construction-structure.webp'} alt={project.image?.alt||project.name} eager/><div><p className="v3-eyebrow">{project.location||t.projects}</p><h3>{project.name}</h3>{project.summary&&<p>{project.summary}</p>}<span className="v3-link">{u.viewCategory}<Arrow/></span></div></Link>
+ const category=project.category==='residential'?(language==='en'?'Residential':'سكني'):project.category==='commercial'?(language==='en'?'Commercial':'تجاري'):t.projects
+ return <Link className="v3-project-directory-card" to={V3_BASE+'/projects/'+encodeURIComponent(project.slug)+'?lang='+language}>{project.image?<V3Image media={project.image} alt={project.image.alt||project.name} eager/>:<div className="v3-project-no-image" aria-label={language==='en'?'Project image not included in the profile':'لا تتضمن بيانات الملف صورة للمشروع'}><span aria-hidden="true">FBS</span><small>{language==='en'?'Profile project':'مشروع من الملف التعريفي'}</small></div>}<div><p className="v3-eyebrow">{category} · {project.location||t.projects}{project.period?` · ${project.period.startYear}–${project.period.endYear}`:''}</p><h3>{project.name}</h3>{project.summary&&<p>{project.summary}</p>}<span className="v3-link">{u.viewCategory}<Arrow/></span></div></Link>
 }
 function mapCopyTitle(language:SiteLanguage){return language==='en'?'Saudi Arabia project map':'خريطة المشاريع في السعودية'}
 export default function V3ConsolidatedPage({page}:{page:ConsolidatedPageId}){const [initial]=useState<SiteLanguage>(()=>new URLSearchParams(window.location.search).get('lang')==='ar'?'ar':'en');return <LanguageProvider initialLanguage={initial}><ConsolidatedPageView page={page}/></LanguageProvider>}

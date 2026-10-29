@@ -30,8 +30,8 @@ function ProjectPage(){
   <a className="v3-skip" href="#v3-main">{t.skip}</a><CenteredNavigation t={t} data={content.data} onNews={setNews}/>
   <div data-v3-page><main id="v3-main" className="v3-project-detail-main"><Link to={back} className="v3-link v3-project-back"><Arrow previous/>{t.featured}</Link>
    {project?<><div className="v3-project-detail-heading"><div><p className="v3-eyebrow">{project.location||t.projects}</p><h1 id="v3-project-detail-title">{project.name}</h1></div><span className="v3-project-detail-mark" aria-hidden="true">FBS / {t.projects}</span></div>
-    {!project.published&&<p className="v3-project-preview" role="note">{t.projectPreview}</p>}
-    <div className="v3-project-detail-image"><V3Image media={project.image} alt={project.name} eager/></div>
+    {project.image&&<div className="v3-project-detail-image"><V3Image media={project.image} alt={project.image.alt||project.name} eager/></div>}
+    <div className="v3-project-detail-facts"><span>{project.category==='residential'?(language==='en'?'Residential':'سكني'):project.category==='commercial'?(language==='en'?'Commercial':'تجاري'):t.projects}</span>{project.period&&<span>{language==='en'?'Period':'الفترة'} · {project.period.startYear}–{project.period.endYear}</span>}{project.units&&<span>{new Intl.NumberFormat(language).format(project.units.count)} {project.units.type==='apartments'?(language==='en'?'apartments':'شقة'):language==='en'?'villas':'فيلا'}</span>}</div>
     {project.summary&&<p className="v3-project-detail-summary">{project.summary}</p>}
     <Link to={back} className="v3-link">{t.featured}<Arrow/></Link>
    </>:content.status==='loading'?<p className="v3-project-detail-status" role="status">{language==='en'?'Loading project…':'جارٍ تحميل المشروع…'}</p>:<div className="v3-project-detail-status"><h1>{language==='en'?'Project not available':'المشروع غير متاح'}</h1><p>{t.projectsEmptyNote}</p>{content.status==='error'&&<button className="v3-link" onClick={retry}>{t.retry}</button>}</div>}

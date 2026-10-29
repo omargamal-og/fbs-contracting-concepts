@@ -153,9 +153,9 @@
 @media(min-width:371px) and (max-width:767px){.v3-nav-end>.v3-mobile-toggle{width:24px}.v3-nav-end>.v3-mobile-toggle>span{width:23px}}
 
 /* Trimmed marks share an optical height; their natural widths may differ. */
-.fbs-v3{--v3-brand-height:24px}
+.fbs-v3{--v3-brand-height:54px}
 .v3-nav .v3-logo{width:auto;flex-basis:auto}
 .v3-nav .v3-logo img,.v3-footer .v3-footer-top img{width:auto;height:var(--v3-brand-height);max-width:none;object-fit:contain}
-@media(max-width:1400px){.fbs-v3{--v3-brand-height:22px}}
-@media(max-width:767px){.fbs-v3{--v3-brand-height:18px}}
-@media(max-width:370px){.fbs-v3{--v3-brand-height:15px}}
+@media(max-width:1400px){.fbs-v3{--v3-brand-height:48px}}
+@media(max-width:767px){.fbs-v3{--v3-brand-height:42px}}
+@media(max-width:370px){.fbs-v3{--v3-brand-height:36px}}
