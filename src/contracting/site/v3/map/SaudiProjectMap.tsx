@@ -26,10 +26,12 @@ export function SaudiProjectMap({ language, projects, preview=false }: { languag
   const [near, setNear] = useState(false), [ready, setReady] = useState(false), [failed, setFailed] = useState(false), [interacting, setInteracting] = useState(false)
   const [selected, setSelected] = useState('riyadh'), [category, setCategory] = useState(''), [periodFilter,setPeriodFilter]=useState<ConstructionPeriodFilter>('all')
   const [ambient,setAmbient]=useState(()=>!(navigator as Navigator&{connection?:{saveData?:boolean}}).connection?.saveData),[projectIndex,setProjectIndex]=useState(0)
+  const [hoveredCity,setHoveredCity]=useState<string|null>(null),[pinnedCity,setPinnedCity]=useState<string|null>(null),[previewIndexes,setPreviewIndexes]=useState<Record<string,number>>({})
   const isPreview=preview
   const selectedCity = cities.find(city => city.id === selected)!, available = projects.filter(project => (project.published||isPreview)&&cities.some(city => city.id === project.cityKey))
   const categories = [...new Set(available.map(project => project.category).filter((value): value is string => Boolean(value)))]
   const filteredProjects=available.filter(project=>(!category||project.category===category)&&(periodFilter==='all'||projectPeriodGroup(project,currentYear)===periodFilter))
+  const activePreviewCity=pinnedCity||hoveredCity
   const cityProjects = isPreview?filteredProjects.filter(project=>project.cityKey===selected):approvedCityProjects(filteredProjects, selected, category)
   const activeProject=cityProjects.length?cityProjects[projectIndex%cityProjects.length]:undefined
   const syncView = useEffectEvent((view: SaudiScene) => {view.enable(interacting);view.setAmbient(ambient); if (selected !== 'riyadh') view.select(selected) })
@@ -55,6 +57,7 @@ export function SaudiProjectMap({ language, projects, preview=false }: { languag
   useEffect(() => { scene.current?.enable(interacting) }, [interacting, ready])
   useEffect(()=>{scene.current?.setAmbient(ambient)},[ambient,ready])
   function select(id: string) { setSelected(id);setProjectIndex(0);scene.current?.select(id) }
+  function shiftPreview(cityId:string,entries:MapProject[],delta:number){setPreviewIndexes(indexes=>({...indexes,[cityId]:((indexes[cityId]||0)+delta+entries.length)%entries.length}))}
   function action(action: SceneAction) { scene.current?.action(action) }
   function key(event: KeyboardEvent<HTMLDivElement>) {
     if (event.target !== event.currentTarget || !interacting) return
@@ -72,7 +75,25 @@ export function SaudiProjectMap({ language, projects, preview=false }: { languag
         <p className="v3-map-model-note">{t.modelNote}</p>
         <div ref={host} className={'v3-map-canvas' + (interacting && !failed ? ' is-interactive' : '')} role="region" aria-label={t.canvas} aria-describedby="v3-map-help" tabIndex={interacting && !failed ? 0 : -1} onKeyDown={key} data-state={failed ? 'fallback' : ready ? 'ready' : 'loading'}>
           {!failed&&<><span className="v3-map-sea-label" data-map-sea="38,21">{t.redSea}</span><span className="v3-map-sea-label" data-map-sea="51,26.5">{t.gulf}</span></>}
-          {!failed && <div className="v3-map-pins" aria-hidden="true">{cities.map(city => {const entries=filteredProjects.filter(project=>project.cityKey===city.id);return <button type="button" tabIndex={-1} className={'v3-map-pin'+(entries.length?' has-project':'') + (selected === city.id ? ' is-selected' : '')} key={city.id} title={`${city.name[language]} · ${entries.length}`} onClick={() => select(city.id)}><i/><span>{city.name[language]}</span><b className="v3-pin-count">{entries.length}</b></button>})}</div>}
+          {!failed && <div className={'v3-map-pins'+(activePreviewCity?' has-active-preview':'')} role="group" aria-label={t.cityProjects}>{cities.map(city => {
+            const entries=filteredProjects.filter(project=>project.cityKey===city.id),hasProjects=entries.length>0,showPreview=hasProjects&&activePreviewCity===city.id
+            const index=(previewIndexes[city.id]||0)%Math.max(entries.length,1),previewProject=entries[index],previewId=`v3-map-marker-preview-${city.id}`
+            return <div className={'v3-map-pin'+(hasProjects?' has-project':'')+(selected===city.id?' is-selected':'')+(showPreview?' is-previewing':'')} key={city.id}
+              onMouseEnter={()=>{if(hasProjects)setHoveredCity(city.id)}}
+              onMouseLeave={event=>{if(!event.currentTarget.contains(document.activeElement))setHoveredCity(current=>current===city.id?null:current)}}
+              onFocus={()=>{if(hasProjects)setHoveredCity(city.id)}}
+              onBlur={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setHoveredCity(current=>current===city.id?null:current)}}>
+              <button type="button" className="v3-map-pin-trigger" tabIndex={hasProjects?0:-1} aria-label={language==='en'?`${city.name[language]}: ${entries.length} ${entries.length===1?'project':'projects'}`:`${city.name[language]}: ${entries.length} مشروع`} aria-expanded={showPreview} aria-controls={showPreview?previewId:undefined} title={`${city.name[language]} · ${entries.length}`}
+                onPointerDown={event=>{if(event.pointerType==='touch'&&hasProjects)setPinnedCity(current=>current===city.id?null:city.id)}} onClick={()=>select(city.id)}><i/><span>{city.name[language]}</span><b className="v3-pin-count">{entries.length}</b></button>
+              {showPreview&&previewProject&&<div className="v3-map-marker-preview" id={previewId} role="group" aria-label={`${city.name[language]} · ${previewProject.name}`} onMouseEnter={()=>setHoveredCity(city.id)}>
+                {previewProject.image&&<V3Image media={previewProject.image} alt={previewProject.image.alt||previewProject.name}/>}
+                <h4>{previewProject.name}</h4>
+                {previewProject.category&&<p>{previewProject.category==='residential'?t.residential:previewProject.category==='commercial'?t.commercial:previewProject.category}</p>}
+                <Link to={projectDetailPath(previewProject.slug,language)}>{t.project}<Arrow/></Link>
+                {entries.length>1&&<div className="v3-map-marker-switch"><button type="button" aria-label={t.previous} onClick={()=>shiftPreview(city.id,entries,-1)}><Arrow previous/></button><span>{String(index+1).padStart(2,'0')} / {String(entries.length).padStart(2,'0')}</span><button type="button" aria-label={t.next} onClick={()=>shiftPreview(city.id,entries,1)}><Arrow/></button></div>}
+              </div>}
+            </div>
+          })}</div>}
           {(!ready || failed) && <div className="v3-map-status" role="status"><span className="v3-eyebrow">{t.scope}</span><p>{failed ? t.fallback : t.loading}</p></div>}
         </div>
         {!failed&&ready&&!reduced&&<button className="v3-map-ambient" aria-pressed={!ambient} aria-label={ambient?t.pauseMotion:t.playMotion} onClick={()=>setAmbient(value=>!value)}><span aria-hidden="true">{ambient?'Ⅱ':'▷'}</span>{ambient?t.pauseMotion:t.playMotion}</button>}
@@ -82,8 +103,8 @@ export function SaudiProjectMap({ language, projects, preview=false }: { languag
         <div className="v3-map-credit"><span>{t.scope}</span><a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">{t.credit}</a></div>
       </div>
       <div className="v3-map-information" data-map-project-panel>
-        <label className="v3-map-filter">{t.periodFilter}<select value={periodFilter} onChange={event=>{setPeriodFilter(event.target.value as ConstructionPeriodFilter);setProjectIndex(0)}}><option value="all">{t.allPeriods}</option><option value="past">{t.pastPeriod}</option><option value="current">{t.currentPeriod}</option><option value="future">{t.futurePeriod}</option></select></label>
-        {categories.length > 1 && <label className="v3-map-filter">{t.filter}<select value={category} onChange={event => {setCategory(event.target.value);setProjectIndex(0)}}><option value="">{t.all}</option>{categories.map(value => <option key={value}>{value}</option>)}</select></label>}
+        <label className="v3-map-filter">{t.periodFilter}<select value={periodFilter} onChange={event=>{setPeriodFilter(event.target.value as ConstructionPeriodFilter);setProjectIndex(0);setPreviewIndexes({})}}><option value="all">{t.allPeriods}</option><option value="past">{t.pastPeriod}</option><option value="current">{t.currentPeriod}</option><option value="future">{t.futurePeriod}</option></select></label>
+        {categories.length > 1 && <label className="v3-map-filter">{t.filter}<select value={category} onChange={event => {setCategory(event.target.value);setProjectIndex(0);setPreviewIndexes({})}}><option value="">{t.all}</option>{categories.map(value => <option key={value}>{value}</option>)}</select></label>}
         <div className="v3-map-panel" aria-live="polite" aria-atomic="true"><p className="v3-eyebrow">{t.cityPreview}</p><h3>{selectedCity.name[language]}</h3><p className="v3-map-coordinates" dir="ltr">{selectedCity.coordinates[1].toFixed(2)}° N <span/> {selectedCity.coordinates[0].toFixed(2)}° E</p>
           {activeProject ? <div className="v3-map-projects"><article key={activeProject.id}>{activeProject.image && <V3Image media={activeProject.image} alt={activeProject.image.alt||activeProject.name}/>}<h4>{activeProject.name}</h4>{activeProject.category && <p>{activeProject.category==='residential'?t.residential:activeProject.category==='commercial'?t.commercial:activeProject.category}</p>}{activeProject.period&&<><small className="v3-map-project-status">{activeProject.period.startYear}–{activeProject.period.endYear}</small>{projectPeriodGroup(activeProject,currentYear)&&<small className="v3-map-project-status">{periodLabels[projectPeriodGroup(activeProject,currentYear)!]}</small>}</>}<Link className="v3-link" to={projectDetailPath(activeProject.slug,language)}>{t.project}<Arrow/></Link></article>{cityProjects.length>1&&<div className="v3-map-project-switch"><button aria-label={t.previous} onClick={()=>setProjectIndex(value=>(value-1+cityProjects.length)%cityProjects.length)}><Arrow previous/></button><span>{String(projectIndex%cityProjects.length+1).padStart(2,'0')} / {String(cityProjects.length).padStart(2,'0')}</span><button aria-label={t.next} onClick={()=>setProjectIndex(value=>(value+1)%cityProjects.length)}><Arrow/></button></div>}</div> : <div className="v3-map-no-projects"><p>{language==='en'?'Explore another city.':'\u0627\u0633\u062a\u0643\u0634\u0641 \u0645\u062f\u064a\u0646\u0629 \u0623\u062e\u0631\u0649.'}</p><small>{t.noProjectsNote}</small></div>}
         </div>

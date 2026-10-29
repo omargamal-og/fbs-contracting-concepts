@@ -37,3 +37,26 @@
 }
 .v3-project-detail-image{height:auto;min-height:180px;background:var(--white)}.v3-project-detail-image .v3-image,.v3-project-detail-image .v3-image-plane{height:auto;position:relative}.v3-project-detail-image img{height:auto;width:100%;object-fit:contain}.v3-project-detail-image .v3-image-placeholder{min-height:250px}
 @media(prefers-reduced-motion:reduce){.v3-project-card,.v3-project-card-link:before,.v3-project-info,.v3-map-callout{transition:none!important}.v3-map-projects article{animation:none}.v3-gallery-group .v3-project-card:hover,.v3-gallery-group .v3-project-card:focus-within{transform:none}.v3-project-card:hover .v3-image img{scale:1}}
+
+/* Compact footer; important destinations and contact details remain in the main columns. */
+.v3-footer-main{grid-template-columns:minmax(220px,1.4fr) repeat(4,minmax(0,1fr));gap:22px;padding-block:32px 24px}
+.v3-footer-brand img{height:40px;max-width:min(100%,260px);object-fit:contain}
+.v3-footer-brand>p{font-size:14px;line-height:1.5;margin-top:11px}
+.v3-footer-socials{gap:7px;margin-top:12px}
+.v3-footer-socials>a{min-height:34px;padding:6px 10px;font-size:10px}
+.v3-footer-contact{gap:5px;margin-top:11px;font-size:11px}
+.v3-footer-contact>a{min-height:28px}
+.fbs-v3 .v3-footer-column h2{margin-bottom:10px}
+.v3-footer-column>a{min-height:30px;font-size:11px}
+.v3-footer-governance{display:none}
+.v3-footer-bottom{gap:12px;padding-block:12px}
+@media(min-width:768px) and (max-width:1279px){
+ .v3-footer-main{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .v3-footer-brand{grid-column:1/-1;display:grid;grid-template-columns:minmax(155px,1fr) minmax(170px,1.1fr) auto minmax(150px,1fr);align-items:center;gap:8px 18px}
+ .v3-footer-brand>a{grid-column:1;grid-row:1/3}
+ .v3-footer-brand>p{grid-column:2;grid-row:1/3;max-width:none;margin:0;font-size:12px}
+ .v3-footer-brand .v3-footer-socials{grid-column:3;grid-row:1/3;margin:0}
+ .v3-footer-brand .v3-footer-contact{grid-column:4;grid-row:1/3;min-width:0;margin:0}
+ .v3-footer-contact>a{min-width:0;overflow-wrap:anywhere}
+}
+@media(max-width:767px){.v3-footer-main{gap:20px;padding:28px 20px 20px}.v3-footer-brand>p{font-size:13px}.v3-footer-bottom{padding:12px 20px}}

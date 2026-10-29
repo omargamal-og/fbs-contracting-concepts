@@ -35,6 +35,5 @@ export function CorporateFooter({t,data}:{t:V3Copy;data:HomepageView}) {
    <div className="v3-footer-contact">{contact?.email&&<a dir="ltr" href={'mailto:'+contact.email}>{contact.email}</a>}{contact?.phone&&<a dir="ltr" href={'tel:'+contact.phone.replace(/[^+0-9]/g,'')}>{contact.phone}</a>}{!contact?.email&&!contact?.phone&&<Link to={local(contractingPath('contact'))}>{u.contact}<Arrow/></Link>}</div>
   </div>
   {columns.map(column=><nav className="v3-footer-column" key={column.title} aria-label={column.title}><h2>{column.title}</h2>{column.links.map(([label,path])=><Link key={path} to={path.startsWith(V3_BASE)?local(path):local(contractingPath(path))}>{label}</Link>)}</nav>)}
- </div><div className="v3-footer-governance"><Link to={local(V3_BASE+'/governance')}>{u.governance}<Arrow/></Link></div>
- <div className="v3-footer-bottom"><p>© {new Date().getFullYear()} {brand.label}. {u.rights}</p><nav aria-label={t.projects}><Link to={local(V3_BASE+'/projects#residential')}>{t.nav.residential}</Link><Link to={local(V3_BASE+'/projects#commercial')}>{t.nav.commercial}</Link><a href={OFFICIAL_LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a></nav><a className="v3-link" href="#v3-top">{t.back}<Arrow/></a></div></footer>
+ </div><div className="v3-footer-bottom"><p>© {new Date().getFullYear()} {brand.label}. {u.rights}</p><a className="v3-link" href="#v3-top">{t.back}<Arrow/></a></div></footer>
 }
