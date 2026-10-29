@@ -136,7 +136,7 @@
 .is-stationary .v3-gallery-track{will-change:auto;transform:none!important}.is-stationary .v3-project-card{scroll-snap-align:start}
 .v3-project-card-rail.is-dragging{cursor:grabbing;user-select:none;scroll-snap-type:none}.is-dragging .v3-project-card{cursor:grabbing}
 @media(min-width:1280px) and (max-width:1400px){.v3-nav-inner{padding-inline:26px;gap:20px;grid-template-columns:minmax(190px,1fr) max-content minmax(190px,1fr)}.v3-nav .v3-logo{width:178px}.v3-nav-inner>.v3-primary-nav{gap:16px}.v3-nav nav>button{font-size:11px}}
-@media(max-width:1279px){
+@media(max-width:1023px){
  .v3-nav-end>.v3-mobile-toggle{flex-direction:column;gap:7px;justify-content:center;flex-shrink:0;width:28px;min-height:44px}.v3-nav-end>.v3-mobile-toggle>span{display:block;width:26px;height:1px;background:currentColor}
  .v3-nav-inner{grid-template-columns:minmax(0,1fr) auto;gap:20px;min-height:82px;padding-inline:26px}.v3-nav-inner>.v3-primary-nav{display:none}.v3-nav-end{grid-column:2;gap:20px}.v3-nav .v3-logo{width:190px}.v3-nav-end>.v3-mobile-toggle{display:flex}
  .v3-menu-scrim{inset-block-start:82px}.v3-menu:before{top:82px}.v3-menu-layout{grid-template-columns:1fr 1fr;gap:26px}.v3-menu-groups{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;border-inline-end:0;border-bottom:1px solid var(--mist);padding:0 0 14px;gap:6px;overflow:visible}.v3-menu-groups>.v3-eyebrow{display:none}.v3-menu-groups button{padding:8px 12px!important;min-width:0;white-space:normal}.v3-menu-groups .v3-arrow{display:none}.v3-menu-groups .v3-mobile-login{display:flex}.v3-menu-cards,.v3-menu-cards:has(>:nth-child(3)){grid-template-columns:1fr}.v3-menu-card{flex-direction:row}.v3-menu-card-visual{width:80px;min-height:90px;height:auto}.v3-menu-card-copy{min-height:100px;padding:16px}.v3-menu-card-copy>.v3-arrow{display:none}
@@ -154,8 +154,8 @@
 
 /* Trimmed marks share an optical height; their natural widths may differ. */
 .fbs-v3{--v3-brand-height:54px}
-.v3-nav .v3-logo{width:auto;flex-basis:auto}
-.v3-nav .v3-logo img,.v3-footer .v3-footer-top img{width:auto;height:var(--v3-brand-height);max-width:none;object-fit:contain}
+.v3-nav .v3-logo{width:clamp(145px,16vw,220px);flex:0 0 auto}
+.v3-nav .v3-logo img{display:block;width:100%;height:var(--v3-brand-height);max-width:100%;object-fit:contain}
 @media(max-width:1400px){.fbs-v3{--v3-brand-height:48px}}
 @media(max-width:767px){.fbs-v3{--v3-brand-height:42px}}
-@media(max-width:370px){.fbs-v3{--v3-brand-height:36px}}
+@media(max-width:370px){.fbs-v3{--v3-brand-height:36px}.v3-nav .v3-logo{width:119px}}
